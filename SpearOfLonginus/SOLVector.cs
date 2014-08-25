@@ -7,12 +7,39 @@ namespace SpearOfLonginus
     /// </summary>
     public struct SOLVector
     {
+        #region Static Properties
+
+        /// <summary>
+        /// Returns the basic vector of 0,0.
+        /// </summary>
+        /// <value>
+        /// Zero
+        /// </value>
+        public static SOLVector Zero
+        {
+            get { return new SOLVector(0); }
+        }
+
+        /// <summary>
+        /// Returns the basic vector of 1,1.
+        /// </summary>
+        /// <value>
+        /// One
+        /// </value>
+        public static SOLVector One
+        {
+            get { return new SOLVector(1); }
+        }
+
+        #endregion
+
         #region Variables
 
         /// <summary>
         /// The X coordinate.
         /// </summary>
         public float X;
+
         /// <summary>
         /// The Y coordinate.
         /// </summary>
@@ -44,7 +71,7 @@ namespace SpearOfLonginus
         }
 
         #endregion
-        
+
         #region Vector Functions
 
         /// <summary>
@@ -134,7 +161,7 @@ namespace SpearOfLonginus
         }
 
         #endregion
-        
+
         #region Operator Overrides
 
         /// <summary>
