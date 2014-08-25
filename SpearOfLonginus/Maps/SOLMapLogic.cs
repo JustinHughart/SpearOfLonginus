@@ -3,7 +3,7 @@
     /// <summary>
     /// An abstract class for level logic.
     /// </summary>
-    public abstract class MapLogic
+    public abstract class SOLMapLogic
     {
         /// <summary>
         /// The owner of the logic component.
@@ -11,10 +11,10 @@
         protected SOLMap Owner;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MapLogic"/> class.
+        /// Initializes a new instance of the <see cref="SOLMapLogic"/> class.
         /// </summary>
         /// <param name="owner">The owner of the logic component.</param>
-        public MapLogic(SOLMap owner)
+        public SOLMapLogic(SOLMap owner)
         {
             Owner = owner;
         }
