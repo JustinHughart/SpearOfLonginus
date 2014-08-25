@@ -5,7 +5,7 @@ namespace SpearOfLonginus
     /// <summary>
     /// A basic vector struct. Emulates the XNA Vector struct, minus the static functions and variables.
     /// </summary>
-    public struct SOLVector
+    public struct SOLVector : IEquatable<SOLVector>
     {
         #region Static Properties
 
@@ -128,8 +128,11 @@ namespace SpearOfLonginus
                 return false;
             }
 
-            SOLVector other = (SOLVector) obj;
+            return Equals((SOLVector) obj);
+        }
 
+        public bool Equals(SOLVector other)
+        {
             return X.Equals(other.X) && Y.Equals(other.Y);
         }
 
