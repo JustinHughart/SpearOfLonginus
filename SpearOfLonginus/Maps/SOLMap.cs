@@ -13,13 +13,13 @@ namespace SpearOfLonginus.Maps
         protected List<int> Background;
         protected List<int> Foreground;
 
-        protected List<MapLogic> Logics;
+        protected List<SOLMapLogic> Logics;
 
+        protected List<SOLBackdrop> Backdrops;
+        protected List<SOLBackdrop> Foredrops; 
+        
 
-
-
-
-        public void Update()
+        public virtual void Update()
         {
             foreach (var tile in TileSet)
             {
@@ -29,6 +29,16 @@ namespace SpearOfLonginus.Maps
             foreach (var logic in Logics)
             {
                 logic.Update();
+            }
+
+            foreach (var backdrop in Backdrops)
+            {
+                backdrop.Update();
+            }
+
+            foreach (var foredrop in Foredrops)
+            {
+                foredrop.Update();
             }
         }
     }
