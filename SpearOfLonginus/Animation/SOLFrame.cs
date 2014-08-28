@@ -31,10 +31,10 @@ namespace SpearOfLonginus.Animation
         /// </value>
         public SOLVector Origin { get; protected set; }
         /// <summary>
-        /// Gets or sets the time till next.
+        /// The time until the frame changes.
         /// </summary>
         /// <value>
-        /// The time until the frame changes.
+        /// The time till change.
         /// </value>
         public int TimeTillNext { get; protected set; }
 
