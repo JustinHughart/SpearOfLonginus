@@ -49,7 +49,7 @@ namespace SpearOfLonginus.Animation
         /// <param name="drawarea">The area on the texture that should be drawn.</param>
         /// <param name="origin">The origin of the frame. Used for rotation and to offset the sprite.</param>
         /// <param name="timetillnext">The time until the frame changes.</param>
-        public SOLFrame(string textureid, Rectangle drawarea, SOLVector origin, int timetillnext)
+        public SOLFrame(string textureid, Rectangle drawarea, SOLVector origin, float timetillnext)
         {
             TextureID = textureid;
             DrawArea = drawarea;
