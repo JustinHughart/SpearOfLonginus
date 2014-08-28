@@ -219,3 +219,4 @@ pip-log.txt
 #################
 SOLTest/
 *.sln
+*.exe
