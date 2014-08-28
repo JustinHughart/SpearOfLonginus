@@ -31,12 +31,12 @@ namespace SpearOfLonginus.Animation
         /// </value>
         public SOLVector Origin { get; protected set; }
         /// <summary>
-        /// The time until the frame changes.
+        /// The time until the frame changes. Is a float to support delta time.
         /// </summary>
         /// <value>
         /// The time till change.
         /// </value>
-        public int TimeTillNext { get; protected set; }
+        public float TimeTillNext { get; protected set; }
 
         #endregion
 
