@@ -5,11 +5,16 @@
     /// </summary>
     public abstract class SOLMapLogic
     {
+        #region Variables
+
         /// <summary>
         /// The owner of the logic component.
         /// </summary>
         protected SOLMap Owner;
 
+        #endregion 
+
+        #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="SOLMapLogic"/> class.
         /// </summary>
@@ -19,9 +24,15 @@
             Owner = owner;
         }
 
+        #endregion
+
+        #region Functions
+
         /// <summary>
         /// Updates the logic component.
         /// </summary>
         public abstract void Update();
+
+        #endregion
     }
 }
