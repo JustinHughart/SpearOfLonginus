@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.IO.Compression;
 using System.Xml.Linq;
 using SpearOfLonginus.Animation;
 
@@ -14,9 +15,9 @@ namespace SpearOfLonginus.Maps
         public SOLVector Size;
         public SOLVector TileSize;
 
-        protected List<int> CollisionLayer;
-        protected List<int> Background;
-        protected List<int> Foreground;
+        protected int[] CollisionLayer;
+        protected int[] BackgroundLayer;
+        protected int[] ForegroundLayer;
 
         protected List<SOLMapLogic> Logics;
 
@@ -123,6 +124,15 @@ namespace SpearOfLonginus.Maps
             }
 
             //Load tile layers.
+            foreach (var layer in root.Elements("layer"))
+            {
+                LoadLayer(layer);
+            }
+
+
+
+
+
 
             //Load object layers.
         }
@@ -278,6 +288,92 @@ namespace SpearOfLonginus.Maps
             }
 
             return new SOLTile(new SOLAnimation(true, false, frames));
+        }
+        
+        protected void LoadLayer(XElement layer)
+        {
+            string name = "";
+
+            var nameattribute = layer.Attribute("name");
+
+            if (nameattribute != null)
+            {
+                name = nameattribute.Value;
+            }
+            else
+            {
+                throw new Exception("Malformed layer. Has no name.");
+            }
+
+            //Load properties here. I need to figure out a good solution for that.
+
+            //Load layer data.
+
+            var data = layer.Element("data");
+
+            if (data != null)
+            {
+                var encoding = data.Attribute("encoding");
+                var compression = data.Attribute("gzip");
+
+                if (encoding == null || compression == null)
+                {
+                    throw new Exception("Improper layer. Please make sure your file is in base64 GZIP format.");
+                }
+
+                if (encoding.Value != "base64" || compression.Value != "gzip")
+                {
+                    throw new Exception("Improper layer. Please make sure your file is in base64 GZIP format.");
+                }
+
+                string datastring = data.Value;
+                
+                char[] chardata = datastring.ToCharArray();
+
+                byte[] bytedata = Convert.FromBase64CharArray(chardata, 0, chardata.Length);
+
+                Stream memstream = new MemoryStream(bytedata);
+
+                Stream gzipstream = new GZipStream(memstream, CompressionMode.Decompress, false);
+
+                BinaryReader binaryreader = new BinaryReader(gzipstream);
+
+                int length = (int)(Size.X * Size.Y);
+
+                int[] decodeddata = new int[length];
+
+                for (int i = 0; i < length; i++)
+                {
+                    decodeddata[i] = binaryreader.ReadInt32() - 1;
+                }
+
+                binaryreader.Close();
+
+                if (name.ToLower() == "background")
+                {
+                    BackgroundLayer = decodeddata;
+                    return; 
+                }
+
+                if (name.ToLower() == "foreground")
+                {
+                    ForegroundLayer = decodeddata;
+                    return;
+                }
+
+                if (name.ToLower() == "collision")
+                {
+                    CollisionLayer = decodeddata;
+                    return;
+                }
+
+                throw new Exception("Only 3 layers are supported, Background, Foreground, Collision. Please update your tilemap to these specifications.");
+            }
+            else
+            {
+                throw new Exception("Data element is null.");
+            }
+
         }
 
         protected virtual SOLFrame GetTileFrame(string textureid, int x, int y, SOLVector tilesize, float animrate)
