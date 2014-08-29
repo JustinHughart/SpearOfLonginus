@@ -332,6 +332,8 @@ namespace SpearOfLonginus.Maps
 
                 byte[] bytedata = Convert.FromBase64CharArray(chardata, 0, chardata.Length);
 
+                int[] decodeddata;
+                
                 using (Stream memstream = new MemoryStream(bytedata))
                 {
                     using (Stream gzipstream = new GZipStream(memstream, CompressionMode.Decompress, false))
@@ -340,7 +342,7 @@ namespace SpearOfLonginus.Maps
                         {
                             int length = (int) (Size.X*Size.Y);
 
-                            int[] decodeddata = new int[length];
+                            decodeddata = new int[length];
 
                             for (int i = 0; i < length; i++)
                             {
