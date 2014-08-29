@@ -332,22 +332,23 @@ namespace SpearOfLonginus.Maps
 
                 byte[] bytedata = Convert.FromBase64CharArray(chardata, 0, chardata.Length);
 
-                Stream memstream = new MemoryStream(bytedata);
-
-                Stream gzipstream = new GZipStream(memstream, CompressionMode.Decompress, false);
-
-                BinaryReader binaryreader = new BinaryReader(gzipstream);
-
-                int length = (int)(Size.X * Size.Y);
-
-                int[] decodeddata = new int[length];
-
-                for (int i = 0; i < length; i++)
+                using (Stream memstream = new MemoryStream(bytedata))
                 {
-                    decodeddata[i] = binaryreader.ReadInt32() - 1;
-                }
+                    using (Stream gzipstream = new GZipStream(memstream, CompressionMode.Decompress, false))
+                    {
+                        using (BinaryReader binaryreader = new BinaryReader(gzipstream))
+                        {
+                            int length = (int) (Size.X*Size.Y);
 
-                binaryreader.Close();
+                            int[] decodeddata = new int[length];
+
+                            for (int i = 0; i < length; i++)
+                            {
+                                decodeddata[i] = binaryreader.ReadInt32() - 1;
+                            }
+                        }
+                    }
+                }
 
                 if (name.ToLower() == "background")
                 {
@@ -373,7 +374,6 @@ namespace SpearOfLonginus.Maps
             {
                 throw new Exception("Data element is null.");
             }
-
         }
 
         protected virtual SOLFrame GetTileFrame(string textureid, int x, int y, SOLVector tilesize, float animrate)

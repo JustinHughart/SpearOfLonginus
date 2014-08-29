@@ -79,9 +79,12 @@ namespace SOLXNA.Animation
         {
             if (File.Exists(path))
             {
-                Stream stream = File.OpenRead(path);
-                Texture2D texture = Texture2D.FromStream(GraphicsDevice, stream);
-                stream.Close();
+                Texture2D texture = null;
+
+                using (Stream stream = File.OpenRead(path))
+                {
+                    texture = Texture2D.FromStream(GraphicsDevice, stream);
+                }
 
                 if (ColorKey != Color.Transparent)
                 {
