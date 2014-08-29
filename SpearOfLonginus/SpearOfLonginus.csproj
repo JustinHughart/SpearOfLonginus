@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Animation\SOLAnimation.cs" />
+    <Compile Include="Animation\SOLAnimationManager.cs" />
     <Compile Include="Animation\SOLFrame.cs" />
     <Compile Include="Maps\SOLBackdrop.cs" />
     <Compile Include="Maps\SOLMapLogic.cs" />
