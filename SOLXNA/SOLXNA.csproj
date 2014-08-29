@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Animation\Animation.cs" />
+    <Compile Include="Animation\AnimationManager.cs" />
     <Compile Include="Animation\Frame.cs" />
     <Compile Include="Animation\TextureManager.cs" />
     <Compile Include="Maps\Backdrop.cs" />
