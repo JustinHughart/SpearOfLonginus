@@ -108,18 +108,20 @@ namespace SpearOfLonginus.Maps
                         var name = property.Attribute("name");
                         var value = property.Attribute("value");
 
-                        if (name != null && value != null)
+                        if (name == null || value == null)
                         {
-                            if (name.Value == "animframes") //The number of frames the animation has, stacked vertically directly below.
-                            {
-                                int.TryParse(value.Value, out numframes);
-                                continue;
-                            }
+                            continue;
+                        }
 
-                            if (name.Value == "animrate") //The rate at which the animation goes.
-                            {
-                                float.TryParse(value.Value, out animrate);
-                            }
+                        if (name.Value == "animframes") //The number of frames the animation has, stacked vertically directly below.
+                        {
+                            int.TryParse(value.Value, out numframes);
+                            continue;
+                        }
+
+                        if (name.Value == "animrate") //The rate at which the animation goes.
+                        {
+                            float.TryParse(value.Value, out animrate);
                         }
                     }
                 }
@@ -145,11 +147,11 @@ namespace SpearOfLonginus.Maps
         /// <param name="x">The x.</param>
         /// <param name="y">The y.</param>
         /// <param name="tilesize">The size of tiles.</param>
-        /// <param name="element">The XML element.</param>
+        /// <param name="animrate">The time at which the frame should change..</param>
         /// <returns></returns>
         protected virtual SOLFrame CreateTileFrame(string textureid, int x, int y, SOLVector tilesize, float animrate)
         {
-            Rectangle drawrect = new Rectangle(x * (int)tilesize.X, y * (int)tilesize.Y, (int)tilesize.X, (int)tilesize.Y);
+            var drawrect = new Rectangle(x * (int)tilesize.X, y * (int)tilesize.Y, (int)tilesize.X, (int)tilesize.Y);
 
             return new SOLFrame(textureid, drawrect, SOLVector.Zero, animrate);
         }

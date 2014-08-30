@@ -113,15 +113,13 @@ namespace SpearOfLonginus.Maps
         /// <exception cref="System.Exception">Failed to find map.</exception>
         protected virtual void LoadMap(string path)
         {
-            if (File.Exists(path)) //Check if file exists.
-            {
-                XDocument doc = XDocument.Load(path); //Load the file.
-                LoadMap(doc.Root);
-            }
-            else
+            if (!File.Exists(path))
             {
                 throw new Exception("Failed to find map.");
             }
+
+            XDocument doc = XDocument.Load(path); //Load the file.
+            LoadMap(doc.Root);
         }
 
         /// <summary>
@@ -242,15 +240,13 @@ namespace SpearOfLonginus.Maps
         /// <exception cref="System.Exception">Failed to find external tileset.</exception>
         protected virtual void LoadTileset(string path)
         {
-            if (File.Exists(path)) //Check if file exists.
-            {
-                XDocument doc = XDocument.Load(path); //Load the file.
-                LoadTileset(doc.Root, TileSize);
-            }
-            else
+            if (!File.Exists(path))
             {
                 throw new Exception("Failed to find external tileset.");
             }
+
+            XDocument doc = XDocument.Load(path); //Load the file.
+            LoadTileset(doc.Root, TileSize);
         }
 
         /// <summary>
@@ -399,71 +395,69 @@ namespace SpearOfLonginus.Maps
 
             var data = layer.Element("data");
 
-            if (data != null)
-            {
-                var encoding = data.Attribute("encoding");
-                var compression = data.Attribute("gzip");
-
-                if (encoding == null || compression == null)
-                {
-                    throw new Exception("Improper layer. Please make sure your file is in base64 GZIP format.");
-                }
-
-                if (encoding.Value != "base64" || compression.Value != "gzip")
-                {
-                    throw new Exception("Improper layer. Please make sure your file is in base64 GZIP format.");
-                }
-
-                string datastring = data.Value;
-                
-                char[] chardata = datastring.ToCharArray();
-
-                byte[] bytedata = Convert.FromBase64CharArray(chardata, 0, chardata.Length);
-
-                int[] decodeddata;
-                
-                using (Stream memstream = new MemoryStream(bytedata))
-                {
-                    using (Stream gzipstream = new GZipStream(memstream, CompressionMode.Decompress, false))
-                    {
-                        using (BinaryReader binaryreader = new BinaryReader(gzipstream))
-                        {
-                            int length = (int) (Size.X*Size.Y);
-
-                            decodeddata = new int[length];
-
-                            for (int i = 0; i < length; i++)
-                            {
-                                decodeddata[i] = binaryreader.ReadInt32() - 1;
-                            }
-                        }
-                    }
-                }
-
-                if (name.ToLower() == "background")
-                {
-                    BackgroundLayer = decodeddata;
-                    return; 
-                }
-
-                if (name.ToLower() == "foreground")
-                {
-                    ForegroundLayer = decodeddata;
-                    return;
-                }
-
-                if (name.ToLower() == "collision")
-                {
-                    CollisionLayer = decodeddata;
-                    return;
-                }
-
-                throw new Exception("Only 3 layers are supported, Background, Foreground, Collision. Please update your tilemap to these specifications.");
-            }
-            else
+            if (data == null)
             {
                 throw new Exception("Data element is null.");
             }
+
+            var encoding = data.Attribute("encoding");
+            var compression = data.Attribute("gzip");
+
+            if (encoding == null || compression == null)
+            {
+                throw new Exception("Improper layer. Please make sure your file is in base64 GZIP format.");
+            }
+
+            if (encoding.Value != "base64" || compression.Value != "gzip")
+            {
+                throw new Exception("Improper layer. Please make sure your file is in base64 GZIP format.");
+            }
+
+            string datastring = data.Value;
+
+            char[] chardata = datastring.ToCharArray();
+
+            byte[] bytedata = Convert.FromBase64CharArray(chardata, 0, chardata.Length);
+
+            int[] decodeddata;
+
+            using (Stream memstream = new MemoryStream(bytedata))
+            {
+                using (Stream gzipstream = new GZipStream(memstream, CompressionMode.Decompress, false))
+                {
+                    using (var binaryreader = new BinaryReader(gzipstream))
+                    {
+                        var length = (int) (Size.X*Size.Y);
+
+                        decodeddata = new int[length];
+
+                        for (int i = 0; i < length; i++)
+                        {
+                            decodeddata[i] = binaryreader.ReadInt32() - 1;
+                        }
+                    }
+                }
+            }
+
+            if (name.ToLower() == "background")
+            {
+                BackgroundLayer = decodeddata;
+                return;
+            }
+
+            if (name.ToLower() == "foreground")
+            {
+                ForegroundLayer = decodeddata;
+                return;
+            }
+
+            if (name.ToLower() == "collision")
+            {
+                CollisionLayer = decodeddata;
+                return;
+            }
+
+            throw new Exception("Only 3 layers are supported, Background, Foreground, Collision. Please update your tilemap to these specifications.");
         }
 
         /// <summary>

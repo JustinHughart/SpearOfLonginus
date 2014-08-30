@@ -7,6 +7,7 @@ namespace SOLXNA.Maps
     {
         public Tile(SOLAnimation animation) : base(animation)
         {
+
         }
     }
 }

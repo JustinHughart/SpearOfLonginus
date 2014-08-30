@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using SpearOfLonginus.Animation;
 
 namespace SOLXNA.Animation
@@ -19,7 +18,7 @@ namespace SOLXNA.Animation
         {
             foreach (var animation  in Animations)
             {
-                var anim = animation.Value as Animation;
+                var anim = (Animation)animation.Value;
 
                 anim.LoadContent(texturemanager);
             }

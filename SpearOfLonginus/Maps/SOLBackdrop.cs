@@ -94,9 +94,9 @@ namespace SpearOfLonginus.Maps
         /// </returns>
         public int CompareTo(object obj)
         {
-            if (obj != null && obj is SOLBackdrop)
+            if (obj is SOLBackdrop)
             {
-                SOLBackdrop back2 = obj as SOLBackdrop;
+                var back2 = obj as SOLBackdrop;
                 return Layer.CompareTo(back2.Layer);
             }
 

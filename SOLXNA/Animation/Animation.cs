@@ -92,12 +92,14 @@ namespace SOLXNA.Animation
         {
             base.AddFrame(frame);
 
-            if (TextureManager != null)
+            if (TextureManager == null)
             {
-                Frame xnaframe = (Frame)frame;
-
-                xnaframe.LoadContent(TextureManager);
+                return;
             }
+
+            var xnaframe = (Frame)frame;
+
+            xnaframe.LoadContent(TextureManager);
         }
 
         #endregion

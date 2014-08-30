@@ -38,6 +38,7 @@ namespace SOLXNA.Animation
         {
             GraphicsDevice = graphicsdevice;
             ColorKey = Color.Transparent;
+            Textures = new Dictionary<string, Texture2D>();
         }
 
         /// <summary>
@@ -49,6 +50,7 @@ namespace SOLXNA.Animation
         {
             GraphicsDevice = graphicsdevice;
             ColorKey = colorkey;
+            Textures = new Dictionary<string, Texture2D>();
         }
 
         #endregion
@@ -77,44 +79,43 @@ namespace SOLXNA.Animation
         /// <exception cref="System.Exception">File doesn't exist.</exception>
         protected virtual void LoadTexture(string path)
         {
-            if (File.Exists(path))
-            {
-                Texture2D texture = null;
-
-                using (Stream stream = File.OpenRead(path))
-                {
-                    texture = Texture2D.FromStream(GraphicsDevice, stream);
-                }
-
-                if (ColorKey != Color.Transparent)
-                {
-                    Color[] colordata = new Color[texture.Width*texture.Height];
-                    texture.GetData(colordata);
-
-                    for (int i = 0; i < colordata.Length; i++)
-                    {
-                        if (colordata[i] == ColorKey)
-                        {
-                            colordata[i] = Color.Transparent;
-                        }
-                    }
-
-                    texture.SetData(colordata);
-                }
-
-                Textures.Add(path, texture);
-            }
-            else
+            if (!File.Exists(path))
             {
                 throw new Exception("File doesn't exist.");
             }
+
+            Texture2D texture;
+
+            using (Stream stream = File.OpenRead(path))
+            {
+                texture = Texture2D.FromStream(GraphicsDevice, stream);
+            }
+
+            if (ColorKey != Color.Transparent)
+            {
+                var colordata = new Color[texture.Width*texture.Height];
+                texture.GetData(colordata);
+
+                for (int i = 0; i < colordata.Length; i++)
+                {
+                    if (colordata[i] == ColorKey)
+                    {
+                        colordata[i] = Color.Transparent;
+                    }
+                }
+
+                texture.SetData(colordata);
+            }
+
+            Textures.Add(path, texture);
         }
+
 
         /// <summary>
         /// Preloads a list of textures.
         /// </summary>
         /// <param name="paths">A list of file paths.</param>
-        public virtual void PreloadTextures(List<String> paths)
+        public virtual void PreloadTextures(IEnumerable<string> paths)
         {
             foreach (var path in paths)
             {
