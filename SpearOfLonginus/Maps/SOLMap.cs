@@ -1,34 +1,84 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.IO.Compression;
 using System.Xml.Linq;
-using SpearOfLonginus.Animation;
 
 namespace SpearOfLonginus.Maps
 {
+    /// <summary>
+    /// A tile-based map for Spear of Longinus.
+    /// </summary>
     public class SOLMap
     {
+        #region Variables
+
+        /// <summary>
+        /// The list of tiles to be used.
+        /// </summary>
         protected List<SOLTile> TileSet;
 
+        /// <summary>
+        /// The size of the map in tiles.
+        /// </summary>
         public SOLVector Size;
+        /// <summary>
+        /// The size of the tiles in pixels.
+        /// </summary>
         public SOLVector TileSize;
 
+        /// <summary>
+        /// The layer of tiles that collides with entities.
+        /// </summary>
         protected int[] CollisionLayer;
+        /// <summary>
+        /// The background layer of tiles that does not collide with entities.
+        /// </summary>
         protected int[] BackgroundLayer;
+        /// <summary>
+        /// The foreground layer of tiles that does not collide with entities.
+        /// </summary>
         protected int[] ForegroundLayer;
 
+        /// <summary>
+        /// The list of logics that the map uses. This can be used to change map properties systematically.
+        /// </summary>
         protected List<SOLMapLogic> Logics;
 
-        protected List<SOLBackdrop> Backdrops;
-        protected List<SOLBackdrop> Foredrops;
+        /// <summary>
+        /// The list of backdrops that get drawn before the map.
+        /// </summary>
+        protected Dictionary<string, SOLBackdrop> Backdrops;
+        /// <summary>
+        /// The list of foredrops that get drawn after the map.
+        /// </summary>
+        protected Dictionary<string, SOLBackdrop> Foredrops;
 
+        #endregion 
+
+        #region Constructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SOLMap"/> class.
+        /// </summary>
+        /// <param name="path">The file path of the base64 gzipped Tiled map.</param>
         public SOLMap(string path)
         {
             LoadMap(path);
+
+            Logics = new List<SOLMapLogic>();
+            Backdrops = new Dictionary<string, SOLBackdrop>();
+            Foredrops = new Dictionary<string, SOLBackdrop>();
         }
 
+        #endregion
+
+        #region Functions
+
+        /// <summary>
+        /// Updates the map.
+        /// </summary>
+        /// <param name="animspeed">The animation speed.</param>
         public virtual void Update(float animspeed)
         {
             foreach (var tile in TileSet)
@@ -43,15 +93,24 @@ namespace SpearOfLonginus.Maps
 
             foreach (var backdrop in Backdrops)
             {
-                backdrop.Update();
+                backdrop.Value.Update();
             }
 
             foreach (var foredrop in Foredrops)
             {
-                foredrop.Update();
+                foredrop.Value.Update();
             }
         }
 
+        #endregion
+
+        #region Loading
+
+        /// <summary>
+        /// Loads the map.
+        /// </summary>
+        /// <param name="path">The file path of the base64 gzipped Tiled map.</param>
+        /// <exception cref="System.Exception">Failed to find map.</exception>
         protected virtual void LoadMap(string path)
         {
             if (File.Exists(path)) //Check if file exists.
@@ -65,6 +124,17 @@ namespace SpearOfLonginus.Maps
             }
         }
 
+        /// <summary>
+        /// Loads the map.
+        /// </summary>
+        /// <param name="root">The root of the tilemap.</param>
+        /// <exception cref="System.Exception">
+        /// Document has no root.
+        /// or
+        /// Document is not a Tiled map.
+        /// or
+        /// Tileset is not external. Please make your tileset external.
+        /// </exception>
         protected virtual void LoadMap(XElement root)
         {
             if (root == null) //First check if the document actually has a root.
@@ -105,6 +175,7 @@ namespace SpearOfLonginus.Maps
             }
 
             //Load map properties here? We don't have any by default. 
+            LoadMapProperties(root.Element("properties"));
 
             //Here we will load the external tilesets. External tilesets are extremely recommended (required by vanilla SOL actually) due to keeping everything uniform amongst your maps.
 
@@ -129,14 +200,46 @@ namespace SpearOfLonginus.Maps
                 LoadLayer(layer);
             }
 
+            //Load object layers. 
+            foreach (var objectgroup in root.Elements("objectgroup"))
+            {
+                if (objectgroup.Name.ToString().ToLower() == "backdrops")
+                {
+                    foreach (var backdrop in objectgroup.Elements("object"))
+                    {
+                        string name = backdrop.Name.ToString();
 
+                        if (name == "")
+                        {
+                            name = Backdrops.Count.ToString();
+                        }
 
+                        Backdrops.Add(name, new SOLBackdrop(backdrop));
+                    }
+                }
+                
+                if(objectgroup.Name.ToString().ToLower() == "foredrops")
+                {
+                    foreach (var foredrop in objectgroup.Elements("object"))
+                    {
+                        string name = foredrop.Name.ToString();
 
+                        if (name == "")
+                        {
+                            name = Backdrops.Count.ToString();
+                        }
 
-
-            //Load object layers.
+                        Foredrops.Add(name, new SOLBackdrop(foredrop));
+                    }
+                }
+            }
         }
 
+        /// <summary>
+        /// Loads the tileset.
+        /// </summary>
+        /// <param name="path">The path tot he Tiled external tileset.</param>
+        /// <exception cref="System.Exception">Failed to find external tileset.</exception>
         protected virtual void LoadTileset(string path)
         {
             if (File.Exists(path)) //Check if file exists.
@@ -150,6 +253,20 @@ namespace SpearOfLonginus.Maps
             }
         }
 
+        /// <summary>
+        /// Loads the tileset.
+        /// </summary>
+        /// <param name="root">The root of the Tiled external tileset.</param>
+        /// <param name="tilesize">The size of the tiles.</param>
+        /// <exception cref="System.Exception">
+        /// Document has no root.
+        /// or
+        /// Document is not an external tileset.
+        /// or
+        /// Document is not an external tileset.
+        /// or
+        /// No texture element in proper location in document.
+        /// </exception>
         protected virtual void LoadTileset(XElement root, SOLVector tilesize)
         {
             if (root == null) //First check if the document actually has a root.
@@ -158,6 +275,11 @@ namespace SpearOfLonginus.Maps
             }
 
             if (root.Name != "tileset") //Then check if it's an external tileset.
+            {
+                throw new Exception("Document is not an external tileset.");
+            }
+
+            if (root.Attribute("source") == null)
             {
                 throw new Exception("Document is not an external tileset.");
             }
@@ -230,7 +352,7 @@ namespace SpearOfLonginus.Maps
                     }
 
                     //LOAD IT
-                    TileSet.Add(LoadTile(textureid, x, y, tilesize, element));
+                    TileSet.Add(new SOLTile(textureid, x, y, tilesize, element));
 
                     //Increment the GID, for identification purposes.
                     gid++;
@@ -240,59 +362,24 @@ namespace SpearOfLonginus.Maps
             //And we're done, finally!
         }
 
-        protected virtual SOLTile LoadTile(string textureid, SOLVector position, SOLVector tilesize, XElement element)
+        /// <summary>
+        /// Loads the layer from XML.
+        /// </summary>
+        /// <param name="layer">The layer element to be loaded.</param>
+        /// <exception cref="System.Exception">
+        /// Malformed layer. Has no name.
+        /// or
+        /// Improper layer. Please make sure your file is in base64 GZIP format.
+        /// or
+        /// Improper layer. Please make sure your file is in base64 GZIP format.
+        /// or
+        /// Only 3 layers are supported, Background, Foreground, Collision. Please update your tilemap to these specifications.
+        /// or
+        /// Data element is null.
+        /// </exception>
+        protected virtual void LoadLayer(XElement layer)
         {
-            return LoadTile(textureid, (int) position.X, (int) position.Y, tilesize, element);
-        }
-
-        protected virtual SOLTile LoadTile(string textureid, int x, int y, SOLVector tilesize, XElement element)
-        {
-            int numframes = 1;
-            float animrate = 1; 
-
-            if (element != null) //If there's a data element with the tile...
-            {
-                var properties = element.Element("properties");
-                if (properties != null) //Ensure it actually has properties first.
-                {
-                    foreach (var property in properties.Elements("property")) //Check the properties.
-                    {
-                        var name = property.Attribute("name");
-                        var value = property.Attribute("value");
-                        
-                        if (name != null && value != null)
-                        {
-                            if (name.Value == "animframes") //The number of frames the animation has, stacked vertically directly below.
-                            {
-                                int.TryParse(value.Value, out numframes);
-                                continue;
-                            }
-
-                            if (name.Value == "animrate") //The rate at which the animation goes.
-                            {
-                                float.TryParse(value.Value, out animrate);
-                            }
-                        }
-                    }
-                }
-            }
-
-            //Get the list of frames.
-            var frames = new List<SOLFrame>();
-
-            for (int i = 0; i < numframes; i++)
-            {
-                GetTileFrame(textureid, x, y, tilesize, animrate);
-
-                y++;
-            }
-
-            return new SOLTile(new SOLAnimation(true, false, frames));
-        }
-        
-        protected void LoadLayer(XElement layer)
-        {
-            string name = "";
+            string name;
 
             var nameattribute = layer.Attribute("name");
 
@@ -305,7 +392,8 @@ namespace SpearOfLonginus.Maps
                 throw new Exception("Malformed layer. Has no name.");
             }
 
-            //Load properties here. I need to figure out a good solution for that.
+            //Load properties. 
+            LoadLayerProperties(name, layer.Element("properties"));
 
             //Load layer data.
 
@@ -378,11 +466,25 @@ namespace SpearOfLonginus.Maps
             }
         }
 
-        protected virtual SOLFrame GetTileFrame(string textureid, int x, int y, SOLVector tilesize, float animrate)
+        /// <summary>
+        /// Loads the map's properties.
+        /// </summary>
+        /// <param name="element">The properties element.</param>
+        protected virtual void LoadMapProperties(XElement element)
         {
-            Rectangle drawrect = new Rectangle(x * (int)tilesize.X, y * (int)tilesize.Y, (int)tilesize.X, (int)tilesize.Y);
-            
-            return new SOLFrame(textureid, drawrect, SOLVector.Zero, animrate);
+            //No properties by default... For now!
         }
+
+        /// <summary>
+        /// Loads the layer's properties.
+        /// </summary>
+        /// <param name="name">The name of the layer.</param>
+        /// <param name="element">The properties element.</param>
+        protected virtual void LoadLayerProperties(string name, XElement element)
+        {
+            //No properties by default... For now! 
+        }
+
+        #endregion
     }
 }
