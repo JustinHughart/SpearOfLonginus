@@ -1,7 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using SOLXNA.Animations;
+using SOLXNA.Maps;
 using SpearOfLonginus;
 using SpearOfLonginus.Animations;
+using SpearOfLonginus.Maps;
 using XnaRect = Microsoft.Xna.Framework.Rectangle;
 using SolRect = System.Drawing.Rectangle;
 
@@ -84,5 +86,28 @@ namespace SOLXNA
 
         #endregion
 
+        #region Backdrops
+
+        /// <summary>
+        /// Converts a SOL backdrop to an XNA backdrop.
+        /// </summary>
+        /// <param name="backdrop">The backdrop.</param>
+        /// <returns></returns>
+        public static XnaBackdrop ToXnaBackdrop(this Backdrop backdrop)
+        {
+            return new XnaBackdrop(backdrop.TextureID, backdrop.Position, backdrop.Parallax, backdrop.AutoParallax, backdrop.LoopX, backdrop.LoopY, backdrop.Layer);
+        }
+
+        /// <summary>
+        /// Converts an XNA backdrop to a SOL backdrop.
+        /// </summary>
+        /// <param name="backdrop">The backdrop.</param>
+        /// <returns></returns>
+        public static Backdrop ToSolBackdrop(this XnaBackdrop backdrop)
+        {
+            return new XnaBackdrop(backdrop.TextureID, backdrop.Position, backdrop.Parallax, backdrop.AutoParallax, backdrop.LoopX, backdrop.LoopY, backdrop.Layer);
+        }
+
+        #endregion
     }
 }
