@@ -13,9 +13,9 @@ namespace SOLXNA.Animations
         #region Variables
 
         /// <summary>
-        /// The texture manager used for loading textures.
+        /// The texture cache used for loading textures.
         /// </summary>
-        protected TextureCache TextureManager;
+        public TextureCache TextureCache { get; protected set; }
 
         #endregion
 
@@ -36,12 +36,12 @@ namespace SOLXNA.Animations
         /// </summary>
         /// <param name="loop">Whether or not the animation is looping.</param>
         /// <param name="resetindex">Whether or not to reset the timing index when the frame changes. Turn this on to ensure that each frame gets viewed at least once.</param>
-        /// <param name="texturemanager">The texture manager used for loading textures.</param>
-        public XnaAnimation(bool loop, bool resetindex, TextureCache texturemanager) : base(loop, resetindex)
+        /// <param name="texturecache">The texture cache used for loading textures.</param>
+        public XnaAnimation(bool loop, bool resetindex, TextureCache texturecache) : base(loop, resetindex)
         {
-            if (TextureManager != null)
+            if (TextureCache != null)
             {
-                LoadContent(texturemanager);
+                LoadContent(texturecache);
             }
         }
 
@@ -53,9 +53,9 @@ namespace SOLXNA.Animations
         /// <param name="frames">The list of the animation's frames.</param>
         public XnaAnimation(bool loop, bool resetindex, List<Frame> frames) : base(loop, resetindex, new List<Frame>())
         {
-            foreach (var frame in frames) //Convert SOLFrame to Frame.
+            foreach (var frame in frames) //Convert SOL Frame to Frame.
             {
-                AddFrame(new XnaFrame(frame));
+                AddFrame(frame.ToXnaFrame());
             }
         }
 
@@ -65,18 +65,18 @@ namespace SOLXNA.Animations
         /// <param name="loop">Whether or not the animation is looping.</param>
         /// <param name="resetindex">Whether or not to reset the timing index when the frame changes. Turn this on to ensure that each frame gets viewed at least once.</param>
         /// <param name="frames">The list of the animation's frames.</param>
-        /// <param name="texturemanager">The texture manager used for loading textures.</param>
-        public XnaAnimation(bool loop, bool resetindex, List<Frame> frames, TextureCache texturemanager)
+        /// <param name="texturecache">The texture cache used for loading textures.</param>
+        public XnaAnimation(bool loop, bool resetindex, List<Frame> frames, TextureCache texturecache)
             : base(loop, resetindex, new List<Frame>())
         {
-            foreach (var frame in frames) //Convert SOLFrame to XNA Frame.
+            foreach (var frame in frames) //Convert SOL Frame to XNA Frame.
             {
-                AddFrame(new XnaFrame(frame));
+                AddFrame(frame.ToXnaFrame());
             }
 
-            if (TextureManager != null)
+            if (TextureCache != null)
             {
-                LoadContent(texturemanager);
+                LoadContent(texturecache);
             }
         }
 
@@ -92,14 +92,14 @@ namespace SOLXNA.Animations
         {
             base.AddFrame(frame);
 
-            if (TextureManager == null)
+            if (TextureCache == null)
             {
                 return;
             }
 
             var xnaframe = (XnaFrame)frame;
 
-            xnaframe.LoadContent(TextureManager);
+            xnaframe.LoadContent(TextureCache);
         }
 
         #endregion
@@ -112,43 +112,25 @@ namespace SOLXNA.Animations
         /// <returns></returns>
         public override Animation Clone()
         {
-            return new XnaAnimation(IsLooping, ResetIndex, Frames, TextureManager);
+            return new XnaAnimation(IsLooping, ResetIndex, Frames, TextureCache);
         }
-        
+
         #endregion
 
         #region Functions
 
         /// <summary>
-        /// Gets the current frame as an XNA frame.
-        /// </summary>
-        /// <returns></returns>
-        public XnaFrame GetCurrentFrameAsXNAFrame()
-        {
-            return (XnaFrame) base.GetCurrentFrame();
-        }
-
-        /// <summary>
-        /// Clonesthe animation and returns it as an XNA animation.
-        /// </summary>
-        /// <returns></returns>
-        public XnaAnimation CloneAsXNAAnimation()
-        {
-            return (XnaAnimation) Clone();
-        }
-
-        /// <summary>
         /// Loads the textures.
         /// </summary>
-        /// <param name="texturemanager">The texture manager used for loading textures.</param>
-        public virtual void LoadContent(TextureCache texturemanager)
+        /// <param name="texturecache">The texture cache used for loading textures.</param>
+        public virtual void LoadContent(TextureCache texturecache)
         {
             foreach (XnaFrame frame in Frames)
             {
-                frame.LoadContent(texturemanager);
+                frame.LoadContent(texturecache);
             }
 
-            TextureManager = texturemanager;
+            TextureCache = texturecache;
         }
 
         /// <summary>
@@ -176,7 +158,7 @@ namespace SOLXNA.Animations
         {
             var currnode = (XnaFrame) GetCurrentFrame();
             
-            spritebatch.Draw(currnode.Texture, position, currnode.XNADrawArea, tint, rotation, currnode.XNAOrigin, scale, effects, layer);
+            spritebatch.Draw(currnode.Texture, position, currnode.DrawArea.ToXnaRectangle(), tint, rotation, currnode.Origin.ToXnaVector(), scale, effects, layer);
         }
 
         #endregion

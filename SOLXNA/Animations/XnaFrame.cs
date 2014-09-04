@@ -1,5 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework.Graphics;
 using SpearOfLonginus;
 using SpearOfLonginus.Animations;
 using SOLRect = System.Drawing.Rectangle;
@@ -18,29 +17,7 @@ namespace SOLXNA.Animations
         /// The loaded texture.
         /// </summary>
         public Texture2D Texture;
-
-        /// <summary>
-        /// Returns the draw area in SOLFrame converted to an XNA Rectangle.
-        /// </summary>
-        /// <value>
-        /// The draw area in SOLFrame converted to an XNA Rectangle.
-        /// </value>
-        public XNARect XNADrawArea
-        {
-            get { return new XNARect(DrawArea.X, DrawArea.Y, DrawArea.Width, DrawArea.Height); }
-        }
-
-        /// <summary>
-        /// Returns the origin in SOLFrame converted to a Vector2.
-        /// </summary>
-        /// <value>
-        /// The origin in SOLFrame converted to a Vector2.
-        /// </value>
-        public Vector2 XNAOrigin
-        {
-            get { return new Vector2(Origin.X, Origin.Y); }
-        }
-
+        
         #endregion
 
         #region Constructors
@@ -54,16 +31,6 @@ namespace SOLXNA.Animations
         /// <param name="timetillnext">The time until the frame changes.</param>
         public XnaFrame(string textureid, SOLRect drawarea, Vector origin, float timetillnext)
             : base(textureid, drawarea, origin, timetillnext)
-        {
-
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="XnaFrame"/> class.
-        /// </summary>
-        /// <param name="frame">The SOLFrame to be converted to Frame.</param>
-        public XnaFrame(Frame frame)
-            : base(frame.TextureID, frame.DrawArea, frame.Origin, frame.TimeTillNext)
         {
 
         }

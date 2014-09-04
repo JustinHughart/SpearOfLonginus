@@ -37,18 +37,6 @@ namespace SOLXNA.Animations
             }
         }
 
-        public virtual XnaAnimation GetXNAAnimation(string key)
-        {
-            if (!Animations.ContainsKey(key))
-            {
-                var anim = (XnaAnimation)Animations[key];
-
-                return anim.CloneAsXNAAnimation();
-            }
-
-            throw new Exception("Animation \"" + key+ "\" does not exist.");
-        }
-
         #endregion
     }
 }

@@ -13,18 +13,22 @@ namespace SpearOfLonginus.Animations
         /// The list of frames the animation has.
         /// </summary>
         protected List<Frame> Frames;
+
         /// <summary>
         /// Whether or not the animation is looping.
         /// </summary>
-        protected bool IsLooping;
+        public bool IsLooping { get; protected set; }
+
         /// <summary>
         /// Whether or not to reset the timing index when the frame changes. Turn this on to ensure that each frame gets viewed at least once.
         /// </summary>
-        protected bool ResetIndex;
+        public bool ResetIndex { get; protected set; }
+
         /// <summary>
         /// The current frame index of the animation.
         /// </summary>
         protected int CurrentFrame;
+
         /// <summary>
         /// The animation's timing index.
         /// </summary>
@@ -134,6 +138,15 @@ namespace SpearOfLonginus.Animations
         public virtual Frame GetCurrentFrame()
         {
             return Frames[CurrentFrame];
+        }
+
+        /// <summary>
+        /// Gets a copy of the list of frames.
+        /// </summary>
+        /// <returns></returns>
+        public virtual List<Frame> GetFramesList()
+        {
+            return new List<Frame>(Frames.ToArray());
         }
 
         /// <summary>
