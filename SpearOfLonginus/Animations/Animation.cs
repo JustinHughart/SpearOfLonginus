@@ -1,18 +1,18 @@
 ﻿using System.Collections.Generic;
 
-namespace SpearOfLonginus.Animation
+namespace SpearOfLonginus.Animations
 {
     /// <summary>
     /// Spear of Longinus' animation class. Supports both delta time and incremental animations with the same codebase.
     /// </summary>
-    public class SOLAnimation
+    public class Animation
     {
         #region Variables
 
         /// <summary>
         /// The list of frames the animation has.
         /// </summary>
-        protected List<SOLFrame> Frames;
+        protected List<Frame> Frames;
         /// <summary>
         /// Whether or not the animation is looping.
         /// </summary>
@@ -35,13 +35,13 @@ namespace SpearOfLonginus.Animation
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SOLAnimation"/> class.
+        /// Initializes a new instance of the <see cref="Animation"/> class.
         /// </summary>
         /// <param name="loop">Whether or not the animation is looping.</param>
         /// <param name="resetindex">Whether or not to reset the timing index when the frame changes. Turn this on to ensure that each frame gets viewed at least once.</param>
-        public SOLAnimation(bool loop, bool resetindex)
+        public Animation(bool loop, bool resetindex)
         {
-            Frames = new List<SOLFrame>();
+            Frames = new List<Frame>();
             IsLooping = loop;
             ResetIndex = resetindex; 
             CurrentFrame = 0;
@@ -49,12 +49,12 @@ namespace SpearOfLonginus.Animation
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SOLAnimation"/> class.
+        /// Initializes a new instance of the <see cref="Animation"/> class.
         /// </summary>
         /// <param name="loop">Whether or not the animation is looping.</param>
         /// <param name="resetindex">Whether or not to reset the timing index when the frame changes. Turn this on to ensure that each frame gets viewed at least once.</param>
         /// <param name="frames">The list of the animation's frames.</param>
-        public SOLAnimation(bool loop, bool resetindex, List<SOLFrame> frames)
+        public Animation(bool loop, bool resetindex, List<Frame> frames)
         {
             Frames = frames;
             IsLooping = loop;
@@ -104,7 +104,7 @@ namespace SpearOfLonginus.Animation
         /// Adds the frame to the list of frames in the animation.
         /// </summary>
         /// <param name="frame">The frame to add.</param>
-        public virtual void AddFrame(SOLFrame frame)
+        public virtual void AddFrame(Frame frame)
         {
             Frames.Add(frame);
         }
@@ -113,9 +113,9 @@ namespace SpearOfLonginus.Animation
         /// Clones this instance.
         /// </summary>
         /// <returns></returns>
-        public virtual SOLAnimation Clone()
+        public virtual Animation Clone()
         {
-            return new SOLAnimation(IsLooping, ResetIndex, Frames);
+            return new Animation(IsLooping, ResetIndex, Frames);
         }
 
         /// <summary>
@@ -131,7 +131,7 @@ namespace SpearOfLonginus.Animation
         /// Gets the current frame.
         /// </summary>
         /// <returns></returns>
-        public virtual SOLFrame GetCurrentFrame()
+        public virtual Frame GetCurrentFrame()
         {
             return Frames[CurrentFrame];
         }

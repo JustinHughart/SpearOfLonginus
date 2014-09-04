@@ -4,7 +4,7 @@ using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace SOLXNA.Animation
+namespace SOLXNA.Animations
 {
     /// <summary>
     /// A class for loading and keeping track of textures from file, outside of XNA's content pipeline. Has support for color keying.

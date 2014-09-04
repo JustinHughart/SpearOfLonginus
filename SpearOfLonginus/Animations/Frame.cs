@@ -1,11 +1,11 @@
 ﻿using System.Drawing;
 
-namespace SpearOfLonginus.Animation
+namespace SpearOfLonginus.Animations
 {
     /// <summary>
     /// An animation frame for Spear of Longinus.
     /// </summary>
-    public class SOLFrame
+    public class Frame
     {
         #region Variables
 
@@ -29,7 +29,7 @@ namespace SpearOfLonginus.Animation
         /// <value>
         /// The origin.
         /// </value>
-        public SOLVector Origin { get; protected set; }
+        public Vector Origin { get; protected set; }
         /// <summary>
         /// The time until the frame changes. Is a float to support delta time.
         /// </summary>
@@ -43,13 +43,13 @@ namespace SpearOfLonginus.Animation
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SOLFrame" /> class.
+        /// Initializes a new instance of the <see cref="Frame" /> class.
         /// </summary>
         /// <param name="textureid">The ID used for  texture loading.</param>
         /// <param name="drawarea">The area on the texture that should be drawn.</param>
         /// <param name="origin">The origin of the frame. Used for rotation and to offset the sprite.</param>
         /// <param name="timetillnext">The time until the frame changes.</param>
-        public SOLFrame(string textureid, Rectangle drawarea, SOLVector origin, float timetillnext)
+        public Frame(string textureid, Rectangle drawarea, Vector origin, float timetillnext)
         {
             TextureID = textureid;
             DrawArea = drawarea;

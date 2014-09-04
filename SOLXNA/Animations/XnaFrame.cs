@@ -1,16 +1,16 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpearOfLonginus;
-using SpearOfLonginus.Animation;
+using SpearOfLonginus.Animations;
 using SOLRect = System.Drawing.Rectangle;
 using XNARect = Microsoft.Xna.Framework.Rectangle;
 
-namespace SOLXNA.Animation
+namespace SOLXNA.Animations
 {
     /// <summary>
     /// An XNA binding for SOLFrame. 
     /// </summary>
-    public class Frame : SOLFrame
+    public class XnaFrame : Frame
     {
         #region Variables
 
@@ -46,23 +46,23 @@ namespace SOLXNA.Animation
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Frame"/> class.
+        /// Initializes a new instance of the <see cref="XnaFrame"/> class.
         /// </summary>
         /// <param name="textureid">The ID used for  texture loading.</param>
         /// <param name="drawarea">The area on the texture that should be drawn.</param>
         /// <param name="origin">The origin of the frame. Used for rotation and to offset the sprite.</param>
         /// <param name="timetillnext">The time until the frame changes.</param>
-        public Frame(string textureid, SOLRect drawarea, SOLVector origin, float timetillnext)
+        public XnaFrame(string textureid, SOLRect drawarea, Vector origin, float timetillnext)
             : base(textureid, drawarea, origin, timetillnext)
         {
 
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Frame"/> class.
+        /// Initializes a new instance of the <see cref="XnaFrame"/> class.
         /// </summary>
         /// <param name="frame">The SOLFrame to be converted to Frame.</param>
-        public Frame(SOLFrame frame)
+        public XnaFrame(Frame frame)
             : base(frame.TextureID, frame.DrawArea, frame.Origin, frame.TimeTillNext)
         {
 

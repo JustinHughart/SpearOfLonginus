@@ -6,7 +6,7 @@ namespace SpearOfLonginus.Maps
     /// <summary>
     /// A backdrop for SOL. These can appear either in the background or foreground.
     /// </summary>
-    public class SOLBackdrop : IComparable
+    public class Backdrop : IComparable
     {
         #region Variables
 
@@ -17,15 +17,15 @@ namespace SpearOfLonginus.Maps
         /// <summary>
         /// The initial position of the backdrop.
         /// </summary>
-        public SOLVector Position;
+        public Vector Position;
         /// <summary>
         /// The rate at which parallax is applied to the object.
         /// </summary>
-        public SOLVector Parallax; 
+        public Vector Parallax; 
         /// <summary>
         /// The rate at which a drop automatically scrolls.
         /// </summary>
-        public SOLVector AutoParallax;  
+        public Vector AutoParallax;  
         /// <summary>
         /// Whether or not the backdrop is looped horizontally.
         /// </summary>
@@ -44,7 +44,7 @@ namespace SpearOfLonginus.Maps
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SOLBackdrop"/> class.
+        /// Initializes a new instance of the <see cref="Backdrop"/> class.
         /// </summary>
         /// <param name="textureid">The texture ID.</param>
         /// <param name="position">The initial position of the backdrop.</param>
@@ -53,7 +53,7 @@ namespace SpearOfLonginus.Maps
         /// <param name="loopx">Whether or not the backdrop is looped horizontally.</param>
         /// <param name="loopy">Whether or not the backdrop is looped horizontally.</param>
         /// <param name="layer">The layer pf the backdrop, used for sorting.</param>
-        public SOLBackdrop(string textureid, SOLVector position, SOLVector parallax, SOLVector autoparallax, bool loopx, bool loopy, int layer)
+        public Backdrop(string textureid, Vector position, Vector parallax, Vector autoparallax, bool loopx, bool loopy, int layer)
         {
             TextureID = textureid;
             Position = position;
@@ -65,10 +65,10 @@ namespace SpearOfLonginus.Maps
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SOLBackdrop"/> class.
+        /// Initializes a new instance of the <see cref="Backdrop"/> class.
         /// </summary>
         /// <param name="element">The element used for loading.</param>
-        public SOLBackdrop(XElement element)
+        public Backdrop(XElement element)
         {
            LoadFromXElement(element);
         }
@@ -94,9 +94,9 @@ namespace SpearOfLonginus.Maps
         /// </returns>
         public int CompareTo(object obj)
         {
-            if (obj is SOLBackdrop)
+            if (obj is Backdrop)
             {
-                var back2 = obj as SOLBackdrop;
+                var back2 = obj as Backdrop;
                 return Layer.CompareTo(back2.Layer);
             }
 
@@ -110,9 +110,9 @@ namespace SpearOfLonginus.Maps
         public virtual void LoadFromXElement(XElement element)
         {
             TextureID = "";
-            Position = new SOLVector(0);
-            Parallax = new SOLVector(0);
-            AutoParallax = new SOLVector(0);
+            Position = new Vector(0);
+            Parallax = new Vector(0);
+            AutoParallax = new Vector(0);
             LoopX = false;
             LoopY = false;
             Layer = 0;

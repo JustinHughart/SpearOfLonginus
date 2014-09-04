@@ -2,9 +2,9 @@
 
 namespace SOLXNA.Maps
 {
-    public class Map : SOLMap
+    public class XnaMap : Map
     {
-        public Map(string path) : base(path)
+        public XnaMap(string path) : base(path)
         {
 
         }

@@ -9,23 +9,23 @@ namespace SpearOfLonginus.Maps
     /// <summary>
     /// A tile-based map for Spear of Longinus.
     /// </summary>
-    public class SOLMap
+    public class Map
     {
         #region Variables
 
         /// <summary>
         /// The list of tiles to be used.
         /// </summary>
-        protected List<SOLTile> TileSet;
+        protected List<Tile> TileSet;
 
         /// <summary>
         /// The size of the map in tiles.
         /// </summary>
-        public SOLVector Size;
+        public Vector Size;
         /// <summary>
         /// The size of the tiles in pixels.
         /// </summary>
-        public SOLVector TileSize;
+        public Vector TileSize;
 
         /// <summary>
         /// The layer of tiles that collides with entities.
@@ -43,32 +43,32 @@ namespace SpearOfLonginus.Maps
         /// <summary>
         /// The list of logics that the map uses. This can be used to change map properties systematically.
         /// </summary>
-        protected List<SOLMapLogic> Logics;
+        protected List<MapLogic> Logics;
 
         /// <summary>
         /// The list of backdrops that get drawn before the map.
         /// </summary>
-        protected Dictionary<string, SOLBackdrop> Backdrops;
+        protected Dictionary<string, Backdrop> Backdrops;
         /// <summary>
         /// The list of foredrops that get drawn after the map.
         /// </summary>
-        protected Dictionary<string, SOLBackdrop> Foredrops;
+        protected Dictionary<string, Backdrop> Foredrops;
 
         #endregion 
 
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SOLMap"/> class.
+        /// Initializes a new instance of the <see cref="Map"/> class.
         /// </summary>
         /// <param name="path">The file path of the base64 gzipped Tiled map.</param>
-        public SOLMap(string path)
+        public Map(string path)
         {
             LoadMap(path);
 
-            Logics = new List<SOLMapLogic>();
-            Backdrops = new Dictionary<string, SOLBackdrop>();
-            Foredrops = new Dictionary<string, SOLBackdrop>();
+            Logics = new List<MapLogic>();
+            Backdrops = new Dictionary<string, Backdrop>();
+            Foredrops = new Dictionary<string, Backdrop>();
         }
 
         #endregion
@@ -177,7 +177,7 @@ namespace SpearOfLonginus.Maps
 
             //Here we will load the external tilesets. External tilesets are extremely recommended (required by vanilla SOL actually) due to keeping everything uniform amongst your maps.
 
-            TileSet = new List<SOLTile>();
+            TileSet = new List<Tile>();
             TileSet.Add(null); //Add a null value to equate GID 0 (no tile) to it.
 
             foreach (var element in root.Elements("tileset"))
@@ -212,7 +212,7 @@ namespace SpearOfLonginus.Maps
                             name = Backdrops.Count.ToString();
                         }
 
-                        Backdrops.Add(name, new SOLBackdrop(backdrop));
+                        Backdrops.Add(name, new Backdrop(backdrop));
                     }
                 }
                 
@@ -227,7 +227,7 @@ namespace SpearOfLonginus.Maps
                             name = Backdrops.Count.ToString();
                         }
 
-                        Foredrops.Add(name, new SOLBackdrop(foredrop));
+                        Foredrops.Add(name, new Backdrop(foredrop));
                     }
                 }
             }
@@ -263,7 +263,7 @@ namespace SpearOfLonginus.Maps
         /// or
         /// No texture element in proper location in document.
         /// </exception>
-        protected virtual void LoadTileset(XElement root, SOLVector tilesize)
+        protected virtual void LoadTileset(XElement root, Vector tilesize)
         {
             if (root == null) //First check if the document actually has a root.
             {
@@ -282,7 +282,7 @@ namespace SpearOfLonginus.Maps
 
             //With that out of the way, we will check the image attributes.
             string textureid = "";
-            SOLVector imagesize = SOLVector.Zero;
+            Vector imagesize = Vector.Zero;
 
             var imageelement = root.Element("image");
 
@@ -348,7 +348,7 @@ namespace SpearOfLonginus.Maps
                     }
 
                     //LOAD IT
-                    TileSet.Add(new SOLTile(textureid, x, y, tilesize, element));
+                    TileSet.Add(new Tile(textureid, x, y, tilesize, element));
 
                     //Increment the GID, for identification purposes.
                     gid++;

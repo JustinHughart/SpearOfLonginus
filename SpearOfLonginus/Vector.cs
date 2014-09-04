@@ -5,7 +5,7 @@ namespace SpearOfLonginus
     /// <summary>
     /// A basic vector struct. Emulates the XNA Vector struct, minus the static functions and variables.
     /// </summary>
-    public struct SOLVector : IEquatable<SOLVector>
+    public struct Vector : IEquatable<Vector>
     {
         #region Static Properties
 
@@ -15,9 +15,9 @@ namespace SpearOfLonginus
         /// <value>
         /// Zero
         /// </value>
-        public static SOLVector Zero
+        public static Vector Zero
         {
-            get { return new SOLVector(0); }
+            get { return new Vector(0); }
         }
 
         /// <summary>
@@ -26,9 +26,9 @@ namespace SpearOfLonginus
         /// <value>
         /// One
         /// </value>
-        public static SOLVector One
+        public static Vector One
         {
-            get { return new SOLVector(1); }
+            get { return new Vector(1); }
         }
 
         #endregion
@@ -50,21 +50,21 @@ namespace SpearOfLonginus
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SOLVector"/> struct.
+        /// Initializes a new instance of the <see cref="Vector"/> struct.
         /// </summary>
         /// <param name="value">The value to use for both X and Y.</param>
-        public SOLVector(float value)
+        public Vector(float value)
         {
             X = value;
             Y = value;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SOLVector"/> struct.
+        /// Initializes a new instance of the <see cref="Vector"/> struct.
         /// </summary>
         /// <param name="x">The x coordinate.</param>
         /// <param name="y">The y coordinate.</param>
-        public SOLVector(float x, float y)
+        public Vector(float x, float y)
         {
             X = x;
             Y = y;
@@ -123,15 +123,15 @@ namespace SpearOfLonginus
                 return false;
             }
 
-            if (!(obj is SOLVector))
+            if (!(obj is Vector))
             {
                 return false;
             }
 
-            return Equals((SOLVector) obj);
+            return Equals((Vector) obj);
         }
 
-        public bool Equals(SOLVector other)
+        public bool Equals(Vector other)
         {
             return X.Equals(other.X) && Y.Equals(other.Y);
         }
@@ -173,9 +173,9 @@ namespace SpearOfLonginus
         /// <param name="v1">Vector 1.</param>
         /// <param name="v2">Vector 2.</param>
         /// <returns></returns>
-        public static SOLVector operator +(SOLVector v1, SOLVector v2)
+        public static Vector operator +(Vector v1, Vector v2)
         {
-            return new SOLVector(v1.X + v2.X, v1.Y + v2.Y);
+            return new Vector(v1.X + v2.X, v1.Y + v2.Y);
         }
 
         /// <summary>
@@ -184,9 +184,9 @@ namespace SpearOfLonginus
         /// <param name="v1">Vector 1.</param>
         /// <param name="v2">Vector 2.</param>
         /// <returns></returns>
-        public static SOLVector operator -(SOLVector v1, SOLVector v2)
+        public static Vector operator -(Vector v1, Vector v2)
         {
-            return new SOLVector(v1.X - v2.X, v1.Y - v2.Y);
+            return new Vector(v1.X - v2.X, v1.Y - v2.Y);
         }
 
         /// <summary>
@@ -195,9 +195,9 @@ namespace SpearOfLonginus
         /// <param name="v1">Vector 1.</param>
         /// <param name="v2">Vector 2.</param>
         /// <returns></returns>
-        public static SOLVector operator *(SOLVector v1, SOLVector v2)
+        public static Vector operator *(Vector v1, Vector v2)
         {
-            return new SOLVector(v1.X*v2.X, v1.Y*v2.Y);
+            return new Vector(v1.X*v2.X, v1.Y*v2.Y);
         }
 
         /// <summary>
@@ -206,9 +206,9 @@ namespace SpearOfLonginus
         /// <param name="v1">Vector 1.</param>
         /// <param name="v2">Vector 2.</param>
         /// <returns></returns>
-        public static SOLVector operator /(SOLVector v1, SOLVector v2)
+        public static Vector operator /(Vector v1, Vector v2)
         {
-            return new SOLVector(v1.X/v2.X, v1.Y/v2.Y);
+            return new Vector(v1.X/v2.X, v1.Y/v2.Y);
         }
 
         /// <summary>
@@ -217,9 +217,9 @@ namespace SpearOfLonginus
         /// <param name="vector">The vector.</param>
         /// <param name="value">The value to multiply by.</param>
         /// <returns></returns>
-        public static SOLVector operator *(SOLVector vector, float value)
+        public static Vector operator *(Vector vector, float value)
         {
-            return new SOLVector(vector.X*value, vector.Y*value);
+            return new Vector(vector.X*value, vector.Y*value);
         }
 
         /// <summary>
@@ -228,9 +228,9 @@ namespace SpearOfLonginus
         /// <param name="vector">The vector.</param>
         /// <param name="value">The value to divide by.</param>
         /// <returns></returns>
-        public static SOLVector operator /(SOLVector vector, float value)
+        public static Vector operator /(Vector vector, float value)
         {
-            return new SOLVector(vector.X/value, vector.Y/value);
+            return new Vector(vector.X/value, vector.Y/value);
         }
 
         #endregion

@@ -1,30 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SpearOfLonginus.Animation
+namespace SpearOfLonginus.Animations
 {
     /// <summary>
     /// A class that holds animations.
     /// </summary>
-    public class SOLAnimationManager
+    public class AnimationManager
     {
         #region Variables
 
         /// <summary>
         /// The keyed list of animations.
         /// </summary>
-        protected Dictionary<string, SOLAnimation> Animations;
+        protected Dictionary<string, Animation> Animations;
 
         #endregion
 
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SOLAnimationManager" /> class.
+        /// Initializes a new instance of the <see cref="AnimationManager" /> class.
         /// </summary>
-        public SOLAnimationManager()
+        public AnimationManager()
         {
-            Animations = new Dictionary<string, SOLAnimation>();
+            Animations = new Dictionary<string, Animation>();
         }
 
         #endregion
@@ -36,7 +36,7 @@ namespace SpearOfLonginus.Animation
         /// </summary>
         /// <param name="key">The animation's key.</param>
         /// <param name="animation">The animation to add.</param>
-        public virtual void AddAnimation(string key, SOLAnimation animation)
+        public virtual void AddAnimation(string key, Animation animation)
         {
             Animations.Add(key, animation);
         }
@@ -47,7 +47,7 @@ namespace SpearOfLonginus.Animation
         /// <param name="key">The key of the animation you're requesting..</param>
         /// <returns></returns>
         /// <exception cref="System.Exception">Animation "key" does not exist.</exception>
-        public virtual SOLAnimation GetAnimation(string key)
+        public virtual Animation GetAnimation(string key)
         {
             if (!Animations.ContainsKey(key))
             {

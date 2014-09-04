@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Xml.Linq;
-using SpearOfLonginus.Animation;
+using SpearOfLonginus.Animations;
 
 namespace SpearOfLonginus.Maps
 {
     /// <summary>
     /// A tile for a tile map in Spear of Longinus.
     /// </summary>
-    public class SOLTile
+    public class Tile
     {
         #region Variables
 
@@ -18,42 +18,42 @@ namespace SpearOfLonginus.Maps
         /// <value>
         /// The tile's animation.
         /// </value>
-        public SOLAnimation Animation { get; protected set; }
+        public Animation Animation { get; protected set; }
 
         #endregion
 
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SOLTile" /> class.
+        /// Initializes a new instance of the <see cref="Tile" /> class.
         /// </summary>
         /// <param name="animation">The tile's animation.</param>
-        public SOLTile(SOLAnimation animation)
+        public Tile(Animation animation)
         {
             Animation = animation;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SOLTile"/> class.
+        /// Initializes a new instance of the <see cref="Tile"/> class.
         /// </summary>
         /// <param name="textureid">The texture's ID.</param>
         /// <param name="position">The position on the tilesheet.</param>
         /// <param name="tilesize">The size of tiles.</param>
         /// <param name="element">The XML element.</param>
-        public SOLTile(string textureid, SOLVector position, SOLVector tilesize, XElement element)
+        public Tile(string textureid, Vector position, Vector tilesize, XElement element)
         {
             LoadTile(textureid, position, tilesize, element);
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SOLTile"/> class.
+        /// Initializes a new instance of the <see cref="Tile"/> class.
         /// </summary>
         /// <param name="textureid">The texture's ID.</param>
         /// <param name="x">The x.</param>
         /// <param name="y">The y.</param>
         /// <param name="tilesize">The size of tiles.</param>
         /// <param name="element">The XML element.</param>
-        public SOLTile(string textureid, int x, int y, SOLVector tilesize, XElement element)
+        public Tile(string textureid, int x, int y, Vector tilesize, XElement element)
         {
             LoadTile(textureid, x, y, tilesize, element);
         }
@@ -79,7 +79,7 @@ namespace SpearOfLonginus.Maps
         /// <param name="tilesize">The size of tiles.</param>
         /// <param name="element">The XML element.</param>
         /// <returns></returns>
-        protected virtual SOLTile LoadTile(string textureid, SOLVector position, SOLVector tilesize, XElement element)
+        protected virtual Tile LoadTile(string textureid, Vector position, Vector tilesize, XElement element)
         {
             return LoadTile(textureid, (int)position.X, (int)position.Y, tilesize, element);
         }
@@ -93,7 +93,7 @@ namespace SpearOfLonginus.Maps
         /// <param name="tilesize">The size of tiles.</param>
         /// <param name="element">The XML element.</param>
         /// <returns></returns>
-        protected virtual SOLTile LoadTile(string textureid, int x, int y, SOLVector tilesize, XElement element)
+        protected virtual Tile LoadTile(string textureid, int x, int y, Vector tilesize, XElement element)
         {
             int numframes = 1;
             float animrate = 1;
@@ -128,7 +128,7 @@ namespace SpearOfLonginus.Maps
             }
 
             //Get the list of frames.
-            var frames = new List<SOLFrame>();
+            var frames = new List<Frame>();
 
             for (int i = 0; i < numframes; i++)
             {
@@ -137,7 +137,7 @@ namespace SpearOfLonginus.Maps
                 y++;
             }
 
-            return new SOLTile(new SOLAnimation(true, false, frames));
+            return new Tile(new Animation(true, false, frames));
         }
 
         /// <summary>
@@ -149,11 +149,11 @@ namespace SpearOfLonginus.Maps
         /// <param name="tilesize">The size of tiles.</param>
         /// <param name="animrate">The time at which the frame should change..</param>
         /// <returns></returns>
-        protected virtual SOLFrame CreateTileFrame(string textureid, int x, int y, SOLVector tilesize, float animrate)
+        protected virtual Frame CreateTileFrame(string textureid, int x, int y, Vector tilesize, float animrate)
         {
             var drawrect = new Rectangle(x * (int)tilesize.X, y * (int)tilesize.Y, (int)tilesize.X, (int)tilesize.Y);
 
-            return new SOLFrame(textureid, drawrect, SOLVector.Zero, animrate);
+            return new Frame(textureid, drawrect, Vector.Zero, animrate);
         }
 
         #endregion

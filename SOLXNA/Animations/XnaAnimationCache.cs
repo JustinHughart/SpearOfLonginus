@@ -1,12 +1,12 @@
 ﻿using System;
-using SpearOfLonginus.Animation;
+using SpearOfLonginus.Animations;
 
-namespace SOLXNA.Animation
+namespace SOLXNA.Animations
 {
     /// <summary>
     /// A class that holds animations.
     /// </summary>
-    public class AnimationManager : SOLAnimationManager 
+    public class XnaAnimationCache : AnimationManager 
     {
         #region Functions
 
@@ -18,7 +18,7 @@ namespace SOLXNA.Animation
         {
             foreach (var animation  in Animations)
             {
-                var anim = (Animation)animation.Value;
+                var anim = (XnaAnimation)animation.Value;
 
                 anim.LoadContent(texturemanager);
             }
@@ -31,17 +31,17 @@ namespace SOLXNA.Animation
         {
             foreach (var animation in Animations)
             {
-                var anim = (Animation)animation.Value;
+                var anim = (XnaAnimation)animation.Value;
 
                 anim.UnloadContent();
             }
         }
 
-        public virtual Animation GetXNAAnimation(string key)
+        public virtual XnaAnimation GetXNAAnimation(string key)
         {
             if (!Animations.ContainsKey(key))
             {
-                var anim = (Animation)Animations[key];
+                var anim = (XnaAnimation)Animations[key];
 
                 return anim.CloneAsXNAAnimation();
             }
