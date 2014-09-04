@@ -168,6 +168,21 @@ namespace SOLXNA.Animations
         /// <param name="scale">The animation's scale.</param>
         /// <param name="effects">The sprite effects used for flipping the sprite.</param>
         /// <param name="layer">The layer to draw the sprite on.</param>
+        public virtual void Draw(SpriteBatch spritebatch, Vector2 position, Color tint, float rotation, float scale, SpriteEffects effects, float layer)
+        {
+            Draw(spritebatch, position, tint, rotation, new Vector2(scale), effects, layer);
+        }
+
+        /// <summary>
+        /// Draws the current frame.
+        /// </summary>
+        /// <param name="spritebatch">The SpriteBatch used for drawing.</param>
+        /// <param name="position">The position of the animation.</param>
+        /// <param name="tint">The animation's tint.</param>
+        /// <param name="rotation">The animation's rotation.</param>
+        /// <param name="scale">The animation's scale.</param>
+        /// <param name="effects">The sprite effects used for flipping the sprite.</param>
+        /// <param name="layer">The layer to draw the sprite on.</param>
         public virtual void Draw(SpriteBatch spritebatch, Vector2 position, Color tint, float rotation, Vector2 scale, SpriteEffects effects, float layer)
         {
             var currnode = (XnaFrame) GetCurrentFrame();
