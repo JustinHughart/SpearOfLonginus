@@ -42,10 +42,10 @@ namespace SOLXNA.Animations
         /// <summary>
         /// Loads the texture.
         /// </summary>
-        /// <param name="texturemanager">The texture manager to use for texture loading.</param>
-        public virtual void LoadContent(TextureCache texturemanager)
+        /// <param name="texturecache">The texture cache to use for texture loading.</param>
+        public virtual void LoadContent(TextureCache texturecache)
         {
-            Texture = texturemanager.GetTexture(TextureID);
+            Texture = texturecache.GetTexture(TextureID);
         }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace SOLXNA.Animations
         /// </summary>
         public virtual void UnloadContent()
         {
-            Texture = null; //Is removing the texture enough? The texture manager should dispose of anything. I'm not sure if this piece of code is the right thing to do, in all honesty.
+            Texture = null; //Is removing the texture enough? The texture cache should dispose of anything. I'm not sure if this piece of code is the right thing to do, in all honesty.
         }
 
         #endregion

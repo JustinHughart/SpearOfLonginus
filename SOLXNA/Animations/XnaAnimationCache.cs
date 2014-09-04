@@ -6,21 +6,21 @@ namespace SOLXNA.Animations
     /// <summary>
     /// A class that holds animations.
     /// </summary>
-    public class XnaAnimationCache : AnimationManager 
+    public class XnaAnimationCache : AnimationCache 
     {
         #region Functions
 
         /// <summary>
         /// Loads the textures
         /// </summary>
-        /// <param name="texturemanager">The texture manager used for loading textures.</param>
-        public virtual void LoadContent(TextureCache texturemanager)
+        /// <param name="texturecache">The texture cache used for loading textures.</param>
+        public virtual void LoadContent(TextureCache texturecache)
         {
             foreach (var animation  in Animations)
             {
                 var anim = (XnaAnimation)animation.Value;
 
-                anim.LoadContent(texturemanager);
+                anim.LoadContent(texturecache);
             }
         }
 

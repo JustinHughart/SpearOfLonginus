@@ -6,7 +6,7 @@ namespace SpearOfLonginus.Animations
     /// <summary>
     /// A class that holds animations.
     /// </summary>
-    public class AnimationManager
+    public class AnimationCache
     {
         #region Variables
 
@@ -20,9 +20,9 @@ namespace SpearOfLonginus.Animations
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AnimationManager" /> class.
+        /// Initializes a new instance of the <see cref="AnimationCache" /> class.
         /// </summary>
-        public AnimationManager()
+        public AnimationCache()
         {
             Animations = new Dictionary<string, Animation>();
         }
