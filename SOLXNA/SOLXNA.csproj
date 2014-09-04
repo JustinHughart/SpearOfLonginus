@@ -50,7 +50,6 @@
     <Compile Include="Extensions.cs" />
     <Compile Include="Maps\XnaBackdrop.cs" />
     <Compile Include="Maps\XnaMap.cs" />
-    <Compile Include="Maps\XnaTile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
