@@ -15,7 +15,7 @@ namespace SOLXNA.Animations
         /// <summary>
         /// The texture manager used for loading textures.
         /// </summary>
-        protected TextureManager TextureManager;
+        protected TextureCache TextureManager;
 
         #endregion
 
@@ -37,7 +37,7 @@ namespace SOLXNA.Animations
         /// <param name="loop">Whether or not the animation is looping.</param>
         /// <param name="resetindex">Whether or not to reset the timing index when the frame changes. Turn this on to ensure that each frame gets viewed at least once.</param>
         /// <param name="texturemanager">The texture manager used for loading textures.</param>
-        public XnaAnimation(bool loop, bool resetindex, TextureManager texturemanager) : base(loop, resetindex)
+        public XnaAnimation(bool loop, bool resetindex, TextureCache texturemanager) : base(loop, resetindex)
         {
             if (TextureManager != null)
             {
@@ -66,7 +66,7 @@ namespace SOLXNA.Animations
         /// <param name="resetindex">Whether or not to reset the timing index when the frame changes. Turn this on to ensure that each frame gets viewed at least once.</param>
         /// <param name="frames">The list of the animation's frames.</param>
         /// <param name="texturemanager">The texture manager used for loading textures.</param>
-        public XnaAnimation(bool loop, bool resetindex, List<Frame> frames, TextureManager texturemanager)
+        public XnaAnimation(bool loop, bool resetindex, List<Frame> frames, TextureCache texturemanager)
             : base(loop, resetindex, new List<Frame>())
         {
             foreach (var frame in frames) //Convert SOLFrame to XNA Frame.
@@ -141,7 +141,7 @@ namespace SOLXNA.Animations
         /// Loads the textures.
         /// </summary>
         /// <param name="texturemanager">The texture manager used for loading textures.</param>
-        public virtual void LoadContent(TextureManager texturemanager)
+        public virtual void LoadContent(TextureCache texturemanager)
         {
             foreach (XnaFrame frame in Frames)
             {

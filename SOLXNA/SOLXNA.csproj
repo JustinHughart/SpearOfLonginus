@@ -46,7 +46,7 @@
     <Compile Include="Animations\XnaAnimation.cs" />
     <Compile Include="Animations\XnaAnimationCache.cs" />
     <Compile Include="Animations\XnaFrame.cs" />
-    <Compile Include="Animations\TextureManager.cs" />
+    <Compile Include="Animations\TextureCache.cs" />
     <Compile Include="Maps\XnaBackdrop.cs" />
     <Compile Include="Maps\XnaMap.cs" />
     <Compile Include="Maps\XnaTile.cs" />

@@ -14,7 +14,7 @@ namespace SOLXNA.Animations
         /// Loads the textures
         /// </summary>
         /// <param name="texturemanager">The texture manager used for loading textures.</param>
-        public virtual void LoadContent(TextureManager texturemanager)
+        public virtual void LoadContent(TextureCache texturemanager)
         {
             foreach (var animation  in Animations)
             {

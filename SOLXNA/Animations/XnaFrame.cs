@@ -76,7 +76,7 @@ namespace SOLXNA.Animations
         /// Loads the texture.
         /// </summary>
         /// <param name="texturemanager">The texture manager to use for texture loading.</param>
-        public virtual void LoadContent(TextureManager texturemanager)
+        public virtual void LoadContent(TextureCache texturemanager)
         {
             Texture = texturemanager.GetTexture(TextureID);
         }

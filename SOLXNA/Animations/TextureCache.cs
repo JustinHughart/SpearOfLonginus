@@ -9,7 +9,7 @@ namespace SOLXNA.Animations
     /// <summary>
     /// A class for loading and keeping track of textures from file, outside of XNA's content pipeline. Has support for color keying.
     /// </summary>
-    public class TextureManager
+    public class TextureCache
     {
         #region Variables
 
@@ -31,10 +31,10 @@ namespace SOLXNA.Animations
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TextureManager"/> class.
+        /// Initializes a new instance of the <see cref="TextureCache"/> class.
         /// </summary>
         /// <param name="graphicsdevice">The graphics device used for texture loading.</param>
-        public TextureManager(GraphicsDevice graphicsdevice)
+        public TextureCache(GraphicsDevice graphicsdevice)
         {
             GraphicsDevice = graphicsdevice;
             ColorKey = Color.Transparent;
@@ -42,11 +42,11 @@ namespace SOLXNA.Animations
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TextureManager"/> class.
+        /// Initializes a new instance of the <see cref="TextureCache"/> class.
         /// </summary>
         /// <param name="graphicsdevice">The graphics device used for texture loading.</param>
         /// <param name="colorkey">The color that will be changed to transparency. If it's Transparent(0,0,0,0), then it will not key the texture.</param>
-        public TextureManager(GraphicsDevice graphicsdevice, Color colorkey)
+        public TextureCache(GraphicsDevice graphicsdevice, Color colorkey)
         {
             GraphicsDevice = graphicsdevice;
             ColorKey = colorkey;
