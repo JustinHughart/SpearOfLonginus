@@ -1,4 +1,5 @@
 ﻿using System.Xml.Linq;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SOLXNA.Animations;
 using SpearOfLonginus;
@@ -45,6 +46,15 @@ namespace SOLXNA.Maps
 
         }
 
+
+        public XnaBackdrop(Backdrop backdrop, TextureCache texturecache) : base(backdrop.TextureID, backdrop.Position, backdrop.Parallax, backdrop.AutoParallax, backdrop.LoopX, backdrop.LoopY, backdrop.Layer)
+        {
+            if (texturecache != null)
+            {
+                LoadContent(texturecache);
+            }
+        }
+
         #endregion
 
         #region Functions
@@ -64,6 +74,11 @@ namespace SOLXNA.Maps
         public virtual void UnloadContent()
         {
             Texture = null; //Is removing the texture enough? The texture cache should dispose of anything. I'm not sure if this piece of code is the right thing to do, in all honesty.
+        }
+
+        public void Draw(SpriteBatch spritebatch, Rectangle drawarea)
+        {
+
         }
 
         #endregion
