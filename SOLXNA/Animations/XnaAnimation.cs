@@ -39,7 +39,7 @@ namespace SOLXNA.Animations
         /// <param name="texturecache">The texture cache used for loading textures.</param>
         public XnaAnimation(bool loop, bool resetindex, TextureCache texturecache) : base(loop, resetindex)
         {
-            if (TextureCache != null)
+            if (texturecache != null)
             {
                 LoadContent(texturecache);
             }
@@ -74,7 +74,21 @@ namespace SOLXNA.Animations
                 AddFrame(frame.ToXnaFrame());
             }
 
-            if (TextureCache != null)
+            if (texturecache != null)
+            {
+                LoadContent(texturecache);
+            }
+        }
+
+        public XnaAnimation(Animation anim, TextureCache texturecache)
+            : base(anim.IsLooping, anim.ResetIndex, new List<Frame>())
+        {
+            foreach (var frame in anim.GetFramesList()) //Convert SOL Frame to XNA Frame.
+            {
+                AddFrame(frame.ToXnaFrame());
+            }
+
+            if (texturecache != null)
             {
                 LoadContent(texturecache);
             }

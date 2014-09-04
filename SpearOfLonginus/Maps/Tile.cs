@@ -18,7 +18,7 @@ namespace SpearOfLonginus.Maps
         /// <value>
         /// The tile's animation.
         /// </value>
-        public Animation Animation { get; protected set; }
+        public Animation Animation;
 
         #endregion
 
