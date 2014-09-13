@@ -64,11 +64,11 @@ namespace SpearOfLonginus.Maps
         /// <param name="path">The file path of the base64 gzipped Tiled map.</param>
         public Map(string path)
         {
-            LoadMap(path);
-
             Logics = new List<MapLogic>();
             Backdrops = new Dictionary<string, Backdrop>();
             Foredrops = new Dictionary<string, Backdrop>();
+
+            LoadMap(path);
         }
 
         #endregion
@@ -119,22 +119,8 @@ namespace SpearOfLonginus.Maps
             }
 
             XDocument doc = XDocument.Load(path); //Load the file.
-            LoadMap(doc.Root);
-        }
+            var root = doc.Root;
 
-        /// <summary>
-        /// Loads the map.
-        /// </summary>
-        /// <param name="root">The root of the tilemap.</param>
-        /// <exception cref="System.Exception">
-        /// Document has no root.
-        /// or
-        /// Document is not a Tiled map.
-        /// or
-        /// Tileset is not external. Please make your tileset external.
-        /// </exception>
-        protected virtual void LoadMap(XElement root)
-        {
             if (root == null) //First check if the document actually has a root.
             {
                 throw new Exception("Document has no root.");
@@ -178,7 +164,6 @@ namespace SpearOfLonginus.Maps
             //Here we will load the external tilesets. External tilesets are extremely recommended (required by vanilla SOL actually) due to keeping everything uniform amongst your maps.
 
             TileSet = new List<Tile>();
-            TileSet.Add(null); //Add a null value to equate GID 0 (no tile) to it.
 
             foreach (var element in root.Elements("tileset"))
             {
@@ -189,7 +174,9 @@ namespace SpearOfLonginus.Maps
                     throw new Exception("Tileset is not external. Please make your tileset external.");
                 }
 
-                LoadTileset(source.Value);
+                var tilesetpath = Path.GetDirectoryName(path) + "/" + source.Value;
+
+                LoadTileset(tilesetpath);
             }
 
             //Load tile layers.
@@ -201,11 +188,25 @@ namespace SpearOfLonginus.Maps
             //Load object layers. 
             foreach (var objectgroup in root.Elements("objectgroup"))
             {
-                if (objectgroup.Name.ToString().Equals("backdrops", StringComparison.OrdinalIgnoreCase))
+                var nameattribute = objectgroup.Attribute("name");
+
+                if (nameattribute == null)
+                {
+                    throw new Exception("No name attribute in object group.");
+                }
+
+                if (nameattribute.Value.Equals("backdrops", StringComparison.OrdinalIgnoreCase))
                 {
                     foreach (var backdrop in objectgroup.Elements("object"))
                     {
-                        string name = backdrop.Name.ToString();
+                        var nameelement = backdrop.Attribute("name");
+
+                        if (nameelement == null)
+                        {
+                            throw new Exception("No name element in backdrop.");
+                        }
+
+                        string name = nameelement.Value;
 
                         if (name == "")
                         {
@@ -216,15 +217,22 @@ namespace SpearOfLonginus.Maps
                     }
                 }
                 
-                if(objectgroup.Name.ToString().Equals("foredrops", StringComparison.OrdinalIgnoreCase))
+                if(nameattribute.Value.Equals("foredrops", StringComparison.OrdinalIgnoreCase))
                 {
                     foreach (var foredrop in objectgroup.Elements("object"))
                     {
-                        string name = foredrop.Name.ToString();
+                        var nameelement = foredrop.Attribute("name");
+
+                        if (nameelement == null)
+                        {
+                            throw new Exception("No name element in backdrop.");
+                        }
+
+                        string name = nameelement.Value;
 
                         if (name == "")
                         {
-                            name = Backdrops.Count.ToString();
+                            name = Foredrops.Count.ToString();
                         }
 
                         Foredrops.Add(name, new Backdrop(foredrop));
@@ -246,25 +254,8 @@ namespace SpearOfLonginus.Maps
             }
 
             XDocument doc = XDocument.Load(path); //Load the file.
-            LoadTileset(doc.Root, TileSize);
-        }
+            var root = doc.Root;
 
-        /// <summary>
-        /// Loads the tileset.
-        /// </summary>
-        /// <param name="root">The root of the Tiled external tileset.</param>
-        /// <param name="tilesize">The size of the tiles.</param>
-        /// <exception cref="System.Exception">
-        /// Document has no root.
-        /// or
-        /// Document is not an external tileset.
-        /// or
-        /// Document is not an external tileset.
-        /// or
-        /// No texture element in proper location in document.
-        /// </exception>
-        protected virtual void LoadTileset(XElement root, Vector tilesize)
-        {
             if (root == null) //First check if the document actually has a root.
             {
                 throw new Exception("Document has no root.");
@@ -275,7 +266,12 @@ namespace SpearOfLonginus.Maps
                 throw new Exception("Document is not an external tileset.");
             }
 
-            if (root.Attribute("source") == null)
+            if (root.Element("image") == null)
+            {
+                throw new Exception("Document is not an external tileset.");
+            }
+
+            if (root.Element("image").Attribute("source") == null)
             {
                 throw new Exception("Document is not an external tileset.");
             }
@@ -297,7 +293,7 @@ namespace SpearOfLonginus.Maps
             {
                 if (attribute.Name == "source")
                 {
-                    textureid = attribute.Value;
+                    textureid = Path.GetDirectoryName(path) + "/" + attribute.Value;
                     continue;
                 }
 
@@ -314,7 +310,7 @@ namespace SpearOfLonginus.Maps
             }
 
             //Divide the image size by tilesize to get the size in tiles. TileSize is already loaded from LoadMap, so it'll work fine. DOES NOT SUPPORT MALFORMED IMAGES, such as 37 x 43. All images must be a multiple of TileSize.
-            imagesize /= tilesize;
+            imagesize /= TileSize;
 
             //Next, we will get sort the tiles with special properties into a dictionary for easy access.
             var tileproperties = new Dictionary<int, XElement>();
@@ -337,7 +333,7 @@ namespace SpearOfLonginus.Maps
 
             for (int y = 0; y < imagesize.Y; y++)
             {
-                for (int x = 0; y < imagesize.X; x++)
+                for (int x = 0; x < imagesize.X; x++)
                 {
                     //Get the element if it exists.
                     XElement element = null;
@@ -348,7 +344,7 @@ namespace SpearOfLonginus.Maps
                     }
 
                     //LOAD IT
-                    TileSet.Add(new Tile(textureid, x, y, tilesize, element));
+                    TileSet.Add(new Tile(textureid, x, y, TileSize, element));
 
                     //Increment the GID, for identification purposes.
                     gid++;
@@ -401,7 +397,7 @@ namespace SpearOfLonginus.Maps
             }
 
             var encoding = data.Attribute("encoding");
-            var compression = data.Attribute("gzip");
+            var compression = data.Attribute("compression");
 
             if (encoding == null || compression == null)
             {

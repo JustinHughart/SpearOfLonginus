@@ -26,10 +26,10 @@ namespace SOLXNA.Maps
         /// <param name="textureid">The texture ID.</param>
         /// <param name="position">The initial position of the backdrop.</param>
         /// <param name="parallax">The rate at which parallax is applied to the object.</param>
-        /// <param name="autoparallax">The rate at which a drop automatically scrolls.</param>
+        /// <param name="autoparallax">The rate at which a backdrop automatically scrolls.</param>
         /// <param name="loopx">Whether or not the backdrop is looped horizontally.</param>
         /// <param name="loopy">Whether or not the backdrop is looped horizontally.</param>
-        /// <param name="layer">The layer pf the backdrop, used for sorting.</param>
+        /// <param name="layer">The layer of the backdrop, used for sorting.</param>
         public XnaBackdrop(string textureid, Vector position, Vector parallax, Vector autoparallax, bool loopx, bool loopy, int layer)
             : base(textureid, position, parallax, autoparallax, loopx, loopy, layer)
         {
@@ -76,7 +76,7 @@ namespace SOLXNA.Maps
             Texture = null; //Is removing the texture enough? The texture cache should dispose of anything. I'm not sure if this piece of code is the right thing to do, in all honesty.
         }
 
-        public void Draw(SpriteBatch spritebatch, Rectangle drawarea)
+        public void Draw(SpriteBatch spritebatch, Rectangle drawarea, Vector2 cameraposition)
         {
 
         }

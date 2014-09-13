@@ -117,67 +117,88 @@ namespace SpearOfLonginus.Maps
             LoopY = false;
             Layer = 0;
 
-            var properties = element.Attributes();
+            var properties = element.Element("properties");
 
-            foreach (var attribute in properties)
+            if (properties == null)
             {
-                if (attribute.Name == "texture")
+                throw new Exception("No properties in backdrop.");
+            }
+            
+            foreach (var attribute in properties.Elements("property"))
+            {
+                var nameattribute = attribute.Attribute("name");
+                var valueattribute = attribute.Attribute("value");
+
+                if (nameattribute == null)
                 {
-                    TextureID = attribute.Value;
+                    throw new Exception("Name attribute is missing from backdrop.");
+                }
+
+                if (valueattribute == null)
+                {
+                    throw new Exception("Value attribute is missing from backdrop.");
+                }
+
+                string name = nameattribute.Value;
+                string value = valueattribute.Value;
+
+                if (name == "texture")
+                {
+                    TextureID = value;
                     continue;
                 }
 
-                if (attribute.Name == "positionx")
+                if (name == "positionx")
                 {
-                    float.TryParse(attribute.Value, out Position.X);
+                    float.TryParse(value, out Position.X);
                     continue;
                 }
 
-                if (attribute.Name == "positiony")
+                if (name == "positiony")
                 {
-                    float.TryParse(attribute.Value, out Position.Y);
+                    float.TryParse(value, out Position.Y);
                     continue;
                 }
 
-                if (attribute.Name == "parrallaxx")
+                if (name == "parrallaxx")
                 {
-                    float.TryParse(attribute.Value, out Parallax.X);
+                    float.TryParse(value, out Parallax.X);
                     continue;
                 }
 
-                if (attribute.Name == "parrallaxy")
+                if (name == "parrallaxy")
                 {
-                    float.TryParse(attribute.Value, out Parallax.Y);
+                    float.TryParse(value, out Parallax.Y);
                     continue;
                 }
 
-                if (attribute.Name == "autoparrallaxx")
+                if (name == "autoparrallaxx")
                 {
-                    float.TryParse(attribute.Value, out AutoParallax.X);
+                    float.TryParse(value, out AutoParallax.X);
                     continue;
                 }
 
-                if (attribute.Name == "autoparrallaxy")
+                if (name == "autoparrallaxy")
                 {
-                    float.TryParse(attribute.Value, out AutoParallax.Y);
+                    float.TryParse(value, out AutoParallax.Y);
                     continue;
                 }
 
-                if (attribute.Name == "loopx")
+                if (name == "loopx")
                 {
                     LoopX = true;
                     continue;
                 }
 
-                if (attribute.Name == "loopy")
+                if (name == "loopy")
                 {
                     LoopY = true;
                     continue;
                 }
 
-                if (attribute.Name == "layer")
+                if (name == "layer")
                 {
-                    int.TryParse(attribute.Value, out Layer);
+                    int.TryParse(value, out Layer);
                 }
             }
         }

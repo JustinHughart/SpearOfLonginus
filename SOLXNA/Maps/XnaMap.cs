@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SOLXNA.Animations;
 using SpearOfLonginus.Maps;
@@ -18,21 +19,26 @@ namespace SOLXNA.Maps
             {
                 if (tile != null)
                 {
-                    var anim = (XnaAnimation) tile.Animation;
-
-                    tile.Animation = new XnaAnimation(anim, texturecache);
+                    tile.Animation = new XnaAnimation(tile.Animation, texturecache);
                 }
             }
 
+            var newdrops = new Dictionary<string, Backdrop>();
+
             foreach (var backdrop in Backdrops)
             {
-                Backdrops[backdrop.Key] = new XnaBackdrop(backdrop.Value, texturecache);
+                newdrops.Add(backdrop.Key, new XnaBackdrop(backdrop.Value, texturecache));
             }
+
+            Backdrops = newdrops;
+            newdrops = new Dictionary<string, Backdrop>();
 
             foreach (var foredrop in Foredrops)
             {
-                Backdrops[foredrop.Key] = new XnaBackdrop(foredrop.Value, texturecache);
+                newdrops.Add(foredrop.Key, new XnaBackdrop(foredrop.Value, texturecache));
             }
+
+            Foredrops = newdrops;
         }
 
         public virtual void UnloadContent()
@@ -62,20 +68,20 @@ namespace SOLXNA.Maps
             }
         }
 
-        public virtual void DrawBackground(SpriteBatch spritebatch, Rectangle drawarea)
+        public virtual void DrawBackground(SpriteBatch spritebatch, Rectangle drawarea, Vector2 camerapos)
         {
             foreach (var backdrop in Backdrops)
             {
                 var bd = (XnaBackdrop) backdrop.Value;
 
-                bd.Draw(spritebatch, drawarea);
+                bd.Draw(spritebatch, drawarea, camerapos);
             }
 
             DrawTileLayer(spritebatch, drawarea, BackgroundLayer);
             DrawTileLayer(spritebatch, drawarea, CollisionLayer);
         }
 
-        public virtual void DrawForeground(SpriteBatch spritebatch, Rectangle drawarea)
+        public virtual void DrawForeground(SpriteBatch spritebatch, Rectangle drawarea, Vector2 camerapos)
         {
             DrawTileLayer(spritebatch, drawarea, ForegroundLayer);
 
@@ -83,7 +89,7 @@ namespace SOLXNA.Maps
             {
                 var fd = (XnaBackdrop)foredrop.Value;
 
-                fd.Draw(spritebatch, drawarea);
+                fd.Draw(spritebatch, drawarea, camerapos);
             }
         }
 
@@ -98,21 +104,29 @@ namespace SOLXNA.Maps
             {
                 for (int x = xstart; x < xend; x++)
                 {
-                    var tile = GetTile(new Vector2(x, y));
+                    var tile = GetTile(new Vector2(x, y), layer);
 
-                    var anim = (XnaAnimation) tile.Animation;
+                    if (tile != null)
+                    {
+                        var anim = (XnaAnimation)tile.Animation;
 
-                    anim.Draw(spritebatch, new Vector2(x,y) * TileSize.ToXnaVector(), Color.White, 0f, Vector2.One, SpriteEffects.None, 0);
+                        anim.Draw(spritebatch, new Vector2(x, y) * TileSize.ToXnaVector(), Color.White, 0f, Vector2.One, SpriteEffects.None, 0);
+                    }
                 }
             }
         }
 
-        public virtual Tile GetTile(Vector2 position)
+        public virtual Tile GetTile(Vector2 position, int[] layer)
         {
-            int gid = (int) position.X + (int) (position.Y*?.X) + 1;
+            int index = (int) position.X + (int) (position.Y*Size.X);
+            int gid = layer[index];
 
-            return 
+            if (gid == -1)
+            {
+                return null;
+            }
+
+            return TileSet[gid];
         }
-
     }
 }

@@ -79,9 +79,9 @@ namespace SpearOfLonginus.Maps
         /// <param name="tilesize">The size of tiles.</param>
         /// <param name="element">The XML element.</param>
         /// <returns></returns>
-        protected virtual Tile LoadTile(string textureid, Vector position, Vector tilesize, XElement element)
+        protected virtual void LoadTile(string textureid, Vector position, Vector tilesize, XElement element)
         {
-            return LoadTile(textureid, (int)position.X, (int)position.Y, tilesize, element);
+            LoadTile(textureid, (int)position.X, (int)position.Y, tilesize, element);
         }
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace SpearOfLonginus.Maps
         /// <param name="tilesize">The size of tiles.</param>
         /// <param name="element">The XML element.</param>
         /// <returns></returns>
-        protected virtual Tile LoadTile(string textureid, int x, int y, Vector tilesize, XElement element)
+        protected virtual void LoadTile(string textureid, int x, int y, Vector tilesize, XElement element)
         {
             int numframes = 1;
             float animrate = 1;
@@ -132,12 +132,12 @@ namespace SpearOfLonginus.Maps
 
             for (int i = 0; i < numframes; i++)
             {
-                CreateTileFrame(textureid, x, y, tilesize, animrate);
+                frames.Add(CreateTileFrame(textureid, x, y, tilesize, animrate));
 
                 y++;
             }
 
-            return new Tile(new Animation(true, false, frames));
+            Animation = new Animation(true, false, frames);
         }
 
         /// <summary>
