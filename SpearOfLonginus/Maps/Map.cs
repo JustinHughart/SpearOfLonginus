@@ -201,7 +201,7 @@ namespace SpearOfLonginus.Maps
             //Load object layers. 
             foreach (var objectgroup in root.Elements("objectgroup"))
             {
-                if (objectgroup.Name.ToString().ToLower() == "backdrops")
+                if (objectgroup.Name.ToString().Equals("backdrops", StringComparison.OrdinalIgnoreCase))
                 {
                     foreach (var backdrop in objectgroup.Elements("object"))
                     {
@@ -216,7 +216,7 @@ namespace SpearOfLonginus.Maps
                     }
                 }
                 
-                if(objectgroup.Name.ToString().ToLower() == "foredrops")
+                if(objectgroup.Name.ToString().Equals("foredrops", StringComparison.OrdinalIgnoreCase))
                 {
                     foreach (var foredrop in objectgroup.Elements("object"))
                     {
@@ -439,19 +439,19 @@ namespace SpearOfLonginus.Maps
                 }
             }
 
-            if (name.ToLower() == "background")
+            if (name.Equals("background", StringComparison.OrdinalIgnoreCase))
             {
                 BackgroundLayer = decodeddata;
                 return;
             }
 
-            if (name.ToLower() == "foreground")
+            if (name.Equals("foreground", StringComparison.OrdinalIgnoreCase))
             {
                 ForegroundLayer = decodeddata;
                 return;
             }
 
-            if (name.ToLower() == "collision")
+            if (name.Equals("collision", StringComparison.OrdinalIgnoreCase))
             {
                 CollisionLayer = decodeddata;
                 return;
