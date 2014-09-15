@@ -8,9 +8,53 @@ namespace SOLXNA.Maps
 {
     public class XnaMap : Map
     {
-        public XnaMap(string path) : base(path)
+        public SpriteBatchData BackgroundData { get; protected set; }
+        public SpriteBatchData ForegroundData { get; protected set; }
+        public SpriteBatchData BackdropData { get; protected set; }
+        public SpriteBatchData ForedropData { get; protected set; }
+        
+        public XnaMap(string path) : this(path, null, null, null, null)
         {
             
+        }
+
+        public XnaMap(string path, SpriteBatchData backgrounddata, SpriteBatchData foregrounddata, SpriteBatchData backdropdata, SpriteBatchData foredropdata) : base(path)
+        {
+            if (backgrounddata == null)
+            {
+                BackgroundData = new SpriteBatchData();
+            }
+            else
+            {
+                BackgroundData = backdropdata;
+            }
+
+            if (foregrounddata == null)
+            {
+                ForegroundData = new SpriteBatchData();
+            }
+            else
+            {
+                ForegroundData = foregrounddata;
+            }
+
+            if (backdropdata == null)
+            {
+                BackdropData = new SpriteBatchData();
+            }
+            else
+            {
+                BackdropData = backdropdata;
+            }
+
+            if (foredropdata == null)
+            {
+                ForedropData = new SpriteBatchData();
+            }
+            else
+            {
+                ForedropData = foredropdata;
+            }
         }
 
         public virtual void LoadContent(TextureCache texturecache)
@@ -70,6 +114,8 @@ namespace SOLXNA.Maps
 
         public virtual void DrawBackground(SpriteBatch spritebatch, Rectangle drawarea, Vector2 camerapos)
         {
+            spritebatch.Begin(SpriteSortMode.Immediate, BackdropData.BlendState, BackdropData.SamplerState, BackdropData.DepthStencilState, BackdropData.RasterizerState, BackdropData.Effect);
+            
             foreach (var backdrop in Backdrops)
             {
                 var bd = (XnaBackdrop) backdrop.Value;
@@ -77,20 +123,34 @@ namespace SOLXNA.Maps
                 bd.Draw(spritebatch, drawarea, camerapos);
             }
 
+            spritebatch.End();
+
+            spritebatch.Begin(SpriteSortMode.Immediate, BackgroundData.BlendState, BackgroundData.SamplerState, BackgroundData.DepthStencilState, BackgroundData.RasterizerState, BackgroundData.Effect);
+            
             DrawTileLayer(spritebatch, drawarea, BackgroundLayer);
             DrawTileLayer(spritebatch, drawarea, CollisionLayer);
+
+            spritebatch.End();
         }
 
         public virtual void DrawForeground(SpriteBatch spritebatch, Rectangle drawarea, Vector2 camerapos)
         {
+            spritebatch.Begin(SpriteSortMode.Immediate, ForegroundData.BlendState, ForegroundData.SamplerState, ForegroundData.DepthStencilState, ForegroundData.RasterizerState, ForegroundData.Effect);
+            
             DrawTileLayer(spritebatch, drawarea, ForegroundLayer);
 
+            spritebatch.End();
+
+            spritebatch.Begin(SpriteSortMode.Immediate, ForedropData.BlendState, ForedropData.SamplerState, ForedropData.DepthStencilState, ForedropData.RasterizerState, ForedropData.Effect);
+            
             foreach (var foredrop in Foredrops)
             {
                 var fd = (XnaBackdrop)foredrop.Value;
 
                 fd.Draw(spritebatch, drawarea, camerapos);
             }
+
+            spritebatch.End();
         }
 
         protected virtual void DrawTileLayer(SpriteBatch spritebatch, Rectangle drawarea, int[] layer)
