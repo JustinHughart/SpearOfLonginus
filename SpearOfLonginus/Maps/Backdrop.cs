@@ -160,25 +160,25 @@ namespace SpearOfLonginus.Maps
                     continue;
                 }
 
-                if (name == "parrallaxx")
+                if (name == "parallaxx")
                 {
                     float.TryParse(value, out Parallax.X);
                     continue;
                 }
 
-                if (name == "parrallaxy")
+                if (name == "parallaxy")
                 {
                     float.TryParse(value, out Parallax.Y);
                     continue;
                 }
 
-                if (name == "autoparrallaxx")
+                if (name == "autoparallaxx")
                 {
                     float.TryParse(value, out AutoParallax.X);
                     continue;
                 }
 
-                if (name == "autoparrallaxy")
+                if (name == "autoparallaxy")
                 {
                     float.TryParse(value, out AutoParallax.Y);
                     continue;
