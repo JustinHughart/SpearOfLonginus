@@ -30,8 +30,8 @@ namespace SOLXNA.Maps
         /// <param name="loopx">Whether or not the backdrop is looped horizontally.</param>
         /// <param name="loopy">Whether or not the backdrop is looped horizontally.</param>
         /// <param name="layer">The layer of the backdrop, used for sorting.</param>
-        public XnaBackdrop(string textureid, Vector position, Vector parallax, Vector autoparallax, bool loopx, bool loopy, int layer)
-            : base(textureid, position, parallax, autoparallax, loopx, loopy, layer)
+        public XnaBackdrop(string textureid, Vector position, Vector parallax, Vector autoparallax, bool loopx, bool loopy, int layer, bool wrapcoordsx, bool wrapcoordsy)
+            : base(textureid, position, parallax, autoparallax, loopx, loopy, layer, wrapcoordsx, wrapcoordsy)
         {
 
         }
@@ -47,7 +47,7 @@ namespace SOLXNA.Maps
         }
 
 
-        public XnaBackdrop(Backdrop backdrop, TextureCache texturecache) : base(backdrop.TextureID, backdrop.Position, backdrop.Parallax, backdrop.AutoParallax, backdrop.LoopX, backdrop.LoopY, backdrop.Layer)
+        public XnaBackdrop(Backdrop backdrop, TextureCache texturecache) : base(backdrop.TextureID, backdrop.Position, backdrop.Parallax, backdrop.AutoParallax, backdrop.LoopX, backdrop.LoopY, backdrop.Layer, backdrop.WrapCoordsX, backdrop.WrapCoordsY)
         {
             if (texturecache != null)
             {
@@ -76,9 +76,125 @@ namespace SOLXNA.Maps
             Texture = null; //Is removing the texture enough? The texture cache should dispose of anything. I'm not sure if this piece of code is the right thing to do, in all honesty.
         }
 
-        public void Draw(SpriteBatch spritebatch, Rectangle drawarea, Vector2 cameraposition)
+        public override void Update()
         {
+            base.Update();
 
+            if (WrapCoordsX)
+            {
+                if (Position.X < 0)
+                {
+                    Position.X += Texture.Width;
+                }
+
+                if (Position.X >= Texture.Width)
+                {
+                    Position.X -= Texture.Width;
+                }
+            }
+
+            if (WrapCoordsY)
+            {
+                if (Position.Y < 0)
+                {
+                    Position.Y += Texture.Height;
+                }
+
+                if (Position.Y >= Texture.Height)
+                {
+                    Position.Y -= Texture.Height;
+                }
+            }
+        }
+
+        public virtual void Draw(SpriteBatch spritebatch, Rectangle drawarea, Vector2 cameraposition)
+        {
+            Vector2 drawposition = Position.ToXnaVector() + (cameraposition*Parallax.ToXnaVector());
+
+            if (LoopX)
+            {
+                if (LoopY)
+                {
+                    DrawLoopBoth(spritebatch, drawarea, drawposition);
+                }
+                else
+                {
+                    DrawLoopX(spritebatch, drawarea, drawposition);
+                }
+            }
+            else
+            {
+                if (LoopY)
+                {
+                    DrawLoopY(spritebatch, drawarea, drawposition);
+                }
+                else
+                {
+                    DrawBackdrop(spritebatch, drawarea, drawposition);
+                }
+            }
+        }
+
+        protected virtual void DrawBackdrop(SpriteBatch spritebatch, Rectangle drawarea, Vector2 drawposition)
+        {
+            spritebatch.Draw(Texture, drawposition, Texture.Bounds, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+        }
+
+        protected virtual void DrawLoopX(SpriteBatch spritebatch, Rectangle drawarea, Vector2 drawposition)
+        {
+            //First move it outside of the draw area
+
+            while (drawposition.X >= drawarea.X)
+            {
+                drawposition.X -= Texture.Width;
+            }
+
+            //Draw, then move the position till it's offscreen, then stop.
+
+            while (drawposition.X <= drawarea.Right)
+            {
+                DrawBackdrop(spritebatch, drawarea, drawposition);
+
+                drawposition.X += Texture.Width;
+            }
+        }
+
+        protected virtual void DrawLoopY(SpriteBatch spritebatch, Rectangle drawarea, Vector2 drawposition)
+        {
+            //First move it outside of the draw area
+
+            while (drawposition.Y >= drawarea.Y)
+            {
+                drawposition.Y -= Texture.Height;
+            }
+
+            //Draw, then move the position till it's offscreen, then stop.
+
+            while (drawposition.Y <= drawarea.Bottom)
+            {
+                DrawBackdrop(spritebatch, drawarea, drawposition);
+
+                drawposition.Y += Texture.Height;
+            }
+        }
+
+        protected virtual void DrawLoopBoth(SpriteBatch spritebatch, Rectangle drawarea, Vector2 drawposition)
+        {
+            //First move it outside of the draw area
+
+            while (drawposition.X >= drawarea.X)
+            {
+                drawposition.X -= Texture.Width;
+            }
+
+            //Call the draw loop y, then move the position till it's offscreen, then stop.
+
+            while (drawposition.X <= drawarea.Right)
+            {
+                DrawLoopY(spritebatch, drawarea, drawposition);
+
+                drawposition.X += Texture.Width;
+            }
         }
 
         #endregion

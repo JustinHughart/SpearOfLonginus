@@ -38,6 +38,8 @@ namespace SpearOfLonginus.Maps
         /// The layer of the backdrop, used for sorting.
         /// </summary>
         public int Layer;
+        public bool WrapCoordsX;
+        public bool WrapCoordsY;
 
         #endregion
 
@@ -53,7 +55,7 @@ namespace SpearOfLonginus.Maps
         /// <param name="loopx">Whether or not the backdrop is looped horizontally.</param>
         /// <param name="loopy">Whether or not the backdrop is looped horizontally.</param>
         /// <param name="layer">The layer pf the backdrop, used for sorting.</param>
-        public Backdrop(string textureid, Vector position, Vector parallax, Vector autoparallax, bool loopx, bool loopy, int layer)
+        public Backdrop(string textureid, Vector position, Vector parallax, Vector autoparallax, bool loopx, bool loopy, int layer, bool wrapcoordsx, bool wrapcoordsy)
         {
             TextureID = textureid;
             Position = position;
@@ -62,6 +64,8 @@ namespace SpearOfLonginus.Maps
             LoopX = loopx;
             LoopY = loopy;
             Layer = layer;
+            WrapCoordsX = wrapcoordsx;
+            WrapCoordsY = wrapcoordsy;
         }
 
         /// <summary>
@@ -116,6 +120,8 @@ namespace SpearOfLonginus.Maps
             LoopX = false;
             LoopY = false;
             Layer = 0;
+            WrapCoordsX = false;
+            WrapCoordsY = false;
 
             var properties = element.Element("properties");
 
@@ -199,6 +205,26 @@ namespace SpearOfLonginus.Maps
                 if (name == "layer")
                 {
                     int.TryParse(value, out Layer);
+                    continue;
+                }
+
+                if (name == "wrapcoordsx")
+                {
+                    WrapCoordsX = true;
+                    continue;
+                }
+
+                if (name == "wrapcoordsy")
+                {
+                    WrapCoordsY = true;
+                    continue;
+                }
+
+                if (name == "wrapcoords")
+                {
+                    WrapCoordsX = true;
+                    WrapCoordsY = true;
+                    continue;
                 }
             }
         }
