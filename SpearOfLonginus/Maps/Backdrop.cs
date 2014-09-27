@@ -21,24 +21,30 @@ namespace SpearOfLonginus.Maps
         /// <summary>
         /// The rate at which parallax is applied to the object.
         /// </summary>
-        public Vector Parallax; 
+        public Vector Parallax;
         /// <summary>
         /// The rate at which a drop automatically scrolls.
         /// </summary>
-        public Vector AutoParallax;  
+        public Vector AutoParallax;
         /// <summary>
         /// Whether or not the backdrop is looped horizontally.
         /// </summary>
-        public bool LoopX; 
+        public bool LoopX;
         /// <summary>
         /// Whether or not the backdrop is looped vertically.
         /// </summary>
-        public bool LoopY; 
+        public bool LoopY;
         /// <summary>
         /// The layer of the backdrop, used for sorting.
         /// </summary>
         public int Layer;
+        /// <summary>
+        /// Whether or not the wrap the coordinates of the backdrop on the X axis.
+        /// </summary>
         public bool WrapCoordsX;
+        /// <summary>
+        /// Whether or not the wrap the coordinates of the backdrop on the Y axis.
+        /// </summary>
         public bool WrapCoordsY;
 
         #endregion
@@ -46,7 +52,7 @@ namespace SpearOfLonginus.Maps
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Backdrop"/> class.
+        /// Initializes a new instance of the <see cref="Backdrop" /> class.
         /// </summary>
         /// <param name="textureid">The texture ID.</param>
         /// <param name="position">The initial position of the backdrop.</param>
@@ -55,6 +61,8 @@ namespace SpearOfLonginus.Maps
         /// <param name="loopx">Whether or not the backdrop is looped horizontally.</param>
         /// <param name="loopy">Whether or not the backdrop is looped horizontally.</param>
         /// <param name="layer">The layer pf the backdrop, used for sorting.</param>
+        /// <param name="wrapcoordsx">Whether or not the wrap the coordinates of the backdrop on the X axis.</param>
+        /// <param name="wrapcoordsy">Whether or not the wrap the coordinates of the backdrop on the Y axis.</param>
         public Backdrop(string textureid, Vector position, Vector parallax, Vector autoparallax, bool loopx, bool loopy, int layer, bool wrapcoordsx, bool wrapcoordsy)
         {
             TextureID = textureid;
@@ -69,7 +77,7 @@ namespace SpearOfLonginus.Maps
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Backdrop"/> class.
+        /// Initializes a new instance of the <see cref="Backdrop" /> class.
         /// </summary>
         /// <param name="element">The element used for loading.</param>
         public Backdrop(XElement element)
@@ -84,9 +92,10 @@ namespace SpearOfLonginus.Maps
         /// <summary>
         /// Updates the backdrop.
         /// </summary>
-        public virtual void Update()
+        /// <param name="deltatime">The speed to update the backdrop at.</param>
+        public virtual void Update(float deltatime)
         {
-            Position += AutoParallax;
+            Position += AutoParallax * deltatime;
         }
 
         /// <summary>
@@ -111,6 +120,13 @@ namespace SpearOfLonginus.Maps
         /// Loads from and XElement.
         /// </summary>
         /// <param name="element">The element used for loading.</param>
+        /// <exception cref="System.Exception">
+        /// No properties in backdrop.
+        /// or
+        /// Name attribute is missing from backdrop.
+        /// or
+        /// Value attribute is missing from backdrop.
+        /// </exception>
         public virtual void LoadFromXElement(XElement element)
         {
             TextureID = "";
@@ -148,79 +164,79 @@ namespace SpearOfLonginus.Maps
                 string name = nameattribute.Value;
                 string value = valueattribute.Value;
 
-                if (name == "texture")
+                if (name.Equals("texture", StringComparison.OrdinalIgnoreCase))
                 {
                     TextureID = value;
                     continue;
                 }
 
-                if (name == "positionx")
+                if (name.Equals("positionx", StringComparison.OrdinalIgnoreCase))
                 {
                     float.TryParse(value, out Position.X);
                     continue;
                 }
 
-                if (name == "positiony")
+                if (name.Equals("positiony", StringComparison.OrdinalIgnoreCase))
                 {
                     float.TryParse(value, out Position.Y);
                     continue;
                 }
 
-                if (name == "parallaxx")
+                if (name.Equals("parallaxx", StringComparison.OrdinalIgnoreCase))
                 {
                     float.TryParse(value, out Parallax.X);
                     continue;
                 }
 
-                if (name == "parallaxy")
+                if (name.Equals("parallaxy", StringComparison.OrdinalIgnoreCase))
                 {
                     float.TryParse(value, out Parallax.Y);
                     continue;
                 }
 
-                if (name == "autoparallaxx")
+                if (name.Equals("autoparallaxx", StringComparison.OrdinalIgnoreCase))
                 {
                     float.TryParse(value, out AutoParallax.X);
                     continue;
                 }
 
-                if (name == "autoparallaxy")
+                if (name.Equals("autoparallaxy", StringComparison.OrdinalIgnoreCase))
                 {
                     float.TryParse(value, out AutoParallax.Y);
                     continue;
                 }
 
-                if (name == "loopx")
+                if (name.Equals("loopx", StringComparison.OrdinalIgnoreCase))
                 {
                     LoopX = true;
                     continue;
                 }
 
-                if (name == "loopy")
+                if (name.Equals("loopy", StringComparison.OrdinalIgnoreCase))
                 {
                     LoopY = true;
                     continue;
                 }
 
-                if (name == "layer")
+                if (name.Equals("layer", StringComparison.OrdinalIgnoreCase))
                 {
                     int.TryParse(value, out Layer);
                     continue;
                 }
 
-                if (name == "wrapcoordsx")
+                if (name.Equals("wrapcoordsx", StringComparison.OrdinalIgnoreCase))
                 {
                     WrapCoordsX = true;
                     continue;
                 }
 
-                if (name == "wrapcoordsy")
+                if (name.Equals("wrapcoordsy", StringComparison.OrdinalIgnoreCase))
                 {
                     WrapCoordsY = true;
                     continue;
                 }
 
-                if (name == "wrapcoords")
+                if (name.Equals("wrapcoords", StringComparison.OrdinalIgnoreCase))
                 {
                     WrapCoordsX = true;
                     WrapCoordsY = true;

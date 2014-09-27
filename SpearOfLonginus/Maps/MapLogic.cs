@@ -31,7 +31,8 @@
         /// <summary>
         /// Updates the logic component.
         /// </summary>
-        public abstract void Update();
+        /// <param name="deltatime">The time at which the map has changed.</param>
+        public abstract void Update(float deltatime);
 
         #endregion
     }

@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Drawing;
+﻿using System;
+using System.Collections.Generic;
 using System.Xml.Linq;
 using SpearOfLonginus.Animations;
 
@@ -17,7 +17,7 @@ namespace SpearOfLonginus.Maps
         /// </summary>
         /// <value>
         /// The tile's animation.
-        /// </value>
+        ///   </value>
         public Animation Animation;
 
         #endregion
@@ -34,25 +34,25 @@ namespace SpearOfLonginus.Maps
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Tile"/> class.
+        /// Initializes a new instance of the <see cref="Tile" /> class.
         /// </summary>
         /// <param name="textureid">The texture's ID.</param>
         /// <param name="position">The position on the tilesheet.</param>
         /// <param name="tilesize">The size of tiles.</param>
-        /// <param name="element">The XML element.</param>
+        /// <param name="element">The element used for loading the tile.</param>
         public Tile(string textureid, Vector position, Vector tilesize, XElement element)
         {
             LoadTile(textureid, position, tilesize, element);
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Tile"/> class.
+        /// Initializes a new instance of the <see cref="Tile" /> class.
         /// </summary>
         /// <param name="textureid">The texture's ID.</param>
-        /// <param name="x">The x.</param>
-        /// <param name="y">The y.</param>
+        /// <param name="x">The X position of the tile.</param>
+        /// <param name="y">The Y position of the tile.</param>
         /// <param name="tilesize">The size of tiles.</param>
-        /// <param name="element">The XML element.</param>
+        /// <param name="element">The element used for loading the tile.</param>
         public Tile(string textureid, int x, int y, Vector tilesize, XElement element)
         {
             LoadTile(textureid, x, y, tilesize, element);
@@ -65,10 +65,10 @@ namespace SpearOfLonginus.Maps
         /// <summary>
         /// Updates the tile.
         /// </summary>
-        /// <param name="animspeed">The speed at which to update the animation of the tile.</param>
-        public virtual void Update(float animspeed)
+        /// <param name="deltatime">The speed at which to update the animation of the tile.</param>
+        public virtual void Update(float deltatime)
         {
-            Animation.Update(animspeed);
+            Animation.Update(deltatime);
         }
 
         /// <summary>
@@ -78,7 +78,6 @@ namespace SpearOfLonginus.Maps
         /// <param name="position">The position on the tilesheet.</param>
         /// <param name="tilesize">The size of tiles.</param>
         /// <param name="element">The XML element.</param>
-        /// <returns></returns>
         protected virtual void LoadTile(string textureid, Vector position, Vector tilesize, XElement element)
         {
             LoadTile(textureid, (int)position.X, (int)position.Y, tilesize, element);
@@ -88,11 +87,10 @@ namespace SpearOfLonginus.Maps
         /// Loads the tile.
         /// </summary>
         /// <param name="textureid">The texture's ID.</param>
-        /// <param name="x">The x.</param>
-        /// <param name="y">The y.</param>
+        /// <param name="x">The X position of the tile.</param>
+        /// <param name="y">The Y position of the tile.</param>
         /// <param name="tilesize">The size of tiles.</param>
-        /// <param name="element">The XML element.</param>
-        /// <returns></returns>
+        /// <param name="element">The element used for loading the tile.</param>
         protected virtual void LoadTile(string textureid, int x, int y, Vector tilesize, XElement element)
         {
             int numframes = 1;
@@ -113,13 +111,13 @@ namespace SpearOfLonginus.Maps
                             continue;
                         }
 
-                        if (name.Value == "animframes") //The number of frames the animation has, stacked vertically directly below.
+                        if (name.Value.Equals("animframes", StringComparison.OrdinalIgnoreCase)) //The number of frames the animation has, stacked vertically directly below.
                         {
                             int.TryParse(value.Value, out numframes);
                             continue;
                         }
 
-                        if (name.Value == "animrate") //The rate at which the animation goes.
+                        if (name.Value.Equals("animrate", StringComparison.OrdinalIgnoreCase)) //The rate at which the animation goes.
                         {
                             float.TryParse(value.Value, out animrate);
                         }
@@ -144,8 +142,8 @@ namespace SpearOfLonginus.Maps
         /// Creates a new animation from for your tile.
         /// </summary>
         /// <param name="textureid">The texture's ID.</param>
-        /// <param name="x">The x.</param>
-        /// <param name="y">The y.</param>
+        /// <param name="x">The X position of the tile.</param>
+        /// <param name="y">The Y position of the tile.</param>
         /// <param name="tilesize">The size of tiles.</param>
         /// <param name="animrate">The time at which the frame should change..</param>
         /// <returns></returns>

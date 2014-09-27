@@ -6,7 +6,7 @@ using SpearOfLonginus.Animations;
 namespace SOLXNA.Animations
 {
     /// <summary>
-    /// An XNA binding for SOLAnimation.
+    /// An XNA binding for SOL's Animation.
     /// </summary>
     public class XnaAnimation : Animation
     {
@@ -15,6 +15,9 @@ namespace SOLXNA.Animations
         /// <summary>
         /// The texture cache used for loading textures.
         /// </summary>
+        /// <value>
+        /// The texture cache.
+        /// </value>
         public TextureCache TextureCache { get; protected set; }
 
         #endregion
@@ -22,7 +25,7 @@ namespace SOLXNA.Animations
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="XnaAnimation"/> class.
+        /// Initializes a new instance of the <see cref="XnaAnimation" /> class.
         /// </summary>
         /// <param name="loop">Whether or not the animation is looping.</param>
         /// <param name="resetindex">Whether or not to reset the timing index when the frame changes. Turn this on to ensure that each frame gets viewed at least once.</param>
@@ -32,7 +35,7 @@ namespace SOLXNA.Animations
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="XnaAnimation"/> class.
+        /// Initializes a new instance of the <see cref="XnaAnimation" /> class.
         /// </summary>
         /// <param name="loop">Whether or not the animation is looping.</param>
         /// <param name="resetindex">Whether or not to reset the timing index when the frame changes. Turn this on to ensure that each frame gets viewed at least once.</param>
@@ -46,7 +49,7 @@ namespace SOLXNA.Animations
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="XnaAnimation"/> class.
+        /// Initializes a new instance of the <see cref="XnaAnimation" /> class.
         /// </summary>
         /// <param name="loop">Whether or not the animation is looping.</param>
         /// <param name="resetindex">Whether or not to reset the timing index when the frame changes. Turn this on to ensure that each frame gets viewed at least once.</param>
@@ -60,7 +63,7 @@ namespace SOLXNA.Animations
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="XnaAnimation"/> class.
+        /// Initializes a new instance of the <see cref="XnaAnimation" /> class.
         /// </summary>
         /// <param name="loop">Whether or not the animation is looping.</param>
         /// <param name="resetindex">Whether or not to reset the timing index when the frame changes. Turn this on to ensure that each frame gets viewed at least once.</param>
@@ -80,6 +83,11 @@ namespace SOLXNA.Animations
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="XnaAnimation" /> class.
+        /// </summary>
+        /// <param name="anim">The anim.</param>
+        /// <param name="texturecache">The texturecache.</param>
         public XnaAnimation(Animation anim, TextureCache texturecache)
             : base(anim.IsLooping, anim.ResetIndex, new List<Frame>())
         {

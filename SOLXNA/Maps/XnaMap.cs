@@ -2,22 +2,69 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SOLXNA.Animations;
+using SpearOfLonginus;
 using SpearOfLonginus.Maps;
+using Rectangle = SpearOfLonginus.Rectangle;
 
 namespace SOLXNA.Maps
 {
+    /// <summary>
+    /// An XNA implementation of SOL's Map.
+    /// </summary>
     public class XnaMap : Map
     {
+        #region Variables
+
+        /// <summary>
+        /// The data for initializing spritebatch for drawing the background.
+        /// </summary>
+        /// <value>
+        /// The background data.
+        /// </value>
         public SpriteBatchData BackgroundData { get; protected set; }
+        /// <summary>
+        /// The data for initializing spritebatch for drawing theforeground
+        /// </summary>
+        /// <value>
+        /// The foreground data.
+        /// </value>
         public SpriteBatchData ForegroundData { get; protected set; }
+        /// <summary>
+        /// The data for initializing spritebatch for drawing the backdrops.
+        /// </summary>
+        /// <value>
+        /// The backdrop data.
+        /// </value>
         public SpriteBatchData BackdropData { get; protected set; }
+        /// <summary>
+        /// The data for initializing spritebatch for drawing the foredrops.
+        /// </summary>
+        /// <value>
+        /// The foredrop data.
+        /// </value>
         public SpriteBatchData ForedropData { get; protected set; }
-        
+
+        #endregion
+
+        #region Constructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="XnaMap"/> class.
+        /// </summary>
+        /// <param name="path">The file path of the base64 gzipped Tiled map.</param>
         public XnaMap(string path) : this(path, null, null, null, null)
         {
             
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="XnaMap"/> class.
+        /// </summary>
+        /// <param name="path">The path.</param>
+        /// <param name="backgrounddata">The background's spritebatch data.</param>
+        /// <param name="foregrounddata">The foreground's spritebatch data.</param>
+        /// <param name="backdropdata">The backdrop's spritebatch data.</param>
+        /// <param name="foredropdata">The foredrop's spritebatch data.</param>
         public XnaMap(string path, SpriteBatchData backgrounddata, SpriteBatchData foregrounddata, SpriteBatchData backdropdata, SpriteBatchData foredropdata) : base(path)
         {
             if (backgrounddata == null)
@@ -57,6 +104,14 @@ namespace SOLXNA.Maps
             }
         }
 
+        #endregion
+
+        #region Functions
+
+        /// <summary>
+        /// Loads the content.
+        /// </summary>
+        /// <param name="texturecache">The texture cache used for loading textures.</param>
         public virtual void LoadContent(TextureCache texturecache)
         {
             foreach (var tile in TileSet)
@@ -85,6 +140,9 @@ namespace SOLXNA.Maps
             Foredrops = newdrops;
         }
 
+        /// <summary>
+        /// Unloads the content.
+        /// </summary>
         public virtual void UnloadContent()
         {
             foreach (var tile in TileSet)
@@ -112,11 +170,17 @@ namespace SOLXNA.Maps
             }
         }
 
-        public virtual void DrawBackground(SpriteBatch spritebatch, Rectangle drawarea, Vector2 camerapos)
+        /// <summary>
+        /// Draws the background.
+        /// </summary>
+        /// <param name="spritebatch">The spritebatch to use for drawing.</param>
+        /// <param name="drawarea">The area of the screen.</param>
+        /// <param name="cameraposition">The camera's position.</param>
+        public virtual void DrawBackground(SpriteBatch spritebatch, Rectangle drawarea, Vector2 cameraposition)
         {
             spritebatch.Begin(SpriteSortMode.Immediate, BackdropData.BlendState, BackdropData.SamplerState, BackdropData.DepthStencilState, BackdropData.RasterizerState, BackdropData.Effect);
             
-            List<XnaBackdrop> drops = new List<XnaBackdrop>(Backdrops.Count);
+            var drops = new List<XnaBackdrop>(Backdrops.Count);
 
             foreach (var backdrop in Backdrops)
             {
@@ -127,7 +191,7 @@ namespace SOLXNA.Maps
 
             foreach (var drop in drops)
             {
-                drop.Draw(spritebatch, drawarea, camerapos);
+                drop.Draw(spritebatch, drawarea, cameraposition);
             }
 
             spritebatch.End();
@@ -140,7 +204,13 @@ namespace SOLXNA.Maps
             spritebatch.End();
         }
 
-        public virtual void DrawForeground(SpriteBatch spritebatch, Rectangle drawarea, Vector2 camerapos)
+        /// <summary>
+        /// Draws the foreground.
+        /// </summary>
+        /// <param name="spritebatch">The spritebatch to use for drawing.</param>
+        /// <param name="drawarea">The area of the screen.</param>
+        /// <param name="cameraposition">The camera's position.</param>
+        public virtual void DrawForeground(SpriteBatch spritebatch, Rectangle drawarea, Vector2 cameraposition)
         {
             spritebatch.Begin(SpriteSortMode.Immediate, ForegroundData.BlendState, ForegroundData.SamplerState, ForegroundData.DepthStencilState, ForegroundData.RasterizerState, ForegroundData.Effect);
             
@@ -150,7 +220,7 @@ namespace SOLXNA.Maps
 
             spritebatch.Begin(SpriteSortMode.Immediate, ForedropData.BlendState, ForedropData.SamplerState, ForedropData.DepthStencilState, ForedropData.RasterizerState, ForedropData.Effect);
 
-            List<XnaBackdrop> drops = new List<XnaBackdrop>(Foredrops.Count);
+            var drops = new List<XnaBackdrop>(Foredrops.Count);
 
             foreach (var foredrop in Foredrops)
             {
@@ -161,24 +231,30 @@ namespace SOLXNA.Maps
 
             foreach (var drop in drops)
             {
-                drop.Draw(spritebatch, drawarea, camerapos);
+                drop.Draw(spritebatch, drawarea, cameraposition);
             }
 
             spritebatch.End();
         }
 
+        /// <summary>
+        /// Draws the tile layer.
+        /// </summary>
+        /// <param name="spritebatch">The spritebatch to use for drawing.</param>
+        /// <param name="drawarea">The area of the screen.</param>
+        /// <param name="layer">The layer to draw.</param>
         protected virtual void DrawTileLayer(SpriteBatch spritebatch, Rectangle drawarea, int[] layer)
         {
-            int xstart = (int)(drawarea.X/TileSize.X);
-            int ystart = (int) (drawarea.Y/TileSize.Y);
-            int xend = xstart + (int)(drawarea.Width / TileSize.X);
-            int yend = ystart + (int)(drawarea.Height / TileSize.Y);
+            var xstart = (int)(drawarea.X/TileSize.X);
+            var ystart = (int) (drawarea.Y/TileSize.Y);
+            var xend = xstart + (int)(drawarea.Width / TileSize.X);
+            var yend = ystart + (int)(drawarea.Height / TileSize.Y);
 
-            for (int y = ystart; y < yend; y++)
+            for (var y = ystart; y < yend; y++)
             {
-                for (int x = xstart; x < xend; x++)
+                for (var x = xstart; x < xend; x++)
                 {
-                    var tile = GetTile(new Vector2(x, y), layer);
+                    var tile = GetTile(new Vector(x, y), layer);
 
                     if (tile != null)
                     {
@@ -190,17 +266,6 @@ namespace SOLXNA.Maps
             }
         }
 
-        public virtual Tile GetTile(Vector2 position, int[] layer)
-        {
-            int index = (int) position.X + (int) (position.Y*Size.X);
-            int gid = layer[index];
-
-            if (gid == -1)
-            {
-                return null;
-            }
-
-            return TileSet[gid];
-        }
+        #endregion
     }
 }

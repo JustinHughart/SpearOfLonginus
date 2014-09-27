@@ -17,11 +17,17 @@ namespace SpearOfLonginus.Animations
         /// <summary>
         /// Whether or not the animation is looping.
         /// </summary>
+        /// <value>
+        ///   <c>true</c> if [is looping]; otherwise, <c>false</c>.
+        /// </value>
         public bool IsLooping { get; protected set; }
 
         /// <summary>
         /// Whether or not to reset the timing index when the frame changes. Turn this on to ensure that each frame gets viewed at least once.
         /// </summary>
+        /// <value>
+        ///   <c>true</c> if [reset index]; otherwise, <c>false</c>.
+        /// </value>
         public bool ResetIndex { get; protected set; }
 
         /// <summary>
@@ -39,7 +45,7 @@ namespace SpearOfLonginus.Animations
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Animation"/> class.
+        /// Initializes a new instance of the <see cref="Animation" /> class.
         /// </summary>
         /// <param name="loop">Whether or not the animation is looping.</param>
         /// <param name="resetindex">Whether or not to reset the timing index when the frame changes. Turn this on to ensure that each frame gets viewed at least once.</param>
@@ -53,7 +59,7 @@ namespace SpearOfLonginus.Animations
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Animation"/> class.
+        /// Initializes a new instance of the <see cref="Animation" /> class.
         /// </summary>
         /// <param name="loop">Whether or not the animation is looping.</param>
         /// <param name="resetindex">Whether or not to reset the timing index when the frame changes. Turn this on to ensure that each frame gets viewed at least once.</param>
@@ -74,10 +80,10 @@ namespace SpearOfLonginus.Animations
         /// <summary>
         /// Updates the animation.
         /// </summary>
-        /// <param name="animspeed">The speed at which to update the animation. You can use this as delta time or an incremental update.</param>
-        public virtual void Update(float animspeed)
+        /// <param name="deltatime">The speed at which to update the animation. You can use this as delta time or an incremental update.</param>
+        public virtual void Update(float deltatime)
         {
-            TimingIndex += animspeed;
+            TimingIndex += deltatime;
 
             while (TimingIndex >= GetCurrentFrame().TimeTillNext)
             {

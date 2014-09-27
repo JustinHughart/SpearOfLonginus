@@ -1,10 +1,9 @@
-﻿using System;
-using SpearOfLonginus.Animations;
+﻿using SpearOfLonginus.Animations;
 
 namespace SOLXNA.Animations
 {
     /// <summary>
-    /// A class that holds animations.
+    /// An XNA binding for SOL's AnimationCache.
     /// </summary>
     public class XnaAnimationCache : AnimationCache 
     {

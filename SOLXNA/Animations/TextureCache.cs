@@ -31,7 +31,7 @@ namespace SOLXNA.Animations
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TextureCache"/> class.
+        /// Initializes a new instance of the <see cref="TextureCache" /> class.
         /// </summary>
         /// <param name="graphicsdevice">The graphics device used for texture loading.</param>
         public TextureCache(GraphicsDevice graphicsdevice)
@@ -42,7 +42,7 @@ namespace SOLXNA.Animations
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TextureCache"/> class.
+        /// Initializes a new instance of the <see cref="TextureCache" /> class.
         /// </summary>
         /// <param name="graphicsdevice">The graphics device used for texture loading.</param>
         /// <param name="colorkey">The color that will be changed to transparency. If it's Transparent(0,0,0,0), then it will not key the texture.</param>

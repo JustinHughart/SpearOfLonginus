@@ -59,7 +59,7 @@ namespace SpearOfLonginus.Maps
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Map"/> class.
+        /// Initializes a new instance of the <see cref="Map" /> class.
         /// </summary>
         /// <param name="path">The file path of the base64 gzipped Tiled map.</param>
         public Map(string path)
@@ -78,28 +78,47 @@ namespace SpearOfLonginus.Maps
         /// <summary>
         /// Updates the map.
         /// </summary>
-        /// <param name="animspeed">The animation speed.</param>
-        public virtual void Update(float animspeed)
+        /// <param name="deltatime">The speed at which the map should change.</param>
+        public virtual void Update(float deltatime)
         {
             foreach (var tile in TileSet)
             {
-                tile.Update(animspeed);
+                tile.Update(deltatime);
             }
 
             foreach (var logic in Logics)
             {
-                logic.Update();
+                logic.Update(deltatime);
             }
 
             foreach (var backdrop in Backdrops)
             {
-                backdrop.Value.Update();
+                backdrop.Value.Update(deltatime);
             }
 
             foreach (var foredrop in Foredrops)
             {
-                foredrop.Value.Update();
+                foredrop.Value.Update(deltatime);
             }
+        }
+
+        /// <summary>
+        /// Gets the tile.
+        /// </summary>
+        /// <param name="position">The position.</param>
+        /// <param name="layer">The layer.</param>
+        /// <returns></returns>
+        public virtual Tile GetTile(Vector position, int[] layer)
+        {
+            int index = (int)position.X + (int)(position.Y * Size.X);
+            int gid = layer[index];
+
+            if (gid == -1)
+            {
+                return null;
+            }
+
+            return TileSet[gid];
         }
 
         #endregion
@@ -125,8 +144,8 @@ namespace SpearOfLonginus.Maps
             {
                 throw new Exception("Document has no root.");
             }
-
-            if (root.Name != "map") //Then check if it's a tiled map.
+           
+            if (!root.Name.LocalName.Equals("map", StringComparison.OrdinalIgnoreCase)) //Then check if it's a tiled map.
             {
                 throw new Exception("Document is not a Tiled map.");
             }
@@ -134,25 +153,25 @@ namespace SpearOfLonginus.Maps
             //With that out of the way, we will check the map attributes.
             foreach (var attribute in root.Attributes())
             {
-                if (attribute.Name == "width")
+                if (attribute.Name.LocalName.Equals("width", StringComparison.OrdinalIgnoreCase))
                 {
                     float.TryParse(attribute.Value, out Size.X);
                     continue;
                 }
 
-                if (attribute.Name == "height")
+                if (attribute.Name.LocalName.Equals("height", StringComparison.OrdinalIgnoreCase))
                 {
                     float.TryParse(attribute.Value, out Size.Y);
                     continue;
                 }
 
-                if (attribute.Name == "tilewidth")
+                if (attribute.Name.LocalName.Equals("tilewidth", StringComparison.OrdinalIgnoreCase))
                 {
                     float.TryParse(attribute.Value, out TileSize.X);
                     continue;
                 }
 
-                if (attribute.Name == "tileheight")
+                if (attribute.Name.LocalName.Equals("tileheight", StringComparison.OrdinalIgnoreCase))
                 {
                     float.TryParse(attribute.Value, out TileSize.Y);
                 }
@@ -208,7 +227,7 @@ namespace SpearOfLonginus.Maps
 
                         string name = nameelement.Value;
 
-                        if (name == "")
+                        if (name.Equals("", StringComparison.OrdinalIgnoreCase))
                         {
                             name = Backdrops.Count.ToString();
                         }
@@ -230,7 +249,7 @@ namespace SpearOfLonginus.Maps
 
                         string name = nameelement.Value;
 
-                        if (name == "")
+                        if (name.Equals("", StringComparison.OrdinalIgnoreCase))
                         {
                             name = Foredrops.Count.ToString();
                         }
@@ -261,7 +280,7 @@ namespace SpearOfLonginus.Maps
                 throw new Exception("Document has no root.");
             }
 
-            if (root.Name != "tileset") //Then check if it's an external tileset.
+            if (!root.Name.LocalName.Equals("tileset", StringComparison.OrdinalIgnoreCase)) //Then check if it's an external tileset.
             {
                 throw new Exception("Document is not an external tileset.");
             }
@@ -270,7 +289,7 @@ namespace SpearOfLonginus.Maps
             {
                 throw new Exception("Document is not an external tileset.");
             }
-
+            
             if (root.Element("image").Attribute("source") == null)
             {
                 throw new Exception("Document is not an external tileset.");
@@ -291,19 +310,19 @@ namespace SpearOfLonginus.Maps
 
             foreach (var attribute in imageelement.Attributes())
             {
-                if (attribute.Name == "source")
+                if (attribute.Name.LocalName.Equals("source", StringComparison.OrdinalIgnoreCase))
                 {
                     textureid = Path.GetDirectoryName(path) + "/" + attribute.Value;
                     continue;
                 }
 
-                if (attribute.Name == "width")
+                if (attribute.Name.LocalName.Equals("width", StringComparison.OrdinalIgnoreCase))
                 {
                     float.TryParse(attribute.Value, out imagesize.X);
                     continue;
                 }
 
-                if (attribute.Name == "height")
+                if (attribute.Name.LocalName.Equals("height", StringComparison.OrdinalIgnoreCase))
                 {
                     float.TryParse(attribute.Value, out imagesize.Y);
                 }
@@ -358,8 +377,7 @@ namespace SpearOfLonginus.Maps
         /// Loads the layer from XML.
         /// </summary>
         /// <param name="layer">The layer element to be loaded.</param>
-        /// <exception cref="System.Exception">
-        /// Malformed layer. Has no name.
+        /// <exception cref="System.Exception">Malformed layer. Has no name.
         /// or
         /// Improper layer. Please make sure your file is in base64 GZIP format.
         /// or
@@ -367,8 +385,7 @@ namespace SpearOfLonginus.Maps
         /// or
         /// Only 3 layers are supported, Background, Foreground, Collision. Please update your tilemap to these specifications.
         /// or
-        /// Data element is null.
-        /// </exception>
+        /// Data element is null.</exception>
         protected virtual void LoadLayer(XElement layer)
         {
             string name;
@@ -404,7 +421,7 @@ namespace SpearOfLonginus.Maps
                 throw new Exception("Improper layer. Please make sure your file is in base64 GZIP format.");
             }
 
-            if (encoding.Value != "base64" || compression.Value != "gzip")
+            if (!encoding.Value.Equals("base64", StringComparison.OrdinalIgnoreCase) || !compression.Value.Equals("gzip", StringComparison.OrdinalIgnoreCase))
             {
                 throw new Exception("Improper layer. Please make sure your file is in base64 GZIP format.");
             }

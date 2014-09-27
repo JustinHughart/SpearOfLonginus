@@ -35,7 +35,7 @@ namespace SOLXNA
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SpriteBatchData"/> class.
+        /// Initializes a new instance of the <see cref="SpriteBatchData" /> class.
         /// </summary>
         public SpriteBatchData() : this(null, null, null, null, null)
         {
@@ -43,7 +43,7 @@ namespace SOLXNA
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SpriteBatchData"/> class.
+        /// Initializes a new instance of the <see cref="SpriteBatchData" /> class.
         /// </summary>
         /// <param name="blendstate">The blend state to initialize the spritebatch with.</param>
         /// <param name="samplerstate">The sampler state to initialize the spritebatch with.</param>

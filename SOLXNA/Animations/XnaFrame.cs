@@ -1,13 +1,13 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using SpearOfLonginus;
 using SpearOfLonginus.Animations;
-using SOLRect = System.Drawing.Rectangle;
+using SOLRect = SpearOfLonginus.Rectangle;
 using XNARect = Microsoft.Xna.Framework.Rectangle;
 
 namespace SOLXNA.Animations
 {
     /// <summary>
-    /// An XNA binding for SOLFrame. 
+    /// An XNA binding for SOL's Frame.
     /// </summary>
     public class XnaFrame : Frame
     {
@@ -23,7 +23,7 @@ namespace SOLXNA.Animations
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="XnaFrame"/> class.
+        /// Initializes a new instance of the <see cref="XnaFrame" /> class.
         /// </summary>
         /// <param name="textureid">The ID used for  texture loading.</param>
         /// <param name="drawarea">The area on the texture that should be drawn.</param>

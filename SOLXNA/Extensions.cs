@@ -5,7 +5,7 @@ using SpearOfLonginus;
 using SpearOfLonginus.Animations;
 using SpearOfLonginus.Maps;
 using XnaRect = Microsoft.Xna.Framework.Rectangle;
-using SolRect = System.Drawing.Rectangle;
+using SolRect = SpearOfLonginus.Rectangle;
 
 namespace SOLXNA
 {

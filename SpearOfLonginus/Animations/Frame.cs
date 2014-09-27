@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-
-namespace SpearOfLonginus.Animations
+﻿namespace SpearOfLonginus.Animations
 {
     /// <summary>
     /// An animation frame for Spear of Longinus.
@@ -13,28 +11,28 @@ namespace SpearOfLonginus.Animations
         /// The ID used for  texture loading.
         /// </summary>
         /// <value>
-        /// The ID.
+        /// The ID used for  texture loading.
         /// </value>
         public string TextureID { get; protected set; }
         /// <summary>
         /// The area on the texture that should be drawn.
         /// </summary>
         /// <value>
-        /// The draw area.
+        /// The area on the texture that should be drawn.
         /// </value>
         public Rectangle DrawArea { get; protected set; }
         /// <summary>
         /// The origin of the frame. Used for rotation and to offset the sprite.
         /// </summary>
         /// <value>
-        /// The origin.
+        /// The origin of the frame. Used for rotation and to offset the sprite.
         /// </value>
         public Vector Origin { get; protected set; }
         /// <summary>
         /// The time until the frame changes. Is a float to support delta time.
         /// </summary>
         /// <value>
-        /// The time till change.
+        /// The time until the frame changes. Is a float to support delta time.
         /// </value>
         public float TimeTillNext { get; protected set; }
 
