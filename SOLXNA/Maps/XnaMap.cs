@@ -116,11 +116,18 @@ namespace SOLXNA.Maps
         {
             spritebatch.Begin(SpriteSortMode.Immediate, BackdropData.BlendState, BackdropData.SamplerState, BackdropData.DepthStencilState, BackdropData.RasterizerState, BackdropData.Effect);
             
+            List<XnaBackdrop> drops = new List<XnaBackdrop>(Backdrops.Count);
+
             foreach (var backdrop in Backdrops)
             {
-                var bd = (XnaBackdrop) backdrop.Value;
+                drops.Add((XnaBackdrop) backdrop.Value);
+            }
 
-                bd.Draw(spritebatch, drawarea, camerapos);
+            drops.Sort();
+
+            foreach (var drop in drops)
+            {
+                drop.Draw(spritebatch, drawarea, camerapos);
             }
 
             spritebatch.End();
@@ -142,12 +149,19 @@ namespace SOLXNA.Maps
             spritebatch.End();
 
             spritebatch.Begin(SpriteSortMode.Immediate, ForedropData.BlendState, ForedropData.SamplerState, ForedropData.DepthStencilState, ForedropData.RasterizerState, ForedropData.Effect);
-            
+
+            List<XnaBackdrop> drops = new List<XnaBackdrop>(Foredrops.Count);
+
             foreach (var foredrop in Foredrops)
             {
-                var fd = (XnaBackdrop)foredrop.Value;
+                drops.Add((XnaBackdrop)foredrop.Value);
+            }
 
-                fd.Draw(spritebatch, drawarea, camerapos);
+            drops.Sort();
+
+            foreach (var drop in drops)
+            {
+                drop.Draw(spritebatch, drawarea, camerapos);
             }
 
             spritebatch.End();

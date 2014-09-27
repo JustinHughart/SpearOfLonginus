@@ -216,7 +216,7 @@ namespace SpearOfLonginus.Maps
                         Backdrops.Add(name, new Backdrop(backdrop));
                     }
                 }
-                
+
                 if(nameattribute.Value.Equals("foredrops", StringComparison.OrdinalIgnoreCase))
                 {
                     foreach (var foredrop in objectgroup.Elements("object"))
