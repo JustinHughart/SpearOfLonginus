@@ -95,7 +95,7 @@ namespace SOLXNA
         /// <returns></returns>
         public static XnaBackdrop ToXnaBackdrop(this Backdrop backdrop)
         {
-            return new XnaBackdrop(backdrop.TextureID, backdrop.Position, backdrop.Parallax, backdrop.AutoParallax, backdrop.LoopX, backdrop.LoopY, backdrop.Layer, backdrop.WrapCoordsX, backdrop.WrapCoordsY);
+            return new XnaBackdrop(backdrop.TextureID, backdrop.Position, backdrop.Parallax, backdrop.Velocity, backdrop.LoopX, backdrop.LoopY, backdrop.Layer, backdrop.WrapCoordsX, backdrop.WrapCoordsY);
         }
 
         /// <summary>
@@ -105,7 +105,7 @@ namespace SOLXNA
         /// <returns></returns>
         public static Backdrop ToSolBackdrop(this XnaBackdrop backdrop)
         {
-            return new Backdrop(backdrop.TextureID, backdrop.Position, backdrop.Parallax, backdrop.AutoParallax, backdrop.LoopX, backdrop.LoopY, backdrop.Layer, backdrop.WrapCoordsX, backdrop.WrapCoordsY);
+            return new Backdrop(backdrop.TextureID, backdrop.Position, backdrop.Parallax, backdrop.Velocity, backdrop.LoopX, backdrop.LoopY, backdrop.Layer, backdrop.WrapCoordsX, backdrop.WrapCoordsY);
         }
 
         #endregion

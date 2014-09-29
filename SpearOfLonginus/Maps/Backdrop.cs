@@ -25,7 +25,7 @@ namespace SpearOfLonginus.Maps
         /// <summary>
         /// The rate at which a drop automatically scrolls.
         /// </summary>
-        public Vector AutoParallax;
+        public Vector Velocity;
         /// <summary>
         /// Whether or not the backdrop is looped horizontally.
         /// </summary>
@@ -57,18 +57,18 @@ namespace SpearOfLonginus.Maps
         /// <param name="textureid">The texture ID.</param>
         /// <param name="position">The initial position of the backdrop.</param>
         /// <param name="parallax">The rate at which parallax is applied to the object.</param>
-        /// <param name="autoparallax">The rate at which a drop automatically scrolls.</param>
+        /// <param name="velocity">The rate at which a drop automatically scrolls.</param>
         /// <param name="loopx">Whether or not the backdrop is looped horizontally.</param>
         /// <param name="loopy">Whether or not the backdrop is looped horizontally.</param>
         /// <param name="layer">The layer pf the backdrop, used for sorting.</param>
         /// <param name="wrapcoordsx">Whether or not the wrap the coordinates of the backdrop on the X axis.</param>
         /// <param name="wrapcoordsy">Whether or not the wrap the coordinates of the backdrop on the Y axis.</param>
-        public Backdrop(string textureid, Vector position, Vector parallax, Vector autoparallax, bool loopx, bool loopy, int layer, bool wrapcoordsx, bool wrapcoordsy)
+        public Backdrop(string textureid, Vector position, Vector parallax, Vector velocity, bool loopx, bool loopy, int layer, bool wrapcoordsx, bool wrapcoordsy)
         {
             TextureID = textureid;
             Position = position;
             Parallax = parallax;
-            AutoParallax = autoparallax;
+            Velocity = velocity;
             LoopX = loopx;
             LoopY = loopy;
             Layer = layer;
@@ -95,7 +95,7 @@ namespace SpearOfLonginus.Maps
         /// <param name="deltatime">The speed to update the backdrop at.</param>
         public virtual void Update(float deltatime)
         {
-            Position += AutoParallax * deltatime;
+            Position += Velocity * deltatime;
         }
 
         /// <summary>
@@ -132,7 +132,7 @@ namespace SpearOfLonginus.Maps
             TextureID = "";
             Position = new Vector(0);
             Parallax = new Vector(0);
-            AutoParallax = new Vector(0);
+            Velocity = new Vector(0);
             LoopX = false;
             LoopY = false;
             Layer = 0;
@@ -194,15 +194,15 @@ namespace SpearOfLonginus.Maps
                     continue;
                 }
 
-                if (name.Equals("autoparallaxx", StringComparison.OrdinalIgnoreCase))
+                if (name.Equals("velocityx", StringComparison.OrdinalIgnoreCase))
                 {
-                    float.TryParse(value, out AutoParallax.X);
+                    float.TryParse(value, out Velocity.X);
                     continue;
                 }
 
-                if (name.Equals("autoparallaxy", StringComparison.OrdinalIgnoreCase))
+                if (name.Equals("velocityy", StringComparison.OrdinalIgnoreCase))
                 {
-                    float.TryParse(value, out AutoParallax.Y);
+                    float.TryParse(value, out Velocity.Y);
                     continue;
                 }
 

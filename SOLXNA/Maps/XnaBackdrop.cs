@@ -33,14 +33,14 @@ namespace SOLXNA.Maps
         /// <param name="textureid">The texture ID.</param>
         /// <param name="position">The initial position of the backdrop.</param>
         /// <param name="parallax">The rate at which parallax is applied to the object.</param>
-        /// <param name="autoparallax">The rate at which a backdrop automatically scrolls.</param>
+        /// <param name="velocity">The rate at which a backdrop automatically scrolls.</param>
         /// <param name="loopx">Whether or not the backdrop is looped horizontally.</param>
         /// <param name="loopy">Whether or not the backdrop is looped horizontally.</param>
         /// <param name="layer">The layer of the backdrop, used for sorting.</param>
         /// <param name="wrapcoordsx">Whether or not the wrap the coordinates of the backdrop on the X axis.</param>
         /// <param name="wrapcoordsy">Whether or not the wrap the coordinates of the backdrop on the Y axis.</param>
-        public XnaBackdrop(string textureid, Vector position, Vector parallax, Vector autoparallax, bool loopx, bool loopy, int layer, bool wrapcoordsx, bool wrapcoordsy)
-            : base(textureid, position, parallax, autoparallax, loopx, loopy, layer, wrapcoordsx, wrapcoordsy)
+        public XnaBackdrop(string textureid, Vector position, Vector parallax, Vector velocity, bool loopx, bool loopy, int layer, bool wrapcoordsx, bool wrapcoordsy)
+            : base(textureid, position, parallax, velocity, loopx, loopy, layer, wrapcoordsx, wrapcoordsy)
         {
 
         }
@@ -61,7 +61,7 @@ namespace SOLXNA.Maps
         /// </summary>
         /// <param name="backdrop">The backdrop.</param>
         /// <param name="texturecache">The texturecache.</param>
-        public XnaBackdrop(Backdrop backdrop, TextureCache texturecache) : base(backdrop.TextureID, backdrop.Position, backdrop.Parallax, backdrop.AutoParallax, backdrop.LoopX, backdrop.LoopY, backdrop.Layer, backdrop.WrapCoordsX, backdrop.WrapCoordsY)
+        public XnaBackdrop(Backdrop backdrop, TextureCache texturecache) : base(backdrop.TextureID, backdrop.Position, backdrop.Parallax, backdrop.Velocity, backdrop.LoopX, backdrop.LoopY, backdrop.Layer, backdrop.WrapCoordsX, backdrop.WrapCoordsY)
         {
             if (texturecache != null)
             {
