@@ -43,6 +43,9 @@
     <Compile Include="Animations\Animation.cs" />
     <Compile Include="Animations\AnimationCache.cs" />
     <Compile Include="Animations\Frame.cs" />
+    <Compile Include="Entities\Entity.cs" />
+    <Compile Include="Entities\EntityManager.cs" />
+    <Compile Include="Input\InputPacket.cs" />
     <Compile Include="Maps\Backdrop.cs" />
     <Compile Include="Maps\MapLogic.cs" />
     <Compile Include="Maps\Map.cs" />
