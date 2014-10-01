@@ -11,14 +11,17 @@
         /// The X coordinate of the rectangle.
         /// </summary>
         public int X;
+
         /// <summary>
         /// The Y coordinate of the rectangle.
         /// </summary>
         public int Y;
+
         /// <summary>
         /// The width of the rectangle.
         /// </summary>
         public int Width;
+
         /// <summary>
         /// The height of the rectangle.
         /// </summary>
@@ -27,6 +30,28 @@
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets half of the rectangle's width.
+        /// </summary>
+        /// <value>
+        /// The value representing half of the rectangle's width.
+        /// </value>
+        public int HalfWidth
+        {
+            get { return Width/2; }
+        }
+
+        /// <summary>
+        /// Gets half of the rectangle's width
+        /// </summary>
+        /// <value>
+        /// The value representing half of the rectangle's height.
+        /// </value>
+        public int HalfHeight
+        {
+            get { return Height/2; }
+        }
 
         /// <summary>
         /// Gets the Y value of the top of the rectangle.
@@ -72,10 +97,61 @@
             get { return X + Width; }
         }
 
+        /// <summary>
+        /// Gets the upper left coordinate of the rectangle.
+        /// </summary>
+        /// <value>
+        /// The upperleft corner of the rectangle.
+        /// </value>
+        public Vector Upperleft
+        {
+            get { return new Vector(X, Y); }
+        }
+
+        /// <summary>
+        /// Gets the upper right coordinate of the rectangle.
+        /// </summary>
+        /// <value>
+        /// The upper right corner of the rectangle.
+        /// </value>
+        public Vector Upperright
+        {
+            get { return new Vector(X + Width, Y); }
+        }
+
+        /// <summary>
+        /// Gets the lower left coordinate of the rectangle.
+        /// </summary>
+        /// <value>
+        /// The lower left corner of the rectangle.
+        /// </value>
+        public Vector LowerLeft
+        {
+            get { return new Vector(X, Y + Height); }
+        }
+
+        /// <summary>
+        /// Gets the lower right coordinate of the rectangle.
+        /// </summary>
+        /// <value>
+        /// The lower right corner of the rectangle.
+        /// </value>
+        public Vector LowerRight
+        {
+            get { return new Vector(X + Width, Y + Height); }
+        }
+
+        /// <summary>
+        /// Gets the coordinate of the center of the rectangle.
+        /// </summary>
+        /// <value>
+        /// The center. of the rectangle.
+        /// </value>
         public Vector Center
         {
-            get { return new Vector(X + (Width/2), Y + (Height/2); }
+            get { return new Vector(X + (Width/2), Y + (Height/2)); }
         }
+
 
         #endregion
 
