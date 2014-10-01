@@ -80,7 +80,7 @@ namespace SpearOfLonginus
         /// <returns></returns>
         public float Length()
         {
-            return (float) Math.Sqrt((X*X) + (Y*Y));
+            return (float) Math.Sqrt(LengthSquared());
         }
 
         /// <summary>
@@ -89,9 +89,7 @@ namespace SpearOfLonginus
         /// <returns></returns>
         public float LengthSquared()
         {
-            float length = Length();
-
-            return length*length;
+            return (X * X) + (Y * Y);
         }
 
         /// <summary>
