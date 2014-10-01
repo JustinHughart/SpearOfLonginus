@@ -53,10 +53,9 @@ namespace SpearOfLonginus
         /// Initializes a new instance of the <see cref="Vector" /> struct.
         /// </summary>
         /// <param name="value">The value to use for both X and Y.</param>
-        public Vector(float value)
+        public Vector(float value) : this(value, value)
         {
-            X = value;
-            Y = value;
+            
         }
 
         /// <summary>
