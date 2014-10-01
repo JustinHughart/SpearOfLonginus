@@ -29,10 +29,10 @@
         #region Properties
 
         /// <summary>
-        /// Returns the Y value of the top of the rectangle.
+        /// Gets the Y value of the top of the rectangle.
         /// </summary>
         /// <value>
-        /// The top.
+        /// The top of the rectangle.
         /// </value>
         public int Top
         {
@@ -40,10 +40,10 @@
         }
 
         /// <summary>
-        /// Returns the Y value of the bottom of the rectangle.
+        /// Gets the Y value of the bottom of the rectangle.
         /// </summary>
         /// <value>
-        /// The bottom.
+        /// The bottom of the rectangle.
         /// </value>
         public int Bottom
         {
@@ -51,10 +51,10 @@
         }
 
         /// <summary>
-        /// Returns the X value of the left side of the rectangle.
+        /// Gets the X value of the left side of the rectangle.
         /// </summary>
         /// <value>
-        /// The left.
+        /// The left side of the rectangle.
         /// </value>
         public int Left
         {
@@ -65,11 +65,16 @@
         /// Gets the X value of the right side of the rectangle.
         /// </summary>
         /// <value>
-        /// The right.
+        /// The right side of the rectangle.
         /// </value>
         public int Right
         {
             get { return X + Width; }
+        }
+
+        public Vector Center
+        {
+            get { return new Vector(X + (Width/2), Y + (Height/2); }
         }
 
         #endregion
