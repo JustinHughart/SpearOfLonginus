@@ -125,7 +125,7 @@ namespace SpearOfLonginus.Animations
         /// <returns></returns>
         public virtual Animation Clone()
         {
-            return new Animation(IsLooping, ResetIndex, Frames);
+            return new Animation(IsLooping, ResetIndex, GetFramesList());
         }
 
         /// <summary>

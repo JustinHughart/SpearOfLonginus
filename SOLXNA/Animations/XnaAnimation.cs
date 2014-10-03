@@ -134,7 +134,7 @@ namespace SOLXNA.Animations
         /// <returns></returns>
         public override Animation Clone()
         {
-            return new XnaAnimation(IsLooping, ResetIndex, Frames, TextureCache);
+            return new XnaAnimation(IsLooping, ResetIndex, GetFramesList(), TextureCache);
         }
 
         #endregion
