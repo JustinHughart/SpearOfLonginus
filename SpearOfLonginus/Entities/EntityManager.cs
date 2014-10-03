@@ -68,34 +68,36 @@ namespace SpearOfLonginus.Entities
             Entities.Remove(entity);
         }
 
-        public virtual void Update(InputManager inputmanager)
+        public virtual void Update(InputManager inputmanager, float deltatime)
         {
             foreach (var entity in Entities)
             {
                 switch (entity.PlayerType)
                 {
                     case PlayerType.NPC:
-                        entity.Update(entity.GetAIPacket());
+                        entity.Update(entity.GetAIPacket(), deltatime);
                         break;
                     case PlayerType.Player1:
-                        entity.Update(inputmanager.GetPlayer1Packet());
+                        entity.Update(inputmanager.GetPlayer1Packet(), deltatime);
                         break;
                     case PlayerType.Player2:
-                        entity.Update(inputmanager.GetPlayer2Packet());
+                        entity.Update(inputmanager.GetPlayer2Packet(), deltatime);
                         break;
                     case PlayerType.Player3:
-                        entity.Update(inputmanager.GetPlayer3Packet());
+                        entity.Update(inputmanager.GetPlayer3Packet(), deltatime);
                         break;
                     case PlayerType.Player4:
-                        entity.Update(inputmanager.GetPlayer4Packet());
+                        entity.Update(inputmanager.GetPlayer4Packet(), deltatime);
                         break;
                         case PlayerType.World:
-                        //We will do nothing here, since world entities do not update with AI.
+                        entity.Update(null, deltatime); //We will send a lack of a packet, so we can update animation, but not handle any logic.
                         break;
                     default:
                         throw new InvalidEnumArgumentException("Unsupported player type in Entity.");
                 }
             }
+
+            Entities.Sort(); //Sort the entities by Y value.
         }
 
         #endregion
