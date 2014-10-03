@@ -10,6 +10,14 @@ namespace SpearOfLonginus.Animations
         #region Variables
 
         /// <summary>
+        /// Gets or sets the identifier of the animation..
+        /// </summary>
+        /// <value>
+        /// The identifier.
+        /// </value>
+        public string ID { get; protected set; }
+
+        /// <summary>
         /// The list of frames the animation has.
         /// </summary>
         protected List<Frame> Frames;
@@ -47,30 +55,37 @@ namespace SpearOfLonginus.Animations
         /// <summary>
         /// Initializes a new instance of the <see cref="Animation" /> class.
         /// </summary>
+        /// <param name="id">The identifier.</param>
         /// <param name="loop">Whether or not the animation is looping.</param>
         /// <param name="resetindex">Whether or not to reset the timing index when the frame changes. Turn this on to ensure that each frame gets viewed at least once.</param>
-        public Animation(bool loop, bool resetindex)
+        public Animation(string id, bool loop, bool resetindex) : this (id, loop, resetindex, null)
         {
-            Frames = new List<Frame>();
-            IsLooping = loop;
-            ResetIndex = resetindex; 
-            CurrentFrame = 0;
-            TimingIndex = 0;
+            
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Animation" /> class.
         /// </summary>
+        /// <param name="id">The identifier.</param>
         /// <param name="loop">Whether or not the animation is looping.</param>
         /// <param name="resetindex">Whether or not to reset the timing index when the frame changes. Turn this on to ensure that each frame gets viewed at least once.</param>
         /// <param name="frames">The list of the animation's frames.</param>
-        public Animation(bool loop, bool resetindex, List<Frame> frames)
+        public Animation(string id, bool loop, bool resetindex, List<Frame> frames)
         {
-            Frames = frames;
+            ID = id;
             IsLooping = loop;
             ResetIndex = resetindex;
             CurrentFrame = 0;
             TimingIndex = 0;
+
+            if (frames == null)
+            {
+                Frames = new List<Frame>();
+            }
+            else
+            {
+                Frames = frames;
+            }
         }
 
         #endregion
@@ -125,7 +140,7 @@ namespace SpearOfLonginus.Animations
         /// <returns></returns>
         public virtual Animation Clone()
         {
-            return new Animation(IsLooping, ResetIndex, GetFramesList());
+            return new Animation(ID, IsLooping, ResetIndex, GetFramesList());
         }
 
         /// <summary>

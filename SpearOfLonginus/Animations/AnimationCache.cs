@@ -34,11 +34,10 @@ namespace SpearOfLonginus.Animations
         /// <summary>
         /// Adds the animation to the list of animations.
         /// </summary>
-        /// <param name="key">The animation's key.</param>
         /// <param name="animation">The animation to add.</param>
-        public virtual void AddAnimation(string key, Animation animation)
+        public virtual void AddAnimation(Animation animation)
         {
-            Animations.Add(key, animation);
+            Animations.Add(animation.ID, animation);
         }
 
         /// <summary>

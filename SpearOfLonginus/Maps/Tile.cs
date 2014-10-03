@@ -135,7 +135,7 @@ namespace SpearOfLonginus.Maps
                 y++;
             }
 
-            Animation = new Animation(true, false, frames);
+            Animation = new Animation("tile_" +  textureid + "_" + x + "," + y, true, false, frames);
         }
 
         /// <summary>
