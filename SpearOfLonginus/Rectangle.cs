@@ -152,6 +152,21 @@
             get { return new Vector(X + (Width/2), Y + (Height/2)); }
         }
 
+        /// <summary>
+        /// Gets or sets the location of the rectangle.
+        /// </summary>
+        /// <value>
+        /// The location of the rectangle.
+        /// </value>
+        public Vector Location
+        {
+            get { return new Vector(X, Y); }
+            set
+            {
+                X = (int) value.X;
+                Y = (int) value.Y;
+            }
+        }
 
         #endregion
 
