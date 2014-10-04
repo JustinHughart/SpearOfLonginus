@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Xml.Linq;
+using SpearOfLonginus.Entities;
+using SpearOfLonginus.Input;
 
 namespace SpearOfLonginus.Maps
 {
@@ -54,6 +56,11 @@ namespace SpearOfLonginus.Maps
         /// </summary>
         protected Dictionary<string, Backdrop> Foredrops;
 
+        /// <summary>
+        /// The entities contained inside the map.
+        /// </summary>
+        public EntityManager Entities { get; protected set; }
+
         #endregion 
 
         #region Constructors
@@ -67,6 +74,7 @@ namespace SpearOfLonginus.Maps
             Logics = new List<MapLogic>();
             Backdrops = new Dictionary<string, Backdrop>();
             Foredrops = new Dictionary<string, Backdrop>();
+            Entities = new EntityManager(this);
 
             LoadMap(path);
         }
@@ -78,8 +86,9 @@ namespace SpearOfLonginus.Maps
         /// <summary>
         /// Updates the map.
         /// </summary>
+        /// <param name="inputmanager">The input manager from which to receive player packets. </param>
         /// <param name="deltatime">The speed at which the map should change.</param>
-        public virtual void Update(float deltatime)
+        public virtual void Update(InputManager inputmanager, float deltatime)
         {
             foreach (var tile in TileSet)
             {
@@ -100,6 +109,8 @@ namespace SpearOfLonginus.Maps
             {
                 foredrop.Value.Update(deltatime);
             }
+
+            Entities.Update(inputmanager, deltatime);
         }
 
         /// <summary>
