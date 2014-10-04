@@ -46,6 +46,8 @@
     <Compile Include="Animations\XnaAnimationCache.cs" />
     <Compile Include="Animations\XnaFrame.cs" />
     <Compile Include="Animations\TextureCache.cs" />
+    <Compile Include="Entities\XnaEntity.cs" />
+    <Compile Include="Entities\XnaEntityManager.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="SpriteBatchData.cs" />
     <Compile Include="Maps\XnaBackdrop.cs" />
