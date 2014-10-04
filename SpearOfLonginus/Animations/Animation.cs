@@ -101,6 +101,11 @@ namespace SpearOfLonginus.Animations
         {
             CurrentFrame = currentframe;
             TimingIndex = timingindex;
+
+            if (CurrentFrame >= Frames.Count)
+            {
+                CurrentFrame = 0;
+            }
         }
 
         #endregion
