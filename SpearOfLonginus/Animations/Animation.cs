@@ -41,12 +41,12 @@ namespace SpearOfLonginus.Animations
         /// <summary>
         /// The current frame index of the animation.
         /// </summary>
-        protected int CurrentFrame;
+        public int CurrentFrame { get; protected set; }
 
         /// <summary>
         /// The animation's timing index.
         /// </summary>
-        protected float TimingIndex;
+        public float TimingIndex { get; protected set; }
 
         #endregion
 
@@ -86,6 +86,21 @@ namespace SpearOfLonginus.Animations
             {
                 Frames = frames;
             }
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Animation"/> class.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <param name="loop">Whether or not the animation is looping.</param>
+        /// <param name="resetindex">Whether or not to reset the timing index when the frame changes. Turn this on to ensure that each frame gets viewed at least once.</param>
+        /// <param name="frames">The list of the animation's frames.</param>
+        /// <param name="currentframe">The frame the animation is currently on.</param>
+        /// <param name="timingindex">The timing index of the animation.</param>
+        public Animation(string id, bool loop, bool resetindex, List<Frame> frames, int currentframe, float timingindex) : this(id, loop, resetindex, frames)
+        {
+            CurrentFrame = currentframe;
+            TimingIndex = timingindex;
         }
 
         #endregion
@@ -140,7 +155,18 @@ namespace SpearOfLonginus.Animations
         /// <returns></returns>
         public virtual Animation Clone()
         {
-            return new Animation(ID, IsLooping, ResetIndex, GetFramesList());
+            return Clone(CurrentFrame, TimingIndex);
+        }
+
+        /// <summary>
+        /// Clones the specified frame.
+        /// </summary>
+        /// <param name="frame">The frame the animation should start on.</param>
+        /// <param name="timingindex">The timing index the animation should start on.</param>
+        /// <returns></returns>
+        public virtual Animation Clone(int frame, float timingindex)
+        {
+            return new Animation(ID, IsLooping, ResetIndex, GetFramesList(), frame, timingindex);
         }
 
         /// <summary>

@@ -289,7 +289,7 @@ namespace SpearOfLonginus.Entities
             if (CurrentAnimation.ID != expectedid)
             {
                 //We need to change it!
-                CurrentAnimation = AnimationCache.GetAnimation(expectedid);
+                CurrentAnimation = AnimationCache.GetAnimation(expectedid).Clone();
             }
         }
 

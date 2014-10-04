@@ -90,10 +90,52 @@ namespace SOLXNA.Animations
         /// <summary>
         /// Initializes a new instance of the <see cref="XnaAnimation" /> class.
         /// </summary>
+        /// <param name="id">The identifier of the animation.</param>
+        /// <param name="loop">Whether or not the animation is looping.</param>
+        /// <param name="resetindex">Whether or not to reset the timing index when the frame changes. Turn this on to ensure that each frame gets viewed at least once.</param>
+        /// <param name="frames">The list of the animation's frames.</param>
+        /// <param name="currentframe">The frame the animation is currently on.</param>
+        /// <param name="timingindex">The timing index of the animation.</param>
+        public XnaAnimation(string id, bool loop, bool resetindex, List<Frame> frames, int currentframe, float timingindex)
+            : base(id, loop, resetindex, null)
+        {
+            foreach (var frame in frames) //Convert SOL Frame to XNA Frame.
+            {
+                AddFrame(frame.ToXnaFrame());
+            }
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="XnaAnimation" /> class.
+        /// </summary>
+        /// <param name="id">The identifier of the animation.</param>
+        /// <param name="loop">Whether or not the animation is looping.</param>
+        /// <param name="resetindex">Whether or not to reset the timing index when the frame changes. Turn this on to ensure that each frame gets viewed at least once.</param>
+        /// <param name="frames">The list of the animation's frames.</param>
+        /// <param name="texturecache">The texture cache used for loading textures.</param>
+        /// <param name="currentframe">The frame the animation is currently on.</param>
+        /// <param name="timingindex">The timing index of the animation.</param>
+        public XnaAnimation(string id, bool loop, bool resetindex, List<Frame> frames, int currentframe, float timingindex, TextureCache texturecache)
+            : base(id, loop, resetindex, null)
+        {
+            foreach (var frame in frames) //Convert SOL Frame to XNA Frame.
+            {
+                AddFrame(frame.ToXnaFrame());
+            }
+
+            if (texturecache != null)
+            {
+                LoadContent(texturecache);
+            }
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="XnaAnimation" /> class.
+        /// </summary>
         /// <param name="anim">The animation to use the data to load.</param>
         /// <param name="texturecache">The texture cache used to load the textures..</param>
         public XnaAnimation(Animation anim, TextureCache texturecache)
-            : base(anim.ID, anim.IsLooping, anim.ResetIndex, new List<Frame>())
+            : base(anim.ID, anim.IsLooping, anim.ResetIndex, new List<Frame>(), anim.CurrentFrame, anim.TimingIndex)
         {
             foreach (var frame in anim.GetFramesList()) //Convert SOL Frame to XNA Frame.
             {
@@ -138,9 +180,20 @@ namespace SOLXNA.Animations
         /// <returns></returns>
         public override Animation Clone()
         {
-            return new XnaAnimation(ID, IsLooping, ResetIndex, GetFramesList(), TextureCache);
+            return Clone(CurrentFrame, TimingIndex);
         }
 
+        /// <summary>
+        /// Clones the specified frame.
+        /// </summary>
+        /// <param name="frame">The frame the animation should start on.</param>
+        /// <param name="timingindex">The timing index the animation should start on.</param>
+        /// <returns></returns>
+        public override Animation Clone(int frame, float timingindex)
+        {
+            return new XnaAnimation(ID, IsLooping, ResetIndex, GetFramesList(), frame, timingindex, TextureCache);
+        }
+        
         #endregion
 
         #region Functions
