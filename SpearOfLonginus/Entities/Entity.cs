@@ -46,7 +46,7 @@ namespace SpearOfLonginus.Entities
     {
         #region Variables
 
-        public PlayerType PlayerType { get; protected set; }
+        public PlayerType PlayerType;
         public Map Map;
 
         protected Animation CurrentAnimation;
@@ -60,15 +60,23 @@ namespace SpearOfLonginus.Entities
         public FacingState Facing;
         public MovingState MovingState;
 
-        public Rectangle WorldHitbox { get; protected set; }
+        public Rectangle WorldHitbox;
 
         #endregion
 
         #region Constructors
 
-        public Entity()
+        public Entity(AnimationCache animationcache) : this(animationcache, new Rectangle(0,0,1,1))
         {
 
+        }
+
+        public Entity(AnimationCache animationcache, Rectangle worldhitbox)
+        {
+            AnimationCache = animationcache;
+            WorldHitbox = worldhitbox;
+
+            CheckAnimation();
         }
 
         #endregion
@@ -84,6 +92,8 @@ namespace SpearOfLonginus.Entities
                 Move(packet, deltatime);
                 CheckAnimation();
             }
+
+            WorldHitbox.Location = Position;
         }
 
         public virtual InputPacket GetAIPacket()
@@ -216,9 +226,6 @@ namespace SpearOfLonginus.Entities
                         break;
                 }
 
-
-
-
                 //Normalize it so that diagonals aren't faster.
                 direction.Normalize();
                 
@@ -284,6 +291,13 @@ namespace SpearOfLonginus.Entities
 
             //Now we get the string...
             string expectedid = idbuilder.ToString();
+
+            //If the current animation doesn't exist...
+            if (CurrentAnimation == null)
+            {
+                //We need to change it!
+                CurrentAnimation = AnimationCache.GetAnimation(expectedid).Clone();
+            }
 
             //If the expected ID doesn't match the current animation's ID...
             if (CurrentAnimation.ID != expectedid)

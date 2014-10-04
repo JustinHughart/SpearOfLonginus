@@ -2,7 +2,9 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SOLXNA.Animations;
+using SOLXNA.Entities;
 using SpearOfLonginus;
+using SpearOfLonginus.Entities;
 using SpearOfLonginus.Maps;
 using Rectangle = SpearOfLonginus.Rectangle;
 
@@ -102,6 +104,9 @@ namespace SOLXNA.Maps
             {
                 ForedropData = foredropdata;
             }
+
+            //WILL CHANGE LATER
+            Entities = new XnaEntityManager(this);
         }
 
         #endregion
@@ -138,6 +143,13 @@ namespace SOLXNA.Maps
             }
 
             Foredrops = newdrops;
+
+            var entities = Entities as XnaEntityManager;
+
+            if (entities != null)
+            {
+                entities.LoadContent(texturecache);
+            }
         }
 
         /// <summary>
@@ -171,14 +183,36 @@ namespace SOLXNA.Maps
         }
 
         /// <summary>
+        /// Runs the general draw cycle for a map.
+        /// </summary>
+        /// <param name="spritebatch">The spritebatch to use for drawing.</param>
+        /// <param name="drawarea">The area of the screen.</param>
+        /// <param name="cameraposition">The camera's position.</param>
+        /// <param name="cameramatrix">The camera's transformation matrix. </param>
+        public virtual void DrawCycle(SpriteBatch spritebatch, Rectangle drawarea, Vector2 cameraposition, Matrix cameramatrix)
+        {
+            DrawBackground(spritebatch, drawarea, cameraposition, cameramatrix);
+
+            var entities = Entities as XnaEntityManager;
+
+            if (entities != null)
+            {
+                entities.Draw(spritebatch, drawarea, cameramatrix);
+            }
+
+            DrawForeground(spritebatch, drawarea, cameraposition, cameramatrix);
+        }
+
+        /// <summary>
         /// Draws the background.
         /// </summary>
         /// <param name="spritebatch">The spritebatch to use for drawing.</param>
         /// <param name="drawarea">The area of the screen.</param>
         /// <param name="cameraposition">The camera's position.</param>
-        public virtual void DrawBackground(SpriteBatch spritebatch, Rectangle drawarea, Vector2 cameraposition)
+        /// <param name="cameramatrix">The camera's transformation matrix. </param>
+        public virtual void DrawBackground(SpriteBatch spritebatch, Rectangle drawarea, Vector2 cameraposition, Matrix cameramatrix)
         {
-            spritebatch.Begin(SpriteSortMode.Immediate, BackdropData.BlendState, BackdropData.SamplerState, BackdropData.DepthStencilState, BackdropData.RasterizerState, BackdropData.Effect);
+            spritebatch.Begin(SpriteSortMode.Immediate, BackdropData.BlendState, BackdropData.SamplerState, BackdropData.DepthStencilState, BackdropData.RasterizerState, BackdropData.Effect, cameramatrix);
             
             var drops = new List<XnaBackdrop>(Backdrops.Count);
 
@@ -196,7 +230,7 @@ namespace SOLXNA.Maps
 
             spritebatch.End();
 
-            spritebatch.Begin(SpriteSortMode.Immediate, BackgroundData.BlendState, BackgroundData.SamplerState, BackgroundData.DepthStencilState, BackgroundData.RasterizerState, BackgroundData.Effect);
+            spritebatch.Begin(SpriteSortMode.Immediate, BackgroundData.BlendState, BackgroundData.SamplerState, BackgroundData.DepthStencilState, BackgroundData.RasterizerState, BackgroundData.Effect, cameramatrix);
             
             DrawTileLayer(spritebatch, drawarea, BackgroundLayer);
             DrawTileLayer(spritebatch, drawarea, CollisionLayer);
@@ -210,15 +244,16 @@ namespace SOLXNA.Maps
         /// <param name="spritebatch">The spritebatch to use for drawing.</param>
         /// <param name="drawarea">The area of the screen.</param>
         /// <param name="cameraposition">The camera's position.</param>
-        public virtual void DrawForeground(SpriteBatch spritebatch, Rectangle drawarea, Vector2 cameraposition)
+        /// <param name="cameramatrix">The camera's transformation matrix. </param>
+        public virtual void DrawForeground(SpriteBatch spritebatch, Rectangle drawarea, Vector2 cameraposition, Matrix cameramatrix)
         {
-            spritebatch.Begin(SpriteSortMode.Immediate, ForegroundData.BlendState, ForegroundData.SamplerState, ForegroundData.DepthStencilState, ForegroundData.RasterizerState, ForegroundData.Effect);
+            spritebatch.Begin(SpriteSortMode.Immediate, ForegroundData.BlendState, ForegroundData.SamplerState, ForegroundData.DepthStencilState, ForegroundData.RasterizerState, ForegroundData.Effect, cameramatrix);
             
             DrawTileLayer(spritebatch, drawarea, ForegroundLayer);
 
             spritebatch.End();
 
-            spritebatch.Begin(SpriteSortMode.Immediate, ForedropData.BlendState, ForedropData.SamplerState, ForedropData.DepthStencilState, ForedropData.RasterizerState, ForedropData.Effect);
+            spritebatch.Begin(SpriteSortMode.Immediate, ForedropData.BlendState, ForedropData.SamplerState, ForedropData.DepthStencilState, ForedropData.RasterizerState, ForedropData.Effect, cameramatrix);
 
             var drops = new List<XnaBackdrop>(Foredrops.Count);
 

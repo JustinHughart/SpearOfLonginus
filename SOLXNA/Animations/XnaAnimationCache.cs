@@ -15,7 +15,7 @@ namespace SOLXNA.Animations
         /// <param name="texturecache">The texture cache used for loading textures.</param>
         public virtual void LoadContent(TextureCache texturecache)
         {
-            foreach (var animation  in Animations)
+            foreach (var animation in Animations)
             {
                 var anim = (XnaAnimation)animation.Value;
 

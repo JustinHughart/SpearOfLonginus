@@ -48,7 +48,7 @@ namespace SpearOfLonginus.Animations
         /// <exception cref="System.Exception">Animation "key" does not exist.</exception>
         public virtual Animation GetAnimation(string key)
         {
-            if (!Animations.ContainsKey(key))
+            if (Animations.ContainsKey(key))
             {
                 return Animations[key].Clone();
             }

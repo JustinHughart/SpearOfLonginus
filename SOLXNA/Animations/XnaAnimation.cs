@@ -169,11 +169,7 @@ namespace SOLXNA.Animations
 
             xnaframe.LoadContent(TextureCache);
         }
-
-        #endregion
-
-        #region
-
+        
         /// <summary>
         /// Clones this instance.
         /// </summary>
