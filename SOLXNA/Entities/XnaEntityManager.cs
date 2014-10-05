@@ -43,5 +43,21 @@ namespace SOLXNA.Entities
                 }
             }
         }
+
+        public void DrawHitboxes(SpriteBatch spritebatch, Rectangle drawarea, Matrix cameramatrix, Texture2D texture)
+        {
+            foreach (var entity in Entities)
+            {
+                if (drawarea.Intersects(entity.WorldHitbox))
+                {
+                    var xnaentity = entity as XnaEntity;
+
+                    if (xnaentity != null)
+                    {
+                        xnaentity.DrawHitbox(spritebatch, cameramatrix, texture);
+                    }
+                }
+            }
+        }
     }
 }

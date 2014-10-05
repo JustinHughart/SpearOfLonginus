@@ -50,5 +50,19 @@ namespace SOLXNA.Entities
                 spritebatch.End();
             }
         }
+
+        public virtual void DrawHitbox(SpriteBatch spritebatch, Matrix cameramatrix, Texture2D texture)
+        {
+            Color color = Color.Aqua * .7f;
+
+            spritebatch.Begin(SpriteSortMode.Immediate, SpriteBatchData.BlendState, SpriteBatchData.SamplerState, SpriteBatchData.DepthStencilState, SpriteBatchData.RasterizerState, SpriteBatchData.Effect, cameramatrix);
+
+            spritebatch.Draw(texture, WorldHitbox.Location.ToXnaVector(), texture.Bounds, color, 0f, Vector2.Zero, WorldHitbox.Size.ToXnaVector(), SpriteEffects.None, 0f);
+
+            spritebatch.End();
+
+
+
+        }
     }
 }

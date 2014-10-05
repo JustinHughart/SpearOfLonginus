@@ -203,6 +203,16 @@ namespace SOLXNA.Maps
             DrawForeground(spritebatch, drawarea, cameraposition, cameramatrix);
         }
 
+        public virtual void DrawDebugInfo(SpriteBatch spritebatch, Rectangle drawarea, Vector2 cameraposition, Matrix cameramatrix, Texture2D texture)
+        {
+            var entities = Entities as XnaEntityManager;
+
+            if (entities != null)
+            {
+                entities.DrawHitboxes(spritebatch, drawarea, cameramatrix, texture);
+            }
+        }
+
         /// <summary>
         /// Draws the background.
         /// </summary>
