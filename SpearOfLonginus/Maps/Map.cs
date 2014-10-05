@@ -122,6 +122,12 @@ namespace SpearOfLonginus.Maps
         public virtual Tile GetTile(Vector position, int[] layer)
         {
             int index = (int)position.X + (int)(position.Y * Size.X);
+
+            if (index < 0 || index >= layer.Length)
+            {
+                return null;
+            }
+
             int gid = layer[index];
 
             if (gid == -1)
