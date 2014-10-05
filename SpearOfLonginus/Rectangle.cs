@@ -163,8 +163,24 @@
             get { return new Vector(X, Y); }
             set
             {
-                X = (int) value.X;
-                Y = (int) value.Y;
+                X = (int)value.X;
+                Y = (int)value.Y;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the size of the rectangle.
+        /// </summary>
+        /// <value>
+        /// The size of the rectangle.
+        /// </value>
+        public Vector Size
+        {
+            get { return new Vector(Width, Height); }
+            set
+            {
+                Width = (int)value.X;
+                Height = (int)value.Y;
             }
         }
 
