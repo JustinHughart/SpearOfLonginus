@@ -46,11 +46,10 @@ namespace SOLXNA.Cameras
         /// <returns></returns>
         public virtual Matrix GetCameraMatrix()
         {
-            return Matrix.CreateTranslation(-Position.X, -Position.Y, 0)* //Move to position.
-                   Matrix.CreateTranslation(ScreenResolution.X/2, ScreenResolution.Y/2, 0)* //Move to center of screen.
-                   Matrix.CreateRotationZ(Rotation)* //Rotate it.
-                   Matrix.CreateScale(Zoom)* //Then zoom it.
-                   Matrix.CreateTranslation(-ScreenResolution.X/2, -ScreenResolution.Y/2, 0); //Then move back.
+            return Matrix.CreateTranslation(-Position.X, -Position.Y, 0) * //Move to position in center of screen.
+                   Matrix.CreateRotationZ(Rotation) * //Rotate it.
+                   Matrix.CreateScale(Zoom) * //Then zoom it.
+                   Matrix.CreateTranslation(ScreenResolution.X / 2, ScreenResolution.Y / 2, 0); //Then move back.
         }
 
         #endregion
