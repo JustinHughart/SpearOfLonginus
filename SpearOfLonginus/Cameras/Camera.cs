@@ -8,7 +8,7 @@
         #region Variables
 
         /// <summary>
-        /// The position of the camera.
+        /// The position of the center point of the camera.
         /// </summary>
         public Vector Position;
         /// <summary>
@@ -31,6 +31,54 @@
         /// The size of the border around the screen which you still want to draw. Useful for large entities and rotating maps.
         /// </summary>
         public Vector DrawBorder;
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the upper left coordinate of the camera..
+        /// </summary>
+        /// <value>
+        /// The upper left .
+        /// </value>
+        public Vector Upperleft
+        {
+            get { return Position - (ScreenResolution / 2); }
+        }
+
+        /// <summary>
+        /// Gets the upper right coordinate of the camera.
+        /// </summary>
+        /// <value>
+        /// The upper right coordinate.
+        /// </value>
+        public Vector UpperRight
+        {
+            get { return Position + new Vector(ScreenResolution.X / 2, - ScreenResolution.Y/2); }
+        }
+
+        /// <summary>
+        /// Gets the lower left coordinate of the camera.
+        /// </summary>
+        /// <value>
+        /// The lower left .
+        /// </value>
+        public Vector Lowerleft
+        {
+            get { return Position + new Vector(-ScreenResolution.X / 2, ScreenResolution.Y / 2); }
+        }
+
+        /// <summary>
+        /// Gets the lower right coordinate of the camera.
+        /// </summary>
+        /// <value>
+        /// The lower right coordinate.
+        /// </value>
+        public Vector LowerRight
+        {
+            get { return Position + (ScreenResolution / 2); }
+        }
 
         #endregion
 
