@@ -154,11 +154,11 @@ namespace SpearOfLonginus.Entities
                         //We don't do anything for static!
                         break;
                     case FacingStyle.FourWay:
-                        if (direction.Y < 0) //W
+                        if (direction.X < 0) //W
                         {
                             Facing = FacingState.West;
                         }
-                        else if (direction.Y > 0) //E
+                        else if (direction.X > 0) //E
                         {
                             Facing = FacingState.East;
                         }
