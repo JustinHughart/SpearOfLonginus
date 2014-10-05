@@ -43,6 +43,7 @@
     <Compile Include="Animations\Animation.cs" />
     <Compile Include="Animations\AnimationCache.cs" />
     <Compile Include="Animations\Frame.cs" />
+    <Compile Include="Cameras\Camera.cs" />
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\EntityManager.cs" />
     <Compile Include="Input\InputManager.cs" />
