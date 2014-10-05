@@ -44,7 +44,7 @@
         /// </value>
         public Vector Upperleft
         {
-            get { return Position - (ScreenResolution / 2); }
+            get { return Position - (ScreenResolution / 2 / Zoom); }
         }
 
         /// <summary>
@@ -55,7 +55,7 @@
         /// </value>
         public Vector UpperRight
         {
-            get { return Position + new Vector(ScreenResolution.X / 2, - ScreenResolution.Y/2); }
+            get { return Position + new Vector(ScreenResolution.X / 2 / Zoom, - ScreenResolution.Y/ 2 / Zoom); }
         }
 
         /// <summary>
@@ -66,7 +66,7 @@
         /// </value>
         public Vector Lowerleft
         {
-            get { return Position + new Vector(-ScreenResolution.X / 2, ScreenResolution.Y / 2); }
+            get { return Position + new Vector(-ScreenResolution.X / 2/ Zoom, ScreenResolution.Y / 2 / Zoom); }
         }
 
         /// <summary>
@@ -77,7 +77,7 @@
         /// </value>
         public Vector LowerRight
         {
-            get { return Position + (ScreenResolution / 2); }
+            get { return Position + (ScreenResolution / 2 / Zoom); }
         }
 
         #endregion
@@ -125,7 +125,26 @@
         /// <param name="deltatime">The delta time.</param>
         public virtual void Update(float deltatime)
         {
+            //Here we'll correct the position.
+            if (Upperleft.X < 0)
+            {
+                Position.X = ScreenResolution.X/2/Zoom;
+            }
 
+            if (Upperleft.Y < 0)
+            {
+                Position.Y = ScreenResolution.Y/2/Zoom;
+            }
+
+            if (UpperRight.X >= MapSize.X)
+            {
+                Position.X = MapSize.X - (ScreenResolution.X / 2 / Zoom);
+            }
+
+            if (LowerRight.Y >= MapSize.Y)
+            {
+                Position.Y = MapSize.Y - (ScreenResolution.Y / 2 / Zoom);
+            }
         }
 
         /// <summary>
@@ -135,33 +154,9 @@
         public virtual Rectangle GetDrawArea()
         {
             //We could do this all in a return, but this method is more straightforward and less confusing. Also performance should not be impacted with anything of notice since this would be called once a frame.
-            Rectangle rect = new Rectangle((int) Position.X, (int) Position.Y, (int) ScreenResolution.X, (int) ScreenResolution.Y); //Set the rect to the center point, with screen size.
-            rect.Location -= ScreenResolution/2; //Offset the position to the center.
+            Rectangle rect = new Rectangle((int) Upperleft.X, (int) Upperleft.Y, (int)(ScreenResolution.X/Zoom), (int)(ScreenResolution.Y/Zoom)); //Set the rect to the center point, with screen size.
             rect.Location -= DrawBorder; //Pull back for the border...
             rect.Size += DrawBorder*2; //And allow the width on both sides.
-            rect.Size *= Zoom; //Scale by zoom.
-
-            //Correct the position.
-            if (rect.X < 0)
-            {
-                rect.X = 0;
-            }
-
-            if (rect.Y < 0)
-            {
-                rect.Y = 0;
-            }
-
-            if (rect.X > MapSize.X - ScreenResolution.X)
-            {
-                rect.X = (int)(MapSize.X - ScreenResolution.X);
-            }
-
-            if (rect.Y > MapSize.Y - ScreenResolution.Y)
-            {
-                rect.Y = (int)(MapSize.Y - ScreenResolution.Y);
-            }
-
             return rect; //Give it up!
         }
 
