@@ -24,6 +24,10 @@
         /// </summary>
         public Vector ScreenResolution;
         /// <summary>
+        /// The map's size.
+        /// </summary>
+        public Vector MapSize;
+        /// <summary>
         /// The size of the border around the screen which you still want to draw. Useful for large entities and rotating maps.
         /// </summary>
         public Vector DrawBorder;
@@ -36,9 +40,10 @@
         /// Initializes a new instance of the <see cref="Camera"/> class.
         /// </summary>
         /// <param name="screenresolution">The game's resolution.</param>
+        /// <param name="mapsize">The size of the map the camera is for. </param>
         /// <param name="drawborder">The size of the border around the screen which you still want to draw. Useful for large entities and rotating maps.</param>
-        public Camera(Vector screenresolution, Vector drawborder)
-            : this(Vector.Zero, 0f, 1f, screenresolution, drawborder)
+        public Camera(Vector screenresolution, Vector mapsize, Vector drawborder)
+            : this(Vector.Zero, 0f, 1f, screenresolution, mapsize, drawborder)
         {
 
         }
@@ -50,13 +55,15 @@
         /// <param name="rotation">The rotation of the camera.</param>
         /// <param name="zoom">The zoom of the camera.</param>
         /// <param name="screenresolution">The game's resolution.</param>
+        /// <param name="mapsize">The size of the map the camera is for. </param>
         /// <param name="drawborder">The size of the border around the screen which you still want to draw. Useful for large entities and rotating maps.</param>
-       public Camera(Vector position, float rotation, float zoom, Vector screenresolution, Vector drawborder)
+        public Camera(Vector position, float rotation, float zoom, Vector screenresolution, Vector mapsize, Vector drawborder)
         {
             Position = position;
             Rotation = rotation;
             Zoom = zoom;
             ScreenResolution = screenresolution;
+            MapSize = mapsize;
             DrawBorder = drawborder;
         }
 
@@ -85,6 +92,28 @@
             rect.Location -= DrawBorder; //Pull back for the border...
             rect.Size += DrawBorder*2; //And allow the width on both sides.
             rect.Size *= Zoom; //Scale by zoom.
+
+            //Correct the position.
+            if (rect.X < 0)
+            {
+                rect.X = 0;
+            }
+
+            if (rect.Y < 0)
+            {
+                rect.Y = 0;
+            }
+
+            if (rect.X > MapSize.X - ScreenResolution.X)
+            {
+                rect.X = (int)(MapSize.X - ScreenResolution.X);
+            }
+
+            if (rect.Y > MapSize.Y - ScreenResolution.Y)
+            {
+                rect.Y = (int)(MapSize.Y - ScreenResolution.Y);
+            }
+
             return rect; //Give it up!
         }
 
