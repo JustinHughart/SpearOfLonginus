@@ -292,8 +292,8 @@ namespace SOLXNA.Maps
         {
             var xstart = (int)(drawarea.X/TileSize.X);
             var ystart = (int) (drawarea.Y/TileSize.Y);
-            var xend = xstart + (int)(drawarea.Width / TileSize.X);
-            var yend = ystart + (int)(drawarea.Height / TileSize.Y);
+            var xend = xstart + (int)(drawarea.Width / TileSize.X) + 2;
+            var yend = ystart + (int)(drawarea.Height / TileSize.Y) + 2;
 
             for (var y = ystart; y < yend; y++)
             {
