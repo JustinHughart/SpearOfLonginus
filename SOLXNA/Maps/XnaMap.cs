@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework.Graphics;
 using SOLXNA.Animations;
 using SOLXNA.Entities;
 using SpearOfLonginus;
-using SpearOfLonginus.Entities;
 using SpearOfLonginus.Maps;
 using Rectangle = SpearOfLonginus.Rectangle;
 
