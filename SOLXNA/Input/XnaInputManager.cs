@@ -57,7 +57,7 @@ namespace SOLXNA.Input
                 );
         }
 
-        private PressState GetKeyState(Keys key)
+        public PressState GetKeyState(Keys key)
         {
             if (CurrKBState.IsKeyDown(key))
             {
