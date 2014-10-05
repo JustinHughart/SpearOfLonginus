@@ -46,6 +46,7 @@
     <Compile Include="Animations\XnaAnimationCache.cs" />
     <Compile Include="Animations\XnaFrame.cs" />
     <Compile Include="Animations\TextureCache.cs" />
+    <Compile Include="Cameras\EntitySnapCamera.cs" />
     <Compile Include="Cameras\XnaCamera.cs" />
     <Compile Include="Entities\XnaEntity.cs" />
     <Compile Include="Entities\XnaEntityManager.cs" />
