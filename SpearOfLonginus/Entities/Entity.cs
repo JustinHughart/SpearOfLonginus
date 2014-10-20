@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using SpearOfLonginus.Animations;
 using SpearOfLonginus.Input;
@@ -53,14 +54,20 @@ namespace SpearOfLonginus.Entities
         protected AnimationCache AnimationCache;
 
         public Vector Position;
-        public float WalkSpeed;
-        public float RunSpeed;
+        public Vector Velocity;
 
         public FacingStyle FacingStyle;
         public FacingState Facing;
         public MovingState MovingState;
 
         public Rectangle WorldHitbox;
+
+        protected Dictionary<string, Component> Components;
+        protected Dictionary<string, Logic> Logics;
+
+
+        protected List<String> Tags; 
+        
 
         #endregion
 
@@ -76,6 +83,9 @@ namespace SpearOfLonginus.Entities
             AnimationCache = animationcache;
             WorldHitbox = worldhitbox;
 
+            Components = new Dictionary<string, Component>();
+            Logics = new Dictionary<string, Logic>();
+
             CheckAnimation();
         }
 
@@ -89,7 +99,19 @@ namespace SpearOfLonginus.Entities
             
             if (packet != null)
             {
-                Move(packet, deltatime);
+                foreach (var component in Components)
+                {
+                    component.Value.Update(packet, deltatime);
+                }
+
+                foreach (var logic in Logics)
+                {
+                    logic.Value.Update(packet, deltatime);
+                }
+
+                Position += Velocity;
+                Velocity = Vector.Zero;
+                
                 CheckAnimation();
             }
 
@@ -98,145 +120,14 @@ namespace SpearOfLonginus.Entities
 
         public virtual InputPacket GetAIPacket()
         {
-            //AI is unsupported for now!
-            return null;
-        }
+            InputPacket packet = new InputPacket();
 
-        protected virtual void Move(InputPacket packet, float deltatime)
-        {
-            //First we'll get how fast we should go and tell what state we're in...
-            float speed = 0;
-
-            if (packet.Run == PressState.Down)
+            foreach (var logic in Logics)
             {
-                speed = RunSpeed;
-                MovingState = MovingState.Running;
+                logic.Value.GetInput(packet);
             }
-            else
-            {
-                speed = WalkSpeed;
-                MovingState = MovingState.Walking;
-            }
-
-            //And multiply it by deltatime.
-            speed *= deltatime;
-
-            //Now we'll find what direction we're going...
-            Vector direction = Vector.Zero;
-
-            if (packet.Up == PressState.Down)
-            {
-                direction.Y--;
-            }
-
-            if (packet.Down == PressState.Down)
-            {
-                direction.Y++;
-            }
-
-            if (packet.Left == PressState.Down)
-            {
-                direction.X--;
-            }
-
-            if (packet.Right == PressState.Down)
-            {
-                direction.X++;
-            }
-
-            //Check if you're actually moving...
-            if (!direction.Equals(Vector.Zero))
-            {
-                //First we'll report to the entity what direction we're moving 
-                switch (FacingStyle)
-                {
-                    case FacingStyle.Static:
-                        //We don't do anything for static!
-                        break;
-                    case FacingStyle.FourWay:
-                        if (direction.X < 0) //W
-                        {
-                            Facing = FacingState.West;
-                        }
-                        else if (direction.X > 0) //E
-                        {
-                            Facing = FacingState.East;
-                        }
-
-                        if (direction.Y < 0) //N
-                        {
-                            Facing = FacingState.North;
-                        }
-                        else if (direction.Y > 0) //S
-                        {
-                            Facing = FacingState.South;
-                        }
-
-                        break;
-                    case FacingStyle.EightWay:
-                        if (direction.Y.Equals(-1) && direction.X.Equals(0)) //N
-                        {
-                            Facing = FacingState.North;
-                            break;
-                        }
-
-                        if (direction.Y.Equals(-1) && direction.X.Equals(-1)) //NW
-                        {
-                            Facing = FacingState.Northwest;
-                            break;
-                        }
-
-                        if (direction.Y.Equals(-1) && direction.X.Equals(1)) //NE
-                        {
-                            Facing = FacingState.Northeast;
-                            break;
-                        }
-
-                        if (direction.Y.Equals(0) && direction.X.Equals(-1)) //W
-                        {
-                            Facing = FacingState.West;
-                            break;
-                        }
-
-                        if (direction.Y.Equals(0) && direction.X.Equals(1)) //E
-                        {
-                            Facing = FacingState.East;
-                            break;
-                        }
-
-                        if (direction.Y.Equals(1) && direction.X.Equals(0)) //S
-                        {
-                            Facing = FacingState.South;
-                            break;
-                        }
-
-                        if (direction.Y.Equals(1) && direction.X.Equals(-1)) //SW
-                        {
-                            Facing = FacingState.Southwest;
-                            break;
-                        }
-
-                        if (direction.Y.Equals(1) && direction.X.Equals(1)) //SE
-                        {
-                            Facing = FacingState.Southeast;
-                            break;
-                        }
-                        
-                        //If it got to here, then it must not have changed direction.
-                        break;
-                }
-
-                //Normalize it so that diagonals aren't faster.
-                direction.Normalize();
-                
-                //Rudimentary movement for now. We'll replace this with proper collision checking later.
-                Position += direction * speed;
-            }
-            else
-            {
-                //If you aren't moving, you're standing!
-                MovingState = MovingState.Standing;
-            }
+            
+            return packet;
         }
 
         protected virtual void CheckAnimation()
@@ -305,6 +196,64 @@ namespace SpearOfLonginus.Entities
                 //We need to change it!
                 CurrentAnimation = AnimationCache.GetAnimation(expectedid).Clone(CurrentAnimation.CurrentFrame, CurrentAnimation.TimingIndex);
             }
+        }
+
+        public void AddComponent(Component component)
+        {
+            Components.Add(component.GetType().Name, component);
+        }
+
+        public void RemoveComponent(String id)
+        {
+            Components.Remove(id);
+        }
+
+        public Component GetComponent(String id)
+        {
+            if (Components.ContainsKey(id))
+            {
+                return Components[id];
+            }
+
+            return null;
+        }
+
+        public void AddLogic(Logic logic)
+        {
+            Logics.Add(logic.GetType().Name, logic);
+        }
+
+        public void RemoveLogic(String id)
+        {
+            Logics.Remove(id);
+        }
+
+        public Logic GetLogic(String id)
+        {
+            if (Logics.ContainsKey(id))
+            {
+                return Logics[id];
+            }
+
+            return null;
+        }
+
+        public void AddTag(string tag)
+        {
+            if (!Tags.Contains(tag))
+            {
+                Tags.Add(tag);
+            }
+        }
+
+        public void RemoveTag(string tag)
+        {
+            Tags.Remove(tag);
+        }
+
+        public bool TagExists(string tag)
+        {
+            return Tags.Contains(tag);
         }
 
         public int CompareTo(object obj)
