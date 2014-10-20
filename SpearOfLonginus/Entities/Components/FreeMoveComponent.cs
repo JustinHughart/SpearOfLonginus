@@ -44,7 +44,7 @@ namespace SpearOfLonginus.Entities.Components
         /// </summary>
         /// <param name="packet">The packet of input data.</param>
         /// <param name="deltatime">The time that has passed since last update.</param>
-        public override void Update(Input.InputPacket packet, float deltatime)
+        public override void Update(InputPacket packet, float deltatime)
         {
             //First we'll get how fast we should go and tell what state we're in...
             float speed = 0;
