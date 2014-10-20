@@ -13,7 +13,6 @@ namespace SpearOfLonginus.Entities.Components
         /// The speed at which the entity walks.
         /// </summary>
         public float WalkSpeed;
-
         /// <summary>
         /// The speed at which the entity runs.
         /// </summary>
