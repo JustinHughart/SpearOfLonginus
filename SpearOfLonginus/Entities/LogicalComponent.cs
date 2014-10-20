@@ -7,10 +7,15 @@ namespace SpearOfLonginus.Entities
     /// </summary>
     public abstract class LogicalComponent
     {
+        #region Variables
         /// <summary>
         /// The entity who owns the component.
         /// </summary>
         protected Entity Owner;
+
+        #endregion 
+
+        #region Constructors
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LogicalComponent"/> class.
@@ -21,6 +26,10 @@ namespace SpearOfLonginus.Entities
             Owner = owner;
         }
 
+        #endregion
+
+        #region Functions
+
         /// <summary>
         /// Updates the specified packet.
         /// </summary>
@@ -28,7 +37,10 @@ namespace SpearOfLonginus.Entities
         /// <param name="deltatime">The time that has passed since last update.</param>
         public virtual void Update(InputPacket packet, float deltatime)
         {
-            
+
         }
+
+        #endregion
+
     }
 }
