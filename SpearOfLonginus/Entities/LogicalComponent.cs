@@ -31,7 +31,7 @@ namespace SpearOfLonginus.Entities
         #region Functions
 
         /// <summary>
-        /// Updates the specified packet.
+        /// Updates the component.
         /// </summary>
         /// <param name="packet">The packet of input data.</param>
         /// <param name="deltatime">The time that has passed since last update.</param>
