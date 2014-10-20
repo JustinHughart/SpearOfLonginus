@@ -1,6 +1,6 @@
 ﻿using SpearOfLonginus.Input;
 
-namespace SpearOfLonginus.Entities.LogicalComponents
+namespace SpearOfLonginus.Entities.Components
 {
     /// <summary>
     /// A component for moving freely across the map.
