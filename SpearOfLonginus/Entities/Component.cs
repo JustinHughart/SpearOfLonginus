@@ -5,7 +5,7 @@ namespace SpearOfLonginus.Entities
     /// <summary>
     /// A logical component for the entity class.
     /// </summary>
-    public abstract class LogicalComponent
+    public abstract class Component
     {
         #region Variables
         /// <summary>
@@ -18,10 +18,10 @@ namespace SpearOfLonginus.Entities
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="LogicalComponent"/> class.
+        /// Initializes a new instance of the <see cref="Component"/> class.
         /// </summary>
         /// <param name="owner">The entity who owns the component.</param>
-        public LogicalComponent(Entity owner)
+        public Component(Entity owner)
         {
             Owner = owner;
         }
