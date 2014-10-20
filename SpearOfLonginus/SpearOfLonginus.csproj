@@ -49,6 +49,8 @@
     <Compile Include="Entities\Component.cs" />
     <Compile Include="Entities\EntityManager.cs" />
     <Compile Include="Entities\Components\FreeMoveComponent.cs" />
+    <Compile Include="Entities\Logic.cs" />
+    <Compile Include="Entities\Logics\FollowLogic.cs" />
     <Compile Include="Input\InputManager.cs" />
     <Compile Include="Input\InputPacket.cs" />
     <Compile Include="Maps\Backdrop.cs" />
