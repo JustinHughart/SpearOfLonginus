@@ -45,8 +45,9 @@
     <Compile Include="Animations\Frame.cs" />
     <Compile Include="Cameras\Camera.cs" />
     <Compile Include="Entities\Entity.cs" />
-    <Compile Include="Entities\EntityComponent.cs" />
+    <Compile Include="Entities\LogicalComponent.cs" />
     <Compile Include="Entities\EntityManager.cs" />
+    <Compile Include="Entities\LogicalComponents\FreeMove.cs" />
     <Compile Include="Input\InputManager.cs" />
     <Compile Include="Input\InputPacket.cs" />
     <Compile Include="Maps\Backdrop.cs" />
