@@ -247,7 +247,37 @@ namespace SOLXNA.Animations
         public virtual void Draw(SpriteBatch spritebatch, Vector2 position, Color tint, float rotation, Vector2 scale, SpriteEffects effects, float layer)
         {
             var currnode = (XnaFrame) GetCurrentFrame();
-            
+
+            //Sprite effect correction. If incompatible modes are found, it will favor node's effect. If like modes are found, they cancel each other out.
+            if (effects == SpriteEffects.FlipHorizontally)
+            {
+                if (currnode.SpriteEffect == SpriteEffects.FlipHorizontally)
+                {
+                    effects = SpriteEffects.None;
+                }
+
+                if (currnode.SpriteEffect == SpriteEffects.FlipVertically)
+                {
+                    effects = currnode.SpriteEffect;
+                }
+            }
+            else if (effects == SpriteEffects.FlipVertically)
+            {
+                if (currnode.SpriteEffect == SpriteEffects.FlipHorizontally)
+                {
+                    effects = currnode.SpriteEffect;
+                }
+
+                if (currnode.SpriteEffect == SpriteEffects.FlipVertically)
+                {
+                    effects = SpriteEffects.None;
+                }
+            }
+            else
+            {
+                effects = currnode.SpriteEffect;
+            }
+
             spritebatch.Draw(currnode.Texture, position, currnode.DrawArea.ToXnaRectangle(), tint, rotation, currnode.Origin.ToXnaVector(), scale, effects, layer);
         }
 

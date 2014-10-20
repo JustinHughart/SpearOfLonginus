@@ -17,6 +17,10 @@ namespace SOLXNA.Animations
         /// The loaded texture.
         /// </summary>
         public Texture2D Texture;
+        /// <summary>
+        /// The sprite effect used to flip the texture.
+        /// </summary>
+        public SpriteEffects SpriteEffect;
         
         #endregion
 
@@ -29,10 +33,23 @@ namespace SOLXNA.Animations
         /// <param name="drawarea">The area on the texture that should be drawn.</param>
         /// <param name="origin">The origin of the frame. Used for rotation and to offset the sprite.</param>
         /// <param name="timetillnext">The time until the frame changes.</param>
-        public XnaFrame(string textureid, SOLRect drawarea, Vector origin, float timetillnext)
-            : base(textureid, drawarea, origin, timetillnext)
+        public XnaFrame(string textureid, SOLRect drawarea, Vector origin, float timetillnext): base(textureid, drawarea, origin, timetillnext)
         {
+            SpriteEffect = SpriteEffects.None;
+        }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="XnaFrame" /> class.
+        /// </summary>
+        /// <param name="textureid">The ID used for  texture loading.</param>
+        /// <param name="drawarea">The area on the texture that should be drawn.</param>
+        /// <param name="origin">The origin of the frame. Used for rotation and to offset the sprite.</param>
+        /// <param name="timetillnext">The time until the frame changes.</param>
+        /// <param name="spriteeffect">The sprite effect used to flip the texture.</param>
+        public XnaFrame(string textureid, SOLRect drawarea, Vector origin, float timetillnext, SpriteEffects spriteeffect)
+            : this(textureid, drawarea, origin, timetillnext)
+        {
+            SpriteEffect = spriteeffect;
         }
 
         #endregion
