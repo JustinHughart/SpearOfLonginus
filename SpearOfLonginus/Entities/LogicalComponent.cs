@@ -5,7 +5,7 @@ namespace SpearOfLonginus.Entities
     /// <summary>
     /// A logical component for the entity class.
     /// </summary>
-    public abstract class EntityComponent
+    public abstract class LogicalComponent
     {
         /// <summary>
         /// The entity who owns the component.
@@ -13,10 +13,10 @@ namespace SpearOfLonginus.Entities
         protected Entity Owner;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="EntityComponent"/> class.
+        /// Initializes a new instance of the <see cref="LogicalComponent"/> class.
         /// </summary>
         /// <param name="owner">The entity who owns the component.</param>
-        public EntityComponent(Entity owner)
+        public LogicalComponent(Entity owner)
         {
             Owner = owner;
         }
