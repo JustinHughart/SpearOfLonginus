@@ -19,6 +19,10 @@ namespace SpearOfLonginus.Maps
         /// The tile's animation.
         ///   </value>
         public Animation Animation;
+        /// <summary>
+        /// The tile's hitbox, used for collisions.
+        /// </summary>
+        protected Rectangle Hitbox;
 
         #endregion
 
@@ -136,6 +140,9 @@ namespace SpearOfLonginus.Maps
             }
 
             Animation = new Animation("tile_" +  textureid + "_" + x + "," + y, true, false, frames);
+
+            //Create the hitbox.
+            CreateHitbox(tilesize, element);
         }
 
         /// <summary>
@@ -152,6 +159,30 @@ namespace SpearOfLonginus.Maps
             var drawrect = new Rectangle(x * (int)tilesize.X, y * (int)tilesize.Y, (int)tilesize.X, (int)tilesize.Y);
 
             return new Frame(textureid, drawrect, Vector.Zero, animrate);
+        }
+
+        /// <summary>
+        /// Creates the hitbox.
+        /// </summary>
+        /// <param name="tilesize">The size of tiles.</param>
+        /// <param name="element">The element used for loading the tile.</param>
+        protected virtual void CreateHitbox(Vector tilesize, XElement element)
+        {
+            //Element will be used later to allow for custom hitboxes.
+
+            Hitbox = new Rectangle(0, 0, (int)tilesize.X, (int)tilesize.Y);
+        }
+
+        /// <summary>
+        /// Gets the tile's hitbox.
+        /// </summary>
+        /// <param name="position">The position the hitbox is in.</param>
+        /// <returns></returns>
+        protected virtual Rectangle GetHitbox(Vector position)
+        {
+            Hitbox.Location = position;
+
+            return Hitbox;
         }
 
         #endregion
