@@ -61,6 +61,17 @@ namespace SOLXNA.Maps
         /// <summary>
         /// Initializes a new instance of the <see cref="XnaMap"/> class.
         /// </summary>
+        /// <param name="path">The file path of the base64 gzipped Tiled map.</param>
+        /// <param name="usehitboxcache">Whether or not to use the hitbox cache.</param>
+        public XnaMap(string path, bool usehitboxcache)
+            : this(path, usehitboxcache, null, null, null, null)
+        {
+
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="XnaMap"/> class.
+        /// </summary>
         /// <param name="path">The path.</param>
         /// <param name="backgrounddata">The background's spritebatch data.</param>
         /// <param name="foregrounddata">The foreground's spritebatch data.</param>
@@ -106,6 +117,25 @@ namespace SOLXNA.Maps
 
             //WILL CHANGE LATER
             Entities = new XnaEntityManager(this);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="XnaMap" /> class.
+        /// </summary>
+        /// <param name="path">The path.</param>
+        /// <param name="usehitboxcache">Whether or not to use the hitbox cache.</param>
+        /// <param name="backgrounddata">The background's spritebatch data.</param>
+        /// <param name="foregrounddata">The foreground's spritebatch data.</param>
+        /// <param name="backdropdata">The backdrop's spritebatch data.</param>
+        /// <param name="foredropdata">The foredrop's spritebatch data.</param>
+        public XnaMap(string path, bool usehitboxcache, SpriteBatchData backgrounddata, SpriteBatchData foregrounddata, SpriteBatchData backdropdata, SpriteBatchData foredropdata): this(path, backgrounddata, foregrounddata, backdropdata, foredropdata)
+        {
+            UseHitboxCache = usehitboxcache;
+
+            if (usehitboxcache)
+            {
+                CreateHitboxCache();
+            }
         }
 
         #endregion
@@ -202,7 +232,14 @@ namespace SOLXNA.Maps
             DrawForeground(spritebatch, drawarea, cameraposition, cameramatrix);
         }
 
-        public virtual void DrawDebugInfo(SpriteBatch spritebatch, Rectangle drawarea, Vector2 cameraposition, Matrix cameramatrix, Texture2D texture)
+        /// <summary>
+        /// Draws the debug information.
+        /// </summary>
+        /// <param name="spritebatch">The spritebatch to use for drawing.</param>
+        /// <param name="drawarea">The area of the screen.</param>
+        /// <param name="cameramatrix">The camera's transformation matrix.</param>
+        /// <param name="texture">The texture use to draw. It should be a 1x1 white pixel texture.</param>
+        public virtual void DrawDebugInfo(SpriteBatch spritebatch, Rectangle drawarea, Matrix cameramatrix, Texture2D texture)
         {
             var entities = Entities as XnaEntityManager;
 
@@ -308,6 +345,40 @@ namespace SOLXNA.Maps
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Draws the collision maps.
+        /// </summary>
+        /// <param name="spritebatch">The spritebatch to use for drawing.</param>
+        /// <param name="drawarea">The area of the screen.</param>
+        /// <param name="cameramatrix">The camera's transformation matrix. </param>
+        /// <param name="texture">The texture use to draw. It should be a 1x1 white pixel texture.</param>
+        public virtual void DrawCollisionMaps(SpriteBatch spritebatch, Rectangle drawarea, Matrix cameramatrix, Texture2D texture)
+        {
+            var xstart = (int)(drawarea.X / TileSize.X);
+            var ystart = (int)(drawarea.Y / TileSize.Y);
+            var xend = xstart + (int)(drawarea.Width / TileSize.X) + 2;
+            var yend = ystart + (int)(drawarea.Height / TileSize.Y) + 2;
+
+            Rectangle empty = new Rectangle();
+
+            spritebatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointClamp, null, null, null, cameramatrix);
+
+            for (var y = ystart; y < yend; y++)
+            {
+                for (var x = xstart; x < xend; x++)
+                {
+                    var hitbox = GetHitbox(new Vector(x, y));
+                    
+                    if (!hitbox.Equals(empty))
+                    {
+                        spritebatch.Draw(texture, new Vector2(hitbox.X, hitbox.Y), texture.Bounds, Color.Aqua * .7f, 0f, Vector2.Zero, new Vector2(hitbox.Width, hitbox.Height), SpriteEffects.None, 0f);
+                    }
+                }
+            }
+
+            spritebatch.End();
         }
 
         #endregion

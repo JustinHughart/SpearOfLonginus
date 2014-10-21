@@ -58,7 +58,7 @@ namespace SpearOfLonginus.Maps
         /// <summary>
         /// Whether or not to use the hitbox cache.
         /// </summary>
-        public bool UseHitboxCache;
+        public bool UseHitboxCache { get; protected set; }
         /// <summary>
         /// The cache of the collision layer's hitboxes.
         /// </summary>
@@ -80,6 +80,16 @@ namespace SpearOfLonginus.Maps
             Entities = new EntityManager(this);
 
             LoadMap(path);
+        }
+
+        public Map(string path, bool usehitboxcache) : this(path)
+        {
+            UseHitboxCache = usehitboxcache;
+
+            if (usehitboxcache)
+            {
+                CreateHitboxCache();
+            }
         }
 
         #endregion
@@ -162,7 +172,14 @@ namespace SpearOfLonginus.Maps
             }
             else
             {
-                return GetTile(position, CollisionLayer).GetHitbox(position * TileSize);
+                var tile = GetTile(position, CollisionLayer);
+
+                if (tile == null)
+                {
+                    return new Rectangle();
+                }
+
+                return tile.GetHitbox(position * TileSize);
             }
         }
 
@@ -413,12 +430,6 @@ namespace SpearOfLonginus.Maps
                     //Increment the GID, for identification purposes.
                     gid++;
                 }
-            }
-
-            //If applicable, cache the hitboxes for the tile.
-            if (UseHitboxCache)
-            {
-                CreateHitboxCache();
             }
 
             //And we're done, finally!
