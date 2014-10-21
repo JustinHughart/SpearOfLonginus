@@ -109,12 +109,16 @@ namespace SpearOfLonginus.Entities
                     logic.Value.Update(packet, deltatime);
                 }
 
-                Position += Velocity;
-                Velocity = Vector.Zero;
+                HandleVelocity();
                 
                 CheckAnimation();
             }
 
+            UpdateHitbox();
+        }
+
+        private void UpdateHitbox()
+        {
             WorldHitbox.Location = Position;
         }
 
@@ -254,6 +258,137 @@ namespace SpearOfLonginus.Entities
         public bool TagExists(string tag)
         {
             return Tags.Contains(tag);
+        }
+
+        public void HandleVelocity()
+        {
+            float steprate = 1; //I need to think of a better algorithm than this. This will hold for now. It's really embarrasing though.
+
+            bool end = false;
+
+            //Check X.
+
+            while (!end)
+            {
+                if (Velocity.X.Equals(0))
+                {
+                    break;
+                }
+
+                if (Velocity.X > 0)
+                {
+                    float update = Math.Min(Velocity.X, steprate);
+                    Velocity.X -= update;
+                    Position.X += update;
+                    UpdateHitbox();
+
+                    if (CheckCollision())
+                    {
+                        Position.X -= update;
+                        break; 
+                    }
+
+                    continue; 
+                }
+                else if (Velocity.X < 0)
+                {
+                    float update = Math.Max(Velocity.X, -steprate);
+                    Velocity.X -= update;
+                    Position.X += update;
+                    UpdateHitbox();
+
+                    if (CheckCollision())
+                    {
+                        Position.X -= update;
+                        break;
+                    }
+
+                    continue;
+                }
+
+                end = true; 
+            }
+
+            end = false;
+
+            //Check Y.
+
+            while (!end)
+            {
+                if (Velocity.Y > 0)
+                {
+                    float update = Math.Min(Velocity.Y, steprate);
+                    Velocity.Y -= update;
+                    Position.Y += update;
+                    UpdateHitbox();
+
+                    if (CheckCollision())
+                    {
+                        Position.Y -= update;
+                        break;
+                    }
+
+                    continue;
+                }
+                else if (Velocity.Y < 0)
+                {
+                    float update = Math.Max(Velocity.Y, -steprate);
+                    Velocity.Y -= update;
+                    Position.Y += update;
+                    UpdateHitbox();
+
+                    if (CheckCollision())
+                    {
+                        Position.Y -= update;
+                        break;
+                    }
+
+                    continue;
+                }
+
+                end = true;
+            }
+
+            Velocity = Vector.Zero;
+        }
+
+        public bool CheckCollision()
+        {
+            List<Rectangle> maphitboxes = new List<Rectangle>();
+
+            int xstart = WorldHitbox.X / (int)Map.TileSize.X;
+            int ystart = WorldHitbox.Y / (int)Map.TileSize.Y;
+            int xend = WorldHitbox.Width / (int)Map.TileSize.X;
+            int yend = WorldHitbox.Height / (int)Map.TileSize.Y;
+
+            //I'm not sure why the following two lines of code make it work but apparantly... It does. Bah, this is terrible.
+            xend += xstart + 2;
+            yend += ystart + 2;
+            
+            Rectangle empty = new Rectangle();
+
+            for (int y = ystart; y < yend; y++)
+            {
+                for (int x = xstart; x < xend; x++)
+                {
+                    var hitbox = Map.GetHitbox(new Vector(x, y));
+
+                    if (!hitbox.Equals(empty))
+                    {
+                        maphitboxes.Add(hitbox);
+                    }
+                }
+            }
+
+            foreach (var hitbox in maphitboxes)
+            {
+                if (WorldHitbox.Intersects(hitbox))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public int CompareTo(object obj)
