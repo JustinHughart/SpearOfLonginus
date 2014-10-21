@@ -19,7 +19,6 @@ namespace SpearOfLonginus.Maps
         /// The list of tiles to be used.
         /// </summary>
         protected List<Tile> TileSet;
-
         /// <summary>
         /// The size of the map in tiles.
         /// </summary>
@@ -28,7 +27,6 @@ namespace SpearOfLonginus.Maps
         /// The size of the tiles in pixels.
         /// </summary>
         public Vector TileSize;
-
         /// <summary>
         /// The layer of tiles that collides with entities.
         /// </summary>
@@ -41,12 +39,10 @@ namespace SpearOfLonginus.Maps
         /// The foreground layer of tiles that does not collide with entities.
         /// </summary>
         protected int[] ForegroundLayer;
-
         /// <summary>
         /// The list of logics that the map uses. This can be used to change map properties systematically.
         /// </summary>
         protected List<MapLogic> Logics;
-
         /// <summary>
         /// The list of backdrops that get drawn before the map.
         /// </summary>
@@ -55,11 +51,18 @@ namespace SpearOfLonginus.Maps
         /// The list of foredrops that get drawn after the map.
         /// </summary>
         protected Dictionary<string, Backdrop> Foredrops;
-
         /// <summary>
         /// The entities contained inside the map.
         /// </summary>
         public EntityManager Entities { get; protected set; }
+        /// <summary>
+        /// Whether or not to use the hitbox cache.
+        /// </summary>
+        public bool UseHitboxCache;
+        /// <summary>
+        /// The cache of the collision layer's hitboxes.
+        /// </summary>
+        protected Rectangle[] HitboxCache;
 
         #endregion 
 
@@ -136,6 +139,31 @@ namespace SpearOfLonginus.Maps
             }
 
             return TileSet[gid];
+        }
+
+        /// <summary>
+        /// Gets the hitbox of the collision layer's tile.
+        /// </summary>
+        /// <param name="position">The position of the tile. This is the x,y index, not the pixel position.</param>
+        /// <returns></returns>
+        public virtual Rectangle GetHitbox(Vector position)
+        {
+            if (UseHitboxCache)
+            {
+                int index = (int)position.X + (int)(position.Y * Size.X);
+
+                if (index < 0 || index >= HitboxCache.Length)
+                {
+                    return new Rectangle();
+                }
+
+                return HitboxCache[index];
+
+            }
+            else
+            {
+                return GetTile(position, CollisionLayer).GetHitbox(position * TileSize);
+            }
         }
 
         #endregion
@@ -386,7 +414,13 @@ namespace SpearOfLonginus.Maps
                     gid++;
                 }
             }
-            
+
+            //If applicable, cache the hitboxes for the tile.
+            if (UseHitboxCache)
+            {
+                CreateHitboxCache();
+            }
+
             //And we're done, finally!
         }
 
@@ -507,6 +541,29 @@ namespace SpearOfLonginus.Maps
         protected virtual void LoadLayerProperties(string name, XElement element)
         {
             //No properties by default... For now! 
+        }
+
+        /// <summary>
+        /// Creates the hitbox cache.
+        /// </summary>
+        protected virtual void CreateHitboxCache()
+        {
+            HitboxCache = new Rectangle[(int)(Size.X * Size.Y)];
+
+            for (int y = 0; y < Size.Y; y++)
+            {
+                for (int x = 0; x < Size.X; x++)
+                {
+                    int index = x+ (int)(y * Size.X);
+
+                    Tile tile = GetTile(new Vector(x,y), CollisionLayer);
+
+                    if (tile != null)
+                    {
+                        HitboxCache[index] = tile.GetHitbox(new Vector(x, y)*TileSize);
+                    }
+                }    
+            }
         }
 
         #endregion
