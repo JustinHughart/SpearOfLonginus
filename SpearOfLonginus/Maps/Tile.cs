@@ -178,7 +178,7 @@ namespace SpearOfLonginus.Maps
         /// </summary>
         /// <param name="position">The position the hitbox is in.</param>
         /// <returns></returns>
-        protected virtual Rectangle GetHitbox(Vector position)
+        public virtual Rectangle GetHitbox(Vector position)
         {
             Hitbox.Location = position;
 
