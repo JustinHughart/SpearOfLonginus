@@ -70,7 +70,7 @@ namespace SpearOfLonginus.Entities.Logics
                     }
                 }
 
-                //Check for Down.
+                //Check for Up.
                 if (diff.Y < 0)
                 {
                     if (Math.Abs(diff.Y) > Safezone.Y)
