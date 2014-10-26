@@ -16,13 +16,13 @@ namespace SOLXNA.Entities
 
         }
 
-        public XnaEntity(AnimationCache animationcache, Rectangle worldhitbox) : this(animationcache, worldhitbox, new SpriteBatchData())
+        public XnaEntity(AnimationCache animationcache, Rectangle hitbox) : this(animationcache, hitbox, new SpriteBatchData())
         {
             
         }
 
-        public XnaEntity(AnimationCache animationcache, Rectangle worldhitbox, SpriteBatchData spritebatchdata)
-            : base(animationcache, worldhitbox)
+        public XnaEntity(AnimationCache animationcache, Rectangle hitbox, SpriteBatchData spritebatchdata)
+            : base(animationcache, hitbox)
         {
             SpriteBatchData = spritebatchdata;
         }
@@ -57,7 +57,7 @@ namespace SOLXNA.Entities
 
             spritebatch.Begin(SpriteSortMode.Immediate, SpriteBatchData.BlendState, SpriteBatchData.SamplerState, SpriteBatchData.DepthStencilState, SpriteBatchData.RasterizerState, SpriteBatchData.Effect, cameramatrix);
 
-            spritebatch.Draw(texture, WorldHitbox.Location.ToXnaVector(), texture.Bounds, color, 0f, Vector2.Zero, WorldHitbox.Size.ToXnaVector(), SpriteEffects.None, 0f);
+            spritebatch.Draw(texture, Hitbox.Location.ToXnaVector(), texture.Bounds, color, 0f, Vector2.Zero, Hitbox.Size.ToXnaVector(), SpriteEffects.None, 0f);
 
             spritebatch.End();
 

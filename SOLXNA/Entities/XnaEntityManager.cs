@@ -32,7 +32,7 @@ namespace SOLXNA.Entities
         {
             foreach (var entity in Entities)
             {
-                if (drawarea.Intersects(entity.WorldHitbox))
+                if (drawarea.Intersects(entity.Hitbox))
                 {
                     var xnaentity = entity as XnaEntity;
 
@@ -48,7 +48,7 @@ namespace SOLXNA.Entities
         {
             foreach (var entity in Entities)
             {
-                if (drawarea.Intersects(entity.WorldHitbox))
+                if (drawarea.Intersects(entity.Hitbox))
                 {
                     var xnaentity = entity as XnaEntity;
 

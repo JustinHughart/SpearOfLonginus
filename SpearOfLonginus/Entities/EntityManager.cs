@@ -72,24 +72,24 @@ namespace SpearOfLonginus.Entities
         {
             foreach (var entity in Entities)
             {
-                switch (entity.PlayerType)
+                switch (entity.InputType)
                 {
-                    case PlayerType.NPC:
+                    case InputType.NPC:
                         entity.Update(entity.GetAIPacket(), deltatime);
                         break;
-                    case PlayerType.Player1:
+                    case InputType.Player1:
                         entity.Update(inputmanager.GetPlayer1Packet(), deltatime);
                         break;
-                    case PlayerType.Player2:
+                    case InputType.Player2:
                         entity.Update(inputmanager.GetPlayer2Packet(), deltatime);
                         break;
-                    case PlayerType.Player3:
+                    case InputType.Player3:
                         entity.Update(inputmanager.GetPlayer3Packet(), deltatime);
                         break;
-                    case PlayerType.Player4:
+                    case InputType.Player4:
                         entity.Update(inputmanager.GetPlayer4Packet(), deltatime);
                         break;
-                        case PlayerType.World:
+                        case InputType.World:
                         entity.Update(null, deltatime); //We will send a lack of a packet, so we can update animation, but not handle any logic.
                         break;
                     default:
