@@ -61,11 +61,10 @@ namespace SpearOfLonginus.Entities
         public MovingState MovingState;
 
         public Rectangle WorldHitbox;
+        public bool Solid;
 
         protected Dictionary<string, Component> Components;
         protected Dictionary<string, Logic> Logics;
-
-
         protected List<String> Tags; 
         
 
@@ -354,7 +353,7 @@ namespace SpearOfLonginus.Entities
 
         public bool CheckCollision()
         {
-            List<Rectangle> maphitboxes = new List<Rectangle>();
+            List<Rectangle> hitboxes = new List<Rectangle>();
 
             int xstart = WorldHitbox.X / (int)Map.TileSize.X;
             int ystart = WorldHitbox.Y / (int)Map.TileSize.Y;
@@ -375,12 +374,23 @@ namespace SpearOfLonginus.Entities
 
                     if (!hitbox.Equals(empty))
                     {
-                        maphitboxes.Add(hitbox);
+                        hitboxes.Add(hitbox);
                     }
                 }
             }
 
-            foreach (var hitbox in maphitboxes)
+            //Check for entities. Can use more optimizations.
+            foreach (var entity in Map.Entities.GetEntityListCopy())
+            {
+                if (entity != this && entity.Solid)
+                {
+                    hitboxes.Add(entity.WorldHitbox);
+                }
+            }
+
+            //Actually check all the hitboxes.
+
+            foreach (var hitbox in hitboxes)
             {
                 if (WorldHitbox.Intersects(hitbox))
                 {
