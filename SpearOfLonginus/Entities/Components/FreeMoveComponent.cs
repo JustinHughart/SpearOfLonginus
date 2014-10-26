@@ -46,6 +46,11 @@ namespace SpearOfLonginus.Entities.Components
         /// <param name="deltatime">The time that has passed since last update.</param>
         public override void Update(InputPacket packet, float deltatime)
         {
+            if (Owner.TagExists("nomove"))
+            {
+                return;
+            }
+
             //First we'll get how fast we should go and tell what state we're in...
             float speed = 0;
 

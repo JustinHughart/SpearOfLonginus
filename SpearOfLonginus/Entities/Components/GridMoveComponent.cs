@@ -68,6 +68,15 @@ namespace SpearOfLonginus.Entities.Components
         /// <param name="deltatime">The time that has passed since last update.</param>
         public override void Update(InputPacket packet, float deltatime)
         {
+            if (Owner.TagExists("nomove"))
+            {
+                Moving = false;
+                Direction = Vector.Zero;
+                Speed = 0f;
+                Target = Vector.Zero;
+                return;
+            }
+
             if (!Moving)
             {
                 StartMove(packet);   
