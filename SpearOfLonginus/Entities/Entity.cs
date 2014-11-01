@@ -33,7 +33,7 @@ namespace SpearOfLonginus.Entities
         /// </summary>
         Player4,
         /// <summary>
-        /// Theentity does no logical updating other than updating its animation.
+        /// The entity does no logical updating other than updating its animation.
         /// </summary>
         World, 
     }
