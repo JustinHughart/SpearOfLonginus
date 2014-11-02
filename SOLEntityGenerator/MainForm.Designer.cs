@@ -44,25 +44,25 @@
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.numHitboxX = new System.Windows.Forms.NumericUpDown();
-            this.numHitboxY = new System.Windows.Forms.NumericUpDown();
-            this.numHitboxW = new System.Windows.Forms.NumericUpDown();
-            this.numHitboxH = new System.Windows.Forms.NumericUpDown();
-            this.lblHitboxX = new System.Windows.Forms.Label();
-            this.lblHitboxY = new System.Windows.Forms.Label();
-            this.lblHitboxW = new System.Windows.Forms.Label();
-            this.lblHitboxH = new System.Windows.Forms.Label();
-            this.lblSolid = new System.Windows.Forms.Label();
-            this.chkSolid = new System.Windows.Forms.CheckBox();
             this.templateEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.chkSolid = new System.Windows.Forms.CheckBox();
+            this.lblSolid = new System.Windows.Forms.Label();
+            this.lblHitboxH = new System.Windows.Forms.Label();
+            this.lblHitboxW = new System.Windows.Forms.Label();
+            this.lblHitboxY = new System.Windows.Forms.Label();
+            this.lblHitboxX = new System.Windows.Forms.Label();
+            this.numHitboxH = new System.Windows.Forms.NumericUpDown();
+            this.numHitboxW = new System.Windows.Forms.NumericUpDown();
+            this.numHitboxY = new System.Windows.Forms.NumericUpDown();
+            this.numHitboxX = new System.Windows.Forms.NumericUpDown();
             this.panel1.SuspendLayout();
             this.menuFileMenu.SuspendLayout();
             this.panel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numHitboxX)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numHitboxY)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numHitboxW)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numHitboxH)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numHitboxW)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numHitboxY)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numHitboxX)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -177,37 +177,43 @@
             // newToolStripMenuItem
             // 
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
             this.newToolStripMenuItem.Text = "New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.NewToolStripMenuItemClick);
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.OpenToolStripMenuItemClick);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.SaveToolStripMenuItemClick);
             // 
             // saveAsToolStripMenuItem
             // 
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
             this.saveAsToolStripMenuItem.Text = "Save As";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.SaveAsToolStripMenuItemClick);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItemClick);
+            // 
+            // templateEditorToolStripMenuItem
+            // 
+            this.templateEditorToolStripMenuItem.Name = "templateEditorToolStripMenuItem";
+            this.templateEditorToolStripMenuItem.Size = new System.Drawing.Size(103, 20);
+            this.templateEditorToolStripMenuItem.Text = "Template Editor";
             // 
             // panel3
             // 
@@ -227,36 +233,59 @@
             this.panel3.Size = new System.Drawing.Size(258, 130);
             this.panel3.TabIndex = 2;
             // 
-            // numHitboxX
+            // chkSolid
             // 
-            this.numHitboxX.Location = new System.Drawing.Point(79, 4);
-            this.numHitboxX.Name = "numHitboxX";
-            this.numHitboxX.Size = new System.Drawing.Size(168, 20);
-            this.numHitboxX.TabIndex = 0;
+            this.chkSolid.AutoSize = true;
+            this.chkSolid.Location = new System.Drawing.Point(79, 109);
+            this.chkSolid.Name = "chkSolid";
+            this.chkSolid.Size = new System.Drawing.Size(15, 14);
+            this.chkSolid.TabIndex = 13;
+            this.chkSolid.UseVisualStyleBackColor = true;
             // 
-            // numHitboxY
+            // lblSolid
             // 
-            this.numHitboxY.Location = new System.Drawing.Point(79, 30);
-            this.numHitboxY.Name = "numHitboxY";
-            this.numHitboxY.Size = new System.Drawing.Size(168, 20);
-            this.numHitboxY.TabIndex = 1;
+            this.lblSolid.AutoSize = true;
+            this.lblSolid.Location = new System.Drawing.Point(37, 109);
+            this.lblSolid.Name = "lblSolid";
+            this.lblSolid.Size = new System.Drawing.Size(36, 13);
+            this.lblSolid.TabIndex = 12;
+            this.lblSolid.Text = "Solid: ";
             // 
-            // numHitboxW
+            // lblHitboxH
             // 
-            this.numHitboxW.Location = new System.Drawing.Point(79, 56);
-            this.numHitboxW.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numHitboxW.Name = "numHitboxW";
-            this.numHitboxW.Size = new System.Drawing.Size(168, 20);
-            this.numHitboxW.TabIndex = 2;
-            this.numHitboxW.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
+            this.lblHitboxH.AutoSize = true;
+            this.lblHitboxH.Location = new System.Drawing.Point(19, 84);
+            this.lblHitboxH.Name = "lblHitboxH";
+            this.lblHitboxH.Size = new System.Drawing.Size(54, 13);
+            this.lblHitboxH.TabIndex = 11;
+            this.lblHitboxH.Text = "Hitbox H: ";
+            // 
+            // lblHitboxW
+            // 
+            this.lblHitboxW.AutoSize = true;
+            this.lblHitboxW.Location = new System.Drawing.Point(16, 58);
+            this.lblHitboxW.Name = "lblHitboxW";
+            this.lblHitboxW.Size = new System.Drawing.Size(57, 13);
+            this.lblHitboxW.TabIndex = 10;
+            this.lblHitboxW.Text = "Hitbox W: ";
+            // 
+            // lblHitboxY
+            // 
+            this.lblHitboxY.AutoSize = true;
+            this.lblHitboxY.Location = new System.Drawing.Point(20, 32);
+            this.lblHitboxY.Name = "lblHitboxY";
+            this.lblHitboxY.Size = new System.Drawing.Size(53, 13);
+            this.lblHitboxY.TabIndex = 9;
+            this.lblHitboxY.Text = "Hitbox Y: ";
+            // 
+            // lblHitboxX
+            // 
+            this.lblHitboxX.AutoSize = true;
+            this.lblHitboxX.Location = new System.Drawing.Point(20, 6);
+            this.lblHitboxX.Name = "lblHitboxX";
+            this.lblHitboxX.Size = new System.Drawing.Size(53, 13);
+            this.lblHitboxX.TabIndex = 8;
+            this.lblHitboxX.Text = "Hitbox X: ";
             // 
             // numHitboxH
             // 
@@ -275,71 +304,42 @@
             0,
             0});
             // 
-            // lblHitboxX
+            // numHitboxW
             // 
-            this.lblHitboxX.AutoSize = true;
-            this.lblHitboxX.Location = new System.Drawing.Point(20, 6);
-            this.lblHitboxX.Name = "lblHitboxX";
-            this.lblHitboxX.Size = new System.Drawing.Size(53, 13);
-            this.lblHitboxX.TabIndex = 8;
-            this.lblHitboxX.Text = "Hitbox X: ";
+            this.numHitboxW.Location = new System.Drawing.Point(79, 56);
+            this.numHitboxW.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numHitboxW.Name = "numHitboxW";
+            this.numHitboxW.Size = new System.Drawing.Size(168, 20);
+            this.numHitboxW.TabIndex = 2;
+            this.numHitboxW.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
-            // lblHitboxY
+            // numHitboxY
             // 
-            this.lblHitboxY.AutoSize = true;
-            this.lblHitboxY.Location = new System.Drawing.Point(20, 32);
-            this.lblHitboxY.Name = "lblHitboxY";
-            this.lblHitboxY.Size = new System.Drawing.Size(53, 13);
-            this.lblHitboxY.TabIndex = 9;
-            this.lblHitboxY.Text = "Hitbox Y: ";
+            this.numHitboxY.Location = new System.Drawing.Point(79, 30);
+            this.numHitboxY.Name = "numHitboxY";
+            this.numHitboxY.Size = new System.Drawing.Size(168, 20);
+            this.numHitboxY.TabIndex = 1;
             // 
-            // lblHitboxW
+            // numHitboxX
             // 
-            this.lblHitboxW.AutoSize = true;
-            this.lblHitboxW.Location = new System.Drawing.Point(16, 58);
-            this.lblHitboxW.Name = "lblHitboxW";
-            this.lblHitboxW.Size = new System.Drawing.Size(57, 13);
-            this.lblHitboxW.TabIndex = 10;
-            this.lblHitboxW.Text = "Hitbox W: ";
-            // 
-            // lblHitboxH
-            // 
-            this.lblHitboxH.AutoSize = true;
-            this.lblHitboxH.Location = new System.Drawing.Point(19, 84);
-            this.lblHitboxH.Name = "lblHitboxH";
-            this.lblHitboxH.Size = new System.Drawing.Size(54, 13);
-            this.lblHitboxH.TabIndex = 11;
-            this.lblHitboxH.Text = "Hitbox H: ";
-            // 
-            // lblSolid
-            // 
-            this.lblSolid.AutoSize = true;
-            this.lblSolid.Location = new System.Drawing.Point(37, 109);
-            this.lblSolid.Name = "lblSolid";
-            this.lblSolid.Size = new System.Drawing.Size(36, 13);
-            this.lblSolid.TabIndex = 12;
-            this.lblSolid.Text = "Solid: ";
-            // 
-            // chkSolid
-            // 
-            this.chkSolid.AutoSize = true;
-            this.chkSolid.Location = new System.Drawing.Point(79, 109);
-            this.chkSolid.Name = "chkSolid";
-            this.chkSolid.Size = new System.Drawing.Size(15, 14);
-            this.chkSolid.TabIndex = 13;
-            this.chkSolid.UseVisualStyleBackColor = true;
-            // 
-            // templateEditorToolStripMenuItem
-            // 
-            this.templateEditorToolStripMenuItem.Name = "templateEditorToolStripMenuItem";
-            this.templateEditorToolStripMenuItem.Size = new System.Drawing.Size(103, 20);
-            this.templateEditorToolStripMenuItem.Text = "Template Editor";
+            this.numHitboxX.Location = new System.Drawing.Point(79, 4);
+            this.numHitboxX.Name = "numHitboxX";
+            this.numHitboxX.Size = new System.Drawing.Size(168, 20);
+            this.numHitboxX.TabIndex = 0;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(566, 372);
+            this.ClientSize = new System.Drawing.Size(566, 282);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.menuFileMenu);
@@ -352,10 +352,10 @@
             this.menuFileMenu.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numHitboxX)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numHitboxY)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numHitboxW)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numHitboxH)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numHitboxW)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numHitboxY)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numHitboxX)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

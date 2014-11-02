@@ -216,7 +216,7 @@ namespace SpearOfLonginus.Entities
             Components = new Dictionary<string, Component>();
             Logics = new Dictionary<string, Logic>();
             Tags = new List<string>();
-
+            
             HandleDerivedAnimation();
         }
 
