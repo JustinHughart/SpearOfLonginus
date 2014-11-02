@@ -122,6 +122,10 @@ namespace SpearOfLonginus.Entities
     {
         #region Variables
         /// <summary>
+        /// The entity's identifier.
+        /// </summary>
+        public string ID;
+        /// <summary>
         /// Shows how the entity gets its input.
         /// </summary>
         public InputType InputType;
