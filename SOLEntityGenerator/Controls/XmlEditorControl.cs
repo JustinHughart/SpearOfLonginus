@@ -30,6 +30,18 @@ namespace SOLEntityGenerator.Controls
         }
 
         /// <summary>
+        /// Loads the XML into the tree.
+        /// </summary>
+        /// <param name="element">The element.</param>
+        /// <param name="parent">The parent to add the contents of element to.</param>
+        public void LoadXml( XElement element, TreeNode parent)
+        {
+            Nodes.Clear();
+            RecurseLoad(element, parent);
+            ExpandAll();
+        }
+
+        /// <summary>
         /// Loads XML recursively.
         /// </summary>
         /// <param name="element">The element to load.</param>
@@ -74,12 +86,22 @@ namespace SOLEntityGenerator.Controls
         }
 
         /// <summary>
-        /// Converts the contents of the tree to XML.
+        /// Converts the contents of the entire tree to XML.
         /// </summary>
         /// <returns></returns>
         public XElement ConvertToXml()
         {
             return RecurseSave(null, Nodes[0]);
+        }
+
+        /// <summary>
+        /// Converts the contents of the node to XML.
+        /// </summary>
+        /// <param name="node">The node to convert.</param>
+        /// <returns></returns>
+        public XElement ConvertToXml(TreeNode node)
+        {
+            return RecurseSave(null, node);
         }
 
         /// <summary>
