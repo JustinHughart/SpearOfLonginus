@@ -15,6 +15,7 @@ namespace SOLEntityGenerator.Controls
         public XmlEditorControl()
         {
             InitializeComponent();
+            HideSelection = false;
         }
 
         /// <summary>
@@ -119,6 +120,14 @@ namespace SOLEntityGenerator.Controls
         /// <returns></returns>
         protected string GetTextInput()
         {
+            TextInputForm input = new TextInputForm("Please enter an ID for the new node.");
+            input.ShowDialog();
+
+            if (input.DialogResult == DialogResult.OK)
+            {
+                return input.Input;
+            }
+
             return "";
         }
 
@@ -127,62 +136,58 @@ namespace SOLEntityGenerator.Controls
         /// </summary>
         public void AddNewNode()
         {
-            if (SelectedNode != null)
-            {
-                if (SelectedNode.Text.Equals("Attributes", StringComparison.OrdinalIgnoreCase)  || SelectedNode.Text.Equals("Elements", StringComparison.OrdinalIgnoreCase))
-                {
-                    String nodename = GetTextInput();
-
-                    if (nodename != "")
-                    {
-                        foreach (TreeNode node in SelectedNode.Nodes)
-                        {
-                            if (node.Text == nodename)
-                            {
-                                MessageBox.Show("Node already exists.");
-
-                                return;
-                            }
-                        }
-
-                        if (nodename.Equals("attributes", StringComparison.OrdinalIgnoreCase) || nodename.Equals("elements", StringComparison.OrdinalIgnoreCase))
-                        {
-                            MessageBox.Show("Name is invalid.");
-                        }
-                        else
-                        {
-                            var newnode = new TreeNode(nodename);
-                            SelectedNode.Nodes.Add(newnode);
-                            SelectedNode.Expand();
-
-                            if (SelectedNode.Text.Equals("Attributes", StringComparison.OrdinalIgnoreCase))
-                            {
-                                var valuenode = new TreeNode("value");
-                                newnode.Nodes.Add(valuenode);
-                                newnode.Expand();
-                            }
-
-                            if (SelectedNode.Text.Equals("Elements", StringComparison.OrdinalIgnoreCase))
-                            {
-                                var attribnode = new TreeNode("Attributes");
-                                var elenode = new TreeNode("Elements");
-
-                                newnode.Nodes.Add(attribnode);
-                                newnode.Nodes.Add(elenode);
-
-                                newnode.Expand();
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Please select either an 'attributes' or 'elements' node before attempting to add an item.");
-                }
-            }
-            else
+            if (SelectedNode == null)
             {
                 MessageBox.Show("Please select a node first.");
+                return;
+            }
+
+            if (!SelectedNode.Text.Equals("Attributes", StringComparison.OrdinalIgnoreCase) && !SelectedNode.Text.Equals("Elements", StringComparison.OrdinalIgnoreCase))
+            {
+                MessageBox.Show("Please select either an 'attributes' or 'elements' node before attempting to add an item.");
+                return;
+            }
+
+            String nodename = GetTextInput();
+
+            if (nodename != "")
+            {
+                foreach (TreeNode node in SelectedNode.Nodes)
+                {
+                    if (node.Text == nodename)
+                    {
+                        MessageBox.Show("Node already exists.");
+                        return;
+                    }
+                }
+
+                if (nodename.Equals("attributes", StringComparison.OrdinalIgnoreCase) || nodename.Equals("elements", StringComparison.OrdinalIgnoreCase))
+                {
+                    MessageBox.Show("Name is invalid.");
+                    return;
+                }
+
+                var newnode = new TreeNode(nodename);
+                SelectedNode.Nodes.Add(newnode);
+                SelectedNode.Expand();
+
+                if (SelectedNode.Text.Equals("Attributes", StringComparison.OrdinalIgnoreCase))
+                {
+                    var valuenode = new TreeNode("value");
+                    newnode.Nodes.Add(valuenode);
+                    newnode.Expand();
+                }
+
+                if (SelectedNode.Text.Equals("Elements", StringComparison.OrdinalIgnoreCase))
+                {
+                    var attribnode = new TreeNode("Attributes");
+                    var elenode = new TreeNode("Elements");
+
+                    newnode.Nodes.Add(attribnode);
+                    newnode.Nodes.Add(elenode);
+
+                    newnode.Expand();
+                }
             }
         }
 
@@ -191,40 +196,38 @@ namespace SOLEntityGenerator.Controls
         /// </summary>
         public void EditCurrentNode()
         {
-            if (SelectedNode != null)
-            {
-                if (SelectedNode.Parent == null)
-                {
-                    MessageBox.Show("Cannot edit this node.");
-                    return;
-                }
-
-                if (SelectedNode.Text.Equals("Attributes", StringComparison.OrdinalIgnoreCase) || SelectedNode.Text.Equals("Elements", StringComparison.OrdinalIgnoreCase))
-                {
-                    MessageBox.Show("Cannot edit this node.");
-                }
-                else
-                {
-                    String nodename = GetTextInput();
-
-                    if (nodename != "")
-                    {
-                        foreach (TreeNode node in SelectedNode.Parent.Nodes)
-                        {
-                            if (node.Text == nodename)
-                            {
-                                MessageBox.Show("Cannot make this change.");
-                                return;
-                            }
-                        }
-
-                        SelectedNode.Text = nodename;
-                    }
-                }
-            }
-            else
+            if (SelectedNode == null)
             {
                 MessageBox.Show("Please select a node first.");
+                return;
+            }
+
+            if (SelectedNode.Parent == null)
+            {
+                MessageBox.Show("Cannot edit this node.");
+                return;
+            }
+
+            if (SelectedNode.Text.Equals("Attributes", StringComparison.OrdinalIgnoreCase) || SelectedNode.Text.Equals("Elements", StringComparison.OrdinalIgnoreCase))
+            {
+                MessageBox.Show("Cannot edit this node.");
+                return;
+            }
+
+            String nodename = GetTextInput();
+
+            if (nodename != "")
+            {
+                foreach (TreeNode node in SelectedNode.Parent.Nodes)
+                {
+                    if (node.Text == nodename)
+                    {
+                        MessageBox.Show("Cannot make this change.");
+                        return;
+                    }
+                }
+
+                SelectedNode.Text = nodename;
             }
         }
 
@@ -233,33 +236,30 @@ namespace SOLEntityGenerator.Controls
         /// </summary>
         public void DeleteCurrentNode()
         {
-            if (SelectedNode != null)
-            {
-                if (SelectedNode.Parent != null && SelectedNode != Nodes[0])
-                {
-                    if (SelectedNode.Parent.Text.Equals("Attributes", StringComparison.OrdinalIgnoreCase) || SelectedNode.Parent.Text.Equals("Elements", StringComparison.OrdinalIgnoreCase))
-                    {
-                        var result = MessageBox.Show("Are you sure you want to delete this node and all subnodes?", "Really delete?", MessageBoxButtons.OKCancel);
-
-                        if (result == DialogResult.OK)
-                        {
-                            SelectedNode.Parent.Nodes.Remove(SelectedNode);
-                            MessageBox.Show("Node deleted.");
-                        }
-                    }
-                    else
-                    {
-                        MessageBox.Show("Cannot delete this node.");
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Cannot delete this node.");
-                }
-            }
-            else
+            if (SelectedNode == null)
             {
                 MessageBox.Show("Please select a node first.");
+                return;
+            }
+
+            if (SelectedNode.Parent == null || SelectedNode == Nodes[0])
+            {
+                MessageBox.Show("Cannot delete this node.");
+                return;
+            }
+
+            if (!SelectedNode.Parent.Text.Equals("Attributes", StringComparison.OrdinalIgnoreCase) && !SelectedNode.Parent.Text.Equals("Elements", StringComparison.OrdinalIgnoreCase))
+            {
+                MessageBox.Show("Cannot delete this node.");
+                return;
+            }
+
+            var result = MessageBox.Show("Are you sure you want to delete this node and all subnodes?", "Really delete?", MessageBoxButtons.OKCancel);
+
+            if (result == DialogResult.OK)
+            {
+                SelectedNode.Parent.Nodes.Remove(SelectedNode);
+                MessageBox.Show("Node deleted.");
             }
         }
     }
