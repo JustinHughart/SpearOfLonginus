@@ -284,6 +284,10 @@ namespace SOLEntityGenerator.Controls
             }
         }
 
+        /// <summary>
+        /// Determines whether the current node is an element.
+        /// </summary>
+        /// <returns></returns>
         public bool IsCurrentNodeElement()
         {
             if (SelectedNode == null)
@@ -299,6 +303,10 @@ namespace SOLEntityGenerator.Controls
             return SelectedNode.Parent.Text.Equals("Elements", StringComparison.OrdinalIgnoreCase);
         }
 
+        /// <summary>
+        /// Determines whether the current node is a child element of the root of the tree.
+        /// </summary>
+        /// <returns></returns>
         public bool IsChildElementOfRoot()
         {
             if (!IsCurrentNodeElement())
