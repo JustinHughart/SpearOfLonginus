@@ -299,5 +299,20 @@ namespace SOLEntityGenerator.Controls
 
             return SelectedNode.Parent.Text.Equals("Elements", StringComparison.OrdinalIgnoreCase);
         }
+
+        public bool IsChildElementOfRoot()
+        {
+            if (!IsCurrentNodeElement())
+            {
+                return false;
+            }
+
+            if (SelectedNode.Parent.Parent == null)
+            {
+                return false;
+            }
+
+            return SelectedNode.Parent.Parent == Nodes[0];
+        }
     }
 }
