@@ -284,5 +284,20 @@ namespace SOLEntityGenerator.Controls
                 MessageBox.Show("Node deleted.");
             }
         }
+
+        public bool IsCurrentNodeElement()
+        {
+            if (SelectedNode == null)
+            {
+                return false;
+            }
+
+            if (SelectedNode.Parent == null)
+            {
+                return false;
+            }
+
+            return SelectedNode.Parent.Text.Equals("Elements", StringComparison.OrdinalIgnoreCase);
+        }
     }
 }
