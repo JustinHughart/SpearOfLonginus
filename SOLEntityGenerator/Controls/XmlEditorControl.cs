@@ -36,7 +36,6 @@ namespace SOLEntityGenerator.Controls
         /// <param name="parent">The parent to add the contents of element to.</param>
         public void LoadXml( XElement element, TreeNode parent)
         {
-            Nodes.Clear();
             RecurseLoad(element, parent);
             ExpandAll();
         }

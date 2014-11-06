@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using SpearOfLonginus.Entities;
@@ -9,6 +10,7 @@ namespace SOLEntityGenerator
     {
         public XElement ComponentsElement;
         public XElement LogicsElement;
+        public XElement AnimationsElement;
 
         public MainForm()
         {
@@ -91,13 +93,13 @@ namespace SOLEntityGenerator
 
         private void BtnComponentsClick(object sender, EventArgs e)
         {
-            ComponentForm form = new ComponentForm(ComponentsElement);
+            ComponentForm form = new ComponentForm(Directory.GetCurrentDirectory(), ComponentsElement);
             form.Show();
         }
 
         private void BtnLogicsClick(object sender, EventArgs e)
         {
-            ComponentForm form = new ComponentForm(LogicsElement);
+            ComponentForm form = new ComponentForm(Directory.GetCurrentDirectory(), LogicsElement);
             form.Show();
         }
     }
