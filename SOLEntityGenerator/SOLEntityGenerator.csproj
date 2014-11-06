@@ -46,6 +46,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ComponentForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ComponentForm.Designer.cs">
+      <DependentUpon>ComponentForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TextInputForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\TextInputForm.Designer.cs">
+      <DependentUpon>TextInputForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\XmlEditorControl.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -60,6 +72,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="ComponentForm.resx">
+      <DependentUpon>ComponentForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\TextInputForm.resx">
+      <DependentUpon>TextInputForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\XmlEditorControl.resx">
       <DependentUpon>XmlEditorControl.cs</DependentUpon>
     </EmbeddedResource>
