@@ -10,7 +10,7 @@ namespace SOLEntityGenerator.Controls
     public partial class XmlEditorControl : TreeView
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="XmlEditorControl"/> class.
+        /// Initializes a new instance of the <see cref="XmlEditorControl" /> class.
         /// </summary>
         public XmlEditorControl()
         {
@@ -224,7 +224,7 @@ namespace SOLEntityGenerator.Controls
                 }
             }
         }
-        
+
         /// <summary>
         /// Deletes the current node.
         /// </summary>
@@ -295,15 +295,24 @@ namespace SOLEntityGenerator.Controls
             return SelectedNode.Parent.Parent == Nodes[0];
         }
 
+        /// <summary>
+        /// Checks if node is edittable.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void CheckIfEditIsValid(object sender, EventArgs e)
         {
             if (SelectedNode.Text.Equals("Attributes", StringComparison.OrdinalIgnoreCase) || SelectedNode.Text.Equals("Elements", StringComparison.OrdinalIgnoreCase) || SelectedNode == Nodes[0])
             {
                 SelectedNode.EndEdit(true);
-                Focus();
             }
         }
 
+        /// <summary>
+        /// Checks if the label is valid before allowing the edit to go through..
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="NodeLabelEditEventArgs"/> instance containing the event data.</param>
         private void CheckIfLabelIsValid(object sender, NodeLabelEditEventArgs e)
         {
             if (e.Label.Equals("Attributes", StringComparison.OrdinalIgnoreCase) || e.Label.Equals("Elements", StringComparison.OrdinalIgnoreCase) || e.Label == "")
