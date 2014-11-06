@@ -36,7 +36,6 @@
             this.templateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadTemplateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToTemplateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnEdit = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
             this.xmlEditor = new SOLEntityGenerator.Controls.XmlEditorControl();
             this.menuStrip1.SuspendLayout();
@@ -110,21 +109,10 @@
             this.saveToTemplateToolStripMenuItem.Text = "Save To Template";
             this.saveToTemplateToolStripMenuItem.Click += new System.EventHandler(this.SaveToTemplateToolStripMenuItemClick);
             // 
-            // btnEdit
-            // 
-            this.btnEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnEdit.Location = new System.Drawing.Point(104, 250);
-            this.btnEdit.Name = "btnEdit";
-            this.btnEdit.Size = new System.Drawing.Size(75, 23);
-            this.btnEdit.TabIndex = 3;
-            this.btnEdit.Text = "Edit Node";
-            this.btnEdit.UseVisualStyleBackColor = true;
-            this.btnEdit.Click += new System.EventHandler(this.BtnEditClick);
-            // 
             // btnDelete
             // 
             this.btnDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnDelete.Location = new System.Drawing.Point(196, 250);
+            this.btnDelete.Location = new System.Drawing.Point(93, 250);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(75, 23);
             this.btnDelete.TabIndex = 4;
@@ -138,6 +126,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.xmlEditor.HideSelection = false;
+            this.xmlEditor.LabelEdit = true;
             this.xmlEditor.Location = new System.Drawing.Point(12, 27);
             this.xmlEditor.Name = "xmlEditor";
             this.xmlEditor.Size = new System.Drawing.Size(260, 217);
@@ -149,7 +138,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(281, 282);
             this.Controls.Add(this.btnDelete);
-            this.Controls.Add(this.btnEdit);
             this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.xmlEditor);
             this.Controls.Add(this.menuStrip1);
@@ -174,7 +162,6 @@
         private System.Windows.Forms.ToolStripMenuItem templateToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loadTemplateToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveToTemplateToolStripMenuItem;
-        private System.Windows.Forms.Button btnEdit;
         private System.Windows.Forms.Button btnDelete;
     }
 }

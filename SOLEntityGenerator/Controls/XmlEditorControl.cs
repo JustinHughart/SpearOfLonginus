@@ -16,6 +16,9 @@ namespace SOLEntityGenerator.Controls
         {
             InitializeComponent();
             HideSelection = false;
+            LabelEdit = true;
+            BeforeLabelEdit += CheckIfEditIsValid;
+            AfterLabelEdit += CheckIfLabelIsValid;
         }
 
         /// <summary>
@@ -221,47 +224,7 @@ namespace SOLEntityGenerator.Controls
                 }
             }
         }
-
-        /// <summary>
-        /// Edits the current node.
-        /// </summary>
-        public void EditCurrentNode()
-        {
-            if (SelectedNode == null)
-            {
-                MessageBox.Show("Please select a node first.");
-                return;
-            }
-
-            if (SelectedNode.Parent == null)
-            {
-                MessageBox.Show("Cannot edit this node.");
-                return;
-            }
-
-            if (SelectedNode.Text.Equals("Attributes", StringComparison.OrdinalIgnoreCase) || SelectedNode.Text.Equals("Elements", StringComparison.OrdinalIgnoreCase))
-            {
-                MessageBox.Show("Cannot edit this node.");
-                return;
-            }
-
-            String nodename = GetTextInput();
-
-            if (nodename != "")
-            {
-                foreach (TreeNode node in SelectedNode.Parent.Nodes)
-                {
-                    if (node.Text == nodename)
-                    {
-                        MessageBox.Show("Cannot make this change.");
-                        return;
-                    }
-                }
-
-                SelectedNode.Text = nodename;
-            }
-        }
-
+        
         /// <summary>
         /// Deletes the current node.
         /// </summary>
@@ -330,6 +293,23 @@ namespace SOLEntityGenerator.Controls
             }
 
             return SelectedNode.Parent.Parent == Nodes[0];
+        }
+
+        private void CheckIfEditIsValid(object sender, EventArgs e)
+        {
+            if (SelectedNode.Text.Equals("Attributes", StringComparison.OrdinalIgnoreCase) || SelectedNode.Text.Equals("Elements", StringComparison.OrdinalIgnoreCase) || SelectedNode == Nodes[0])
+            {
+                SelectedNode.EndEdit(true);
+                Focus();
+            }
+        }
+
+        private void CheckIfLabelIsValid(object sender, NodeLabelEditEventArgs e)
+        {
+            if (e.Label.Equals("Attributes", StringComparison.OrdinalIgnoreCase) || e.Label.Equals("Elements", StringComparison.OrdinalIgnoreCase) || e.Label == "")
+            {
+                e.CancelEdit = true;
+            }
         }
     }
 }

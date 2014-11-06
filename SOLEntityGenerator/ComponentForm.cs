@@ -43,16 +43,6 @@ namespace SOLEntityGenerator
         }
 
         /// <summary>
-        /// Triggers when the edit button is clicked.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
-        private void BtnEditClick(object sender, System.EventArgs e)
-        {
-            xmlEditor.EditCurrentNode();
-        }
-
-        /// <summary>
         /// Triggers when the delete button is clicked.
         /// </summary>
         /// <param name="sender">The sender.</param>
