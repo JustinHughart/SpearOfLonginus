@@ -1,17 +1,22 @@
 ﻿using System;
 using System.Windows.Forms;
+using System.Xml.Linq;
 using SpearOfLonginus.Entities;
 
 namespace SOLEntityGenerator
 {
     public partial class MainForm : Form
     {
+        public XElement ComponentsElement;
+        public XElement LogicsElement;
+
         public MainForm()
         {
             InitializeComponent();
 
             SetupNumberBoxes();
             FillComboBoxes();
+            CreateNewEntity();
         }
 
         private void SetupNumberBoxes()
@@ -53,6 +58,12 @@ namespace SOLEntityGenerator
             cboFacing.SelectedIndex = 1;
         }
 
+        private void CreateNewEntity()
+        {
+            ComponentsElement = new XElement("components");
+            LogicsElement = new XElement("logics");
+        }
+
         private void NewToolStripMenuItemClick(object sender, EventArgs e)
         {
 
@@ -78,6 +89,16 @@ namespace SOLEntityGenerator
             
         }
 
-        
+        private void BtnComponentsClick(object sender, EventArgs e)
+        {
+            ComponentForm form = new ComponentForm(ComponentsElement);
+            form.Show();
+        }
+
+        private void BtnLogicsClick(object sender, EventArgs e)
+        {
+            ComponentForm form = new ComponentForm(LogicsElement);
+            form.Show();
+        }
     }
 }

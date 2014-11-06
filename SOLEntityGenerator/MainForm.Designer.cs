@@ -44,7 +44,6 @@
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.templateEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel3 = new System.Windows.Forms.Panel();
             this.chkSolid = new System.Windows.Forms.CheckBox();
             this.lblSolid = new System.Windows.Forms.Label();
@@ -56,6 +55,8 @@
             this.numHitboxW = new System.Windows.Forms.NumericUpDown();
             this.numHitboxY = new System.Windows.Forms.NumericUpDown();
             this.numHitboxX = new System.Windows.Forms.NumericUpDown();
+            this.btnComponents = new System.Windows.Forms.Button();
+            this.btnLogics = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.menuFileMenu.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -154,8 +155,7 @@
             // menuFileMenu
             // 
             this.menuFileMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem,
-            this.templateEditorToolStripMenuItem});
+            this.fileToolStripMenuItem});
             this.menuFileMenu.Location = new System.Drawing.Point(0, 0);
             this.menuFileMenu.Name = "menuFileMenu";
             this.menuFileMenu.Size = new System.Drawing.Size(566, 24);
@@ -208,12 +208,6 @@
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItemClick);
-            // 
-            // templateEditorToolStripMenuItem
-            // 
-            this.templateEditorToolStripMenuItem.Name = "templateEditorToolStripMenuItem";
-            this.templateEditorToolStripMenuItem.Size = new System.Drawing.Size(103, 20);
-            this.templateEditorToolStripMenuItem.Text = "Template Editor";
             // 
             // panel3
             // 
@@ -335,11 +329,33 @@
             this.numHitboxX.Size = new System.Drawing.Size(168, 20);
             this.numHitboxX.TabIndex = 0;
             // 
+            // btnComponents
+            // 
+            this.btnComponents.Location = new System.Drawing.Point(276, 30);
+            this.btnComponents.Name = "btnComponents";
+            this.btnComponents.Size = new System.Drawing.Size(89, 23);
+            this.btnComponents.TabIndex = 4;
+            this.btnComponents.Text = "Components";
+            this.btnComponents.UseVisualStyleBackColor = true;
+            this.btnComponents.Click += new System.EventHandler(this.BtnComponentsClick);
+            // 
+            // btnLogics
+            // 
+            this.btnLogics.Location = new System.Drawing.Point(276, 56);
+            this.btnLogics.Name = "btnLogics";
+            this.btnLogics.Size = new System.Drawing.Size(89, 23);
+            this.btnLogics.TabIndex = 5;
+            this.btnLogics.Text = "Logics";
+            this.btnLogics.UseVisualStyleBackColor = true;
+            this.btnLogics.Click += new System.EventHandler(this.BtnLogicsClick);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(566, 282);
+            this.Controls.Add(this.btnLogics);
+            this.Controls.Add(this.btnComponents);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.menuFileMenu);
@@ -390,7 +406,8 @@
         private System.Windows.Forms.NumericUpDown numHitboxW;
         private System.Windows.Forms.NumericUpDown numHitboxY;
         private System.Windows.Forms.NumericUpDown numHitboxX;
-        private System.Windows.Forms.ToolStripMenuItem templateEditorToolStripMenuItem;
+        private System.Windows.Forms.Button btnComponents;
+        private System.Windows.Forms.Button btnLogics;
     }
 }
 
