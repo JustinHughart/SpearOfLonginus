@@ -44,6 +44,7 @@
             // 
             // btnAdd
             // 
+            this.btnAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnAdd.Location = new System.Drawing.Point(12, 250);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(75, 23);
@@ -100,15 +101,18 @@
             this.loadTemplateToolStripMenuItem.Name = "loadTemplateToolStripMenuItem";
             this.loadTemplateToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.loadTemplateToolStripMenuItem.Text = "Load Template";
+            this.loadTemplateToolStripMenuItem.Click += new System.EventHandler(this.LoadTemplateToolStripMenuItemClick);
             // 
             // saveToTemplateToolStripMenuItem
             // 
             this.saveToTemplateToolStripMenuItem.Name = "saveToTemplateToolStripMenuItem";
             this.saveToTemplateToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.saveToTemplateToolStripMenuItem.Text = "Save To Template";
+            this.saveToTemplateToolStripMenuItem.Click += new System.EventHandler(this.SaveToTemplateToolStripMenuItemClick);
             // 
             // btnEdit
             // 
+            this.btnEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnEdit.Location = new System.Drawing.Point(104, 250);
             this.btnEdit.Name = "btnEdit";
             this.btnEdit.Size = new System.Drawing.Size(75, 23);
@@ -119,6 +123,7 @@
             // 
             // btnDelete
             // 
+            this.btnDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnDelete.Location = new System.Drawing.Point(196, 250);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(75, 23);
