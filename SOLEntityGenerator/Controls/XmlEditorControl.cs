@@ -141,7 +141,17 @@ namespace SOLEntityGenerator.Controls
         /// <returns></returns>
         protected string GetTextInput()
         {
-            TextInputForm input = new TextInputForm("Please enter an ID for the new node.");
+            return GetTextInput("Please enter an ID for the new node.");
+        }
+
+        /// <summary>
+        /// Gets text inputted from the user
+        /// </summary>
+        /// <param name="title">The title of the window.</param>
+        /// <returns></returns>
+        protected string GetTextInput(string title)
+        {
+            TextInputForm input = new TextInputForm(title);
             input.ShowDialog();
 
             if (input.DialogResult == DialogResult.OK)
@@ -194,7 +204,7 @@ namespace SOLEntityGenerator.Controls
 
                 if (SelectedNode.Text.Equals("Attributes", StringComparison.OrdinalIgnoreCase))
                 {
-                    var valuenode = new TreeNode("value");
+                    var valuenode = new TreeNode(GetTextInput("Please enter the value of the new attribute."));
                     newnode.Nodes.Add(valuenode);
                     newnode.Expand();
                 }
