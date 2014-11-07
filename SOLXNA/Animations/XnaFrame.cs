@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using System.Xml.Linq;
+using Microsoft.Xna.Framework.Graphics;
 using SpearOfLonginus;
 using SpearOfLonginus.Animations;
 using SOLRect = SpearOfLonginus.Rectangle;
@@ -25,6 +26,14 @@ namespace SOLXNA.Animations
         #endregion
 
         #region Constructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="XnaFrame"/> class.
+        /// </summary>
+        public XnaFrame()
+        {
+            SpriteEffect = SpriteEffects.None;
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="XnaFrame" /> class.
@@ -71,6 +80,22 @@ namespace SOLXNA.Animations
         public virtual void UnloadContent()
         {
             Texture = null; //Is removing the texture enough? The texture cache should dispose of anything. I'm not sure if this piece of code is the right thing to do, in all honesty.
+        }
+
+        /// <summary>
+        /// Uses XML to initialize the object.
+        /// </summary>
+        /// <param name="element">The element used for loading..</param>
+        public override void LoadFromXml(XElement element)
+        {
+            base.LoadFromXml(element);
+
+            XAttribute effectsattribute = element.Attribute("spriteeffects");
+
+            if (effectsattribute != null)
+            {
+                SpriteEffects.TryParse(effectsattribute.Value, out SpriteEffect);
+            }
         }
 
         #endregion
