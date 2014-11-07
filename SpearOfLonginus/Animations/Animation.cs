@@ -1,11 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Xml.Linq;
 
 namespace SpearOfLonginus.Animations
 {
     /// <summary>
     /// Spear of Longinus' animation class. Supports both delta time and incremental animations with the same codebase.
     /// </summary>
-    public class Animation
+    public class Animation : IXmlLoadable
     {
         #region Variables
 
@@ -51,6 +53,16 @@ namespace SpearOfLonginus.Animations
         #endregion
 
         #region Constructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Animation"/> class.
+        /// </summary>
+        public Animation()
+        {
+            ID = "";
+            IsLooping = false;
+            ResetIndex = false;
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Animation" /> class.
@@ -220,6 +232,67 @@ namespace SpearOfLonginus.Animations
             return TimingIndex >= GetCurrentFrame().TimeTillNext; //If the last frame is done with its timing index, then the animation is finished.
         }
 
+        /// <summary>
+        /// Uses XML to initialize the object.
+        /// </summary>
+        /// <param name="element">The element used for loading..</param>
+        public virtual void LoadFromXml(XElement element)
+        {
+            //Get the attributes
+            foreach (var attribute in element.Attributes())
+            {
+                if (attribute.Name.LocalName.Equals("id", StringComparison.OrdinalIgnoreCase))
+                {
+                    ID = attribute.Value;
+                    continue;
+                }
+
+                if (attribute.Name.LocalName.Equals("islooping", StringComparison.OrdinalIgnoreCase))
+                {
+                    bool value = false;
+
+                    if (bool.TryParse(attribute.Value, out value))
+                    {
+                        IsLooping = value;
+                    }
+                }
+
+                if (attribute.Name.LocalName.Equals("resetindex", StringComparison.OrdinalIgnoreCase))
+                {
+                    bool value = false;
+
+                    if (bool.TryParse(attribute.Value, out value))
+                    {
+                        ResetIndex = value;
+                    }
+                }
+            }
+
+            //Load frames.
+            XElement frameselement = element.Element("frames");
+
+            if (frameselement != null)
+            {
+                foreach (var frame in frameselement.Elements())
+                {
+                    AddFrame(GetFrameFromXml(frame));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets the frame from XML.
+        /// </summary>
+        /// <param name="element">The element used for loading.</param>
+        /// <returns></returns>
+        protected virtual Frame GetFrameFromXml(XElement element)
+        {
+            var frame = new Frame();
+            frame.LoadFromXml(element);
+            return frame;
+        }
+
         #endregion
+
     }
 }
