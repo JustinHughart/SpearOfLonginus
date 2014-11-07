@@ -53,6 +53,7 @@
     <Compile Include="Entities\Logics\FollowLogic.cs" />
     <Compile Include="Input\InputManager.cs" />
     <Compile Include="Input\InputPacket.cs" />
+    <Compile Include="IXmlLoadable.cs" />
     <Compile Include="Maps\Backdrop.cs" />
     <Compile Include="Maps\MapLogic.cs" />
     <Compile Include="Maps\Map.cs" />
