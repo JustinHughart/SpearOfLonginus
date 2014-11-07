@@ -1,4 +1,6 @@
-﻿using SpearOfLonginus.Input;
+﻿using System;
+using System.Xml.Linq;
+using SpearOfLonginus.Input;
 
 namespace SpearOfLonginus.Entities.Components
 {
@@ -41,6 +43,16 @@ namespace SpearOfLonginus.Entities.Components
         #endregion
 
         #region Constructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GridMoveComponent"/> class.
+        /// </summary>
+        public GridMoveComponent()
+        {
+            WalkSpeed = 1;
+            RunSpeed = 2;
+            GridSize = new Vector(16);
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FreeMoveComponent" /> class.
@@ -242,6 +254,69 @@ namespace SpearOfLonginus.Entities.Components
                 Direction = Vector.Zero;
                 Speed = 0;
                 Moving = false;
+            }
+        }
+
+        /// <summary>
+        /// Uses XML to initialize the object.
+        /// </summary>
+        /// <param name="element">The element used for loading..</param>
+        public override void LoadFromXml(System.Xml.Linq.XElement element)
+        {
+           //Attributes
+            foreach (var attribute in element.Attributes())
+            {
+                if (attribute.Name.LocalName.Equals("walkspeed", StringComparison.OrdinalIgnoreCase))
+                {
+                    float value;
+
+                    if (float.TryParse(attribute.Value, out value))
+                    {
+                        WalkSpeed = value;
+                    }
+
+                    continue;
+                }
+
+                if (attribute.Name.LocalName.Equals("runspeed", StringComparison.OrdinalIgnoreCase))
+                {
+                    float value;
+
+                    if (float.TryParse(attribute.Value, out value))
+                    {
+                        WalkSpeed = value;
+                    }
+
+                    continue;
+                }
+            }
+
+            //Grid size.
+            XElement originelement = element.Element("gridsize");
+
+            if (originelement != null)
+            {
+                int x = 0;
+                int y = 0;
+
+                foreach (var attribute in originelement.Attributes())
+                {
+                    if (attribute.Name.LocalName.Equals("x", StringComparison.OrdinalIgnoreCase))
+                    {
+                        int.TryParse(attribute.Value, out x);
+
+                        continue;
+                    }
+
+                    if (attribute.Name.LocalName.Equals("y", StringComparison.OrdinalIgnoreCase))
+                    {
+                        int.TryParse(attribute.Value, out y);
+
+                        continue;
+                    }
+                }
+
+                GridSize = new Vector(x, y);
             }
         }
 
