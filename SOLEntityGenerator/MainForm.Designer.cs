@@ -57,6 +57,9 @@
             this.numHitboxX = new System.Windows.Forms.NumericUpDown();
             this.btnComponents = new System.Windows.Forms.Button();
             this.btnLogics = new System.Windows.Forms.Button();
+            this.btnAnimations = new System.Windows.Forms.Button();
+            this.btnCustom = new System.Windows.Forms.Button();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
             this.menuFileMenu.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -64,6 +67,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.numHitboxW)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numHitboxY)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numHitboxX)).BeginInit();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -158,7 +162,7 @@
             this.fileToolStripMenuItem});
             this.menuFileMenu.Location = new System.Drawing.Point(0, 0);
             this.menuFileMenu.Name = "menuFileMenu";
-            this.menuFileMenu.Size = new System.Drawing.Size(566, 24);
+            this.menuFileMenu.Size = new System.Drawing.Size(381, 24);
             this.menuFileMenu.TabIndex = 1;
             this.menuFileMenu.Text = "FileMenu";
             // 
@@ -331,7 +335,7 @@
             // 
             // btnComponents
             // 
-            this.btnComponents.Location = new System.Drawing.Point(276, 30);
+            this.btnComponents.Location = new System.Drawing.Point(3, 5);
             this.btnComponents.Name = "btnComponents";
             this.btnComponents.Size = new System.Drawing.Size(89, 23);
             this.btnComponents.TabIndex = 4;
@@ -341,7 +345,7 @@
             // 
             // btnLogics
             // 
-            this.btnLogics.Location = new System.Drawing.Point(276, 56);
+            this.btnLogics.Location = new System.Drawing.Point(3, 33);
             this.btnLogics.Name = "btnLogics";
             this.btnLogics.Size = new System.Drawing.Size(89, 23);
             this.btnLogics.TabIndex = 5;
@@ -349,16 +353,48 @@
             this.btnLogics.UseVisualStyleBackColor = true;
             this.btnLogics.Click += new System.EventHandler(this.BtnLogicsClick);
             // 
+            // btnAnimations
+            // 
+            this.btnAnimations.Location = new System.Drawing.Point(3, 60);
+            this.btnAnimations.Name = "btnAnimations";
+            this.btnAnimations.Size = new System.Drawing.Size(89, 23);
+            this.btnAnimations.TabIndex = 6;
+            this.btnAnimations.Text = "Animations";
+            this.btnAnimations.UseVisualStyleBackColor = true;
+            this.btnAnimations.Click += new System.EventHandler(this.BtnAnimationsClick);
+            // 
+            // btnCustom
+            // 
+            this.btnCustom.Location = new System.Drawing.Point(3, 88);
+            this.btnCustom.Name = "btnCustom";
+            this.btnCustom.Size = new System.Drawing.Size(89, 23);
+            this.btnCustom.TabIndex = 7;
+            this.btnCustom.Text = "Custom XML";
+            this.btnCustom.UseVisualStyleBackColor = true;
+            this.btnCustom.Click += new System.EventHandler(this.BtnCustomClick);
+            // 
+            // panel2
+            // 
+            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel2.Controls.Add(this.btnComponents);
+            this.panel2.Controls.Add(this.btnCustom);
+            this.panel2.Controls.Add(this.btnLogics);
+            this.panel2.Controls.Add(this.btnAnimations);
+            this.panel2.Location = new System.Drawing.Point(277, 27);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(97, 115);
+            this.panel2.TabIndex = 8;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(566, 282);
-            this.Controls.Add(this.btnLogics);
-            this.Controls.Add(this.btnComponents);
+            this.ClientSize = new System.Drawing.Size(381, 282);
+            this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.menuFileMenu);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MainMenuStrip = this.menuFileMenu;
             this.Name = "MainForm";
             this.Text = "Spear of Longinus Entity Generator";
@@ -372,6 +408,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.numHitboxW)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numHitboxY)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numHitboxX)).EndInit();
+            this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -408,6 +445,9 @@
         private System.Windows.Forms.NumericUpDown numHitboxX;
         private System.Windows.Forms.Button btnComponents;
         private System.Windows.Forms.Button btnLogics;
+        private System.Windows.Forms.Button btnAnimations;
+        private System.Windows.Forms.Button btnCustom;
+        private System.Windows.Forms.Panel panel2;
     }
 }
 
