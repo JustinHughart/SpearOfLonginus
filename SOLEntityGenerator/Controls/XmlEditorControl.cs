@@ -29,7 +29,6 @@ namespace SOLEntityGenerator.Controls
         {
             Nodes.Clear();
             RecurseLoad(element, null);
-            ExpandAll();
         }
 
         /// <summary>
@@ -40,7 +39,6 @@ namespace SOLEntityGenerator.Controls
         public void LoadXml( XElement element, TreeNode parent)
         {
             RecurseLoad(element, parent);
-            ExpandAll();
         }
 
         /// <summary>
@@ -77,6 +75,12 @@ namespace SOLEntityGenerator.Controls
             //Load elements.
             var elementsnode = new TreeNode("Elements");
             node.Nodes.Add(elementsnode);
+            node.Expand();
+
+            if (node.Parent != null)
+            {
+                node.Parent.Expand();
+            }
 
             if (element.HasElements)
             {
@@ -261,7 +265,7 @@ namespace SOLEntityGenerator.Controls
         /// Determines whether the current node is an element.
         /// </summary>
         /// <returns></returns>
-        public bool IsCurrentNodeElement()
+        public bool IsCurrentNodeChildElement()
         {
             if (SelectedNode == null)
             {
@@ -276,23 +280,9 @@ namespace SOLEntityGenerator.Controls
             return SelectedNode.Parent.Text.Equals("Elements", StringComparison.OrdinalIgnoreCase);
         }
 
-        /// <summary>
-        /// Determines whether the current node is a child element of the root of the tree.
-        /// </summary>
-        /// <returns></returns>
-        public bool IsChildElementOfRoot()
+        public bool IsCurrentNodeElement()
         {
-            if (!IsCurrentNodeElement())
-            {
-                return false;
-            }
-
-            if (SelectedNode.Parent.Parent == null)
-            {
-                return false;
-            }
-
-            return SelectedNode.Parent.Parent == Nodes[0];
+            return SelectedNode.Text.Equals("Elements", StringComparison.OrdinalIgnoreCase);
         }
 
         /// <summary>

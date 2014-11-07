@@ -85,6 +85,12 @@ namespace SOLEntityGenerator
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         private void LoadTemplateToolStripMenuItemClick(object sender, System.EventArgs e)
         {
+            if (!xmlEditor.IsCurrentNodeElement())
+            {
+                MessageBox.Show("Please select an elements node to place the template in.");
+                return;
+            }
+
             CheckTemplateFolder();
 
             OpenFileDialog ofd = new OpenFileDialog();
@@ -100,7 +106,7 @@ namespace SOLEntityGenerator
 
             var doc = XDocument.Load(ofd.FileName);
 
-            xmlEditor.LoadXml(doc.Root, xmlEditor.Nodes[0]);
+            xmlEditor.LoadXml(doc.Root, xmlEditor.SelectedNode);
         }
 
         /// <summary>
@@ -112,9 +118,9 @@ namespace SOLEntityGenerator
         {
             CheckTemplateFolder();
 
-            if (!xmlEditor.IsChildElementOfRoot())
+            if (!xmlEditor.IsCurrentNodeChildElement())
             {
-                MessageBox.Show("Please select a child element of the root.");
+                MessageBox.Show("Please select an element");
                 return;
             }
 
