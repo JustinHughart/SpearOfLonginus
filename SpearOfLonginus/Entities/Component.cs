@@ -1,11 +1,12 @@
-﻿using SpearOfLonginus.Input;
+﻿using System.Xml.Linq;
+using SpearOfLonginus.Input;
 
 namespace SpearOfLonginus.Entities
 {
     /// <summary>
     /// A logical component for the entity class.
     /// </summary>
-    public abstract class Component
+    public abstract class Component : IXmlLoadable
     {
         #region Variables
         /// <summary>
@@ -16,6 +17,14 @@ namespace SpearOfLonginus.Entities
         #endregion 
 
         #region Constructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Component"/> class.
+        /// </summary>
+        public Component()
+        {
+
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Component"/> class.
@@ -40,7 +49,16 @@ namespace SpearOfLonginus.Entities
 
         }
 
-        #endregion
+        /// <summary>
+        /// Uses XML to initialize the object.
+        /// </summary>
+        /// <param name="element">The element used for loading..</param>
+        public virtual void LoadFromXml(XElement element)
+        {
 
+        }
+
+        #endregion
+        
     }
 }
