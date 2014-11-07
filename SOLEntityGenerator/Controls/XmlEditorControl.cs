@@ -305,6 +305,11 @@ namespace SOLEntityGenerator.Controls
         /// <param name="e">The <see cref="NodeLabelEditEventArgs"/> instance containing the event data.</param>
         private void CheckIfLabelIsValid(object sender, NodeLabelEditEventArgs e)
         {
+            if (e.Label == null)
+            {
+                return;
+            }
+
             if (e.Label.Equals("Attributes", StringComparison.OrdinalIgnoreCase) || e.Label.Equals("Elements", StringComparison.OrdinalIgnoreCase) || e.Label == "")
             {
                 e.CancelEdit = true;
