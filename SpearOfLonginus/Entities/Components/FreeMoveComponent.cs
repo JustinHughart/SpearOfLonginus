@@ -1,4 +1,6 @@
-﻿using SpearOfLonginus.Input;
+﻿using System;
+using System.Xml.Linq;
+using SpearOfLonginus.Input;
 
 namespace SpearOfLonginus.Entities.Components
 {
@@ -21,6 +23,15 @@ namespace SpearOfLonginus.Entities.Components
         #endregion
 
         #region Constructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FreeMoveComponent"/> class.
+        /// </summary>
+        public FreeMoveComponent()
+        {
+            WalkSpeed = 1;
+            RunSpeed = 2;
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FreeMoveComponent"/> class.
@@ -183,6 +194,41 @@ namespace SpearOfLonginus.Entities.Components
             {
                 //If you aren't moving, you're standing!
                 Owner.MovingState = MovingState.Standing;
+            }
+        }
+
+        /// <summary>
+        /// Uses XML to initialize the object.
+        /// </summary>
+        /// <param name="element">The element used for loading..</param>
+        public override void LoadFromXml(XElement element)
+        {
+            //Attributes
+            foreach (var attribute in element.Attributes())
+            {
+                if (attribute.Name.LocalName.Equals("walkspeed", StringComparison.OrdinalIgnoreCase))
+                {
+                    float value;
+
+                    if (float.TryParse(attribute.Value, out value))
+                    {
+                        WalkSpeed = value;
+                    }
+
+                    continue;
+                }
+
+                if (attribute.Name.LocalName.Equals("runspeed", StringComparison.OrdinalIgnoreCase))
+                {
+                    float value;
+
+                    if (float.TryParse(attribute.Value, out value))
+                    {
+                        WalkSpeed = value;
+                    }
+
+                    continue;
+                }
             }
         }
 
