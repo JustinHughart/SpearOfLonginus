@@ -59,9 +59,13 @@ namespace SOLEntityGenerator.Controls
             {
                 TreeNode namenode = new TreeNode(attribute.Name.ToString());
                 attributenode.Nodes.Add(namenode);
+                namenode.Expand();
                 TreeNode valuenode = new TreeNode(attribute.Value);
                 namenode.Nodes.Add(valuenode);
+                valuenode.Expand();
             }
+
+            attributenode.Expand();
 
             if (parent == null)
             {
