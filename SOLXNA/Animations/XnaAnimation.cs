@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Xml.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpearOfLonginus.Animations;
@@ -23,6 +24,14 @@ namespace SOLXNA.Animations
         #endregion
 
         #region Constructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="XnaAnimation"/> class.
+        /// </summary>
+        public XnaAnimation()
+        {
+
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="XnaAnimation" /> class.
@@ -188,6 +197,18 @@ namespace SOLXNA.Animations
         public override Animation Clone(int frame, float timingindex)
         {
             return new XnaAnimation(ID, IsLooping, ResetIndex, GetFramesList(), frame, timingindex, TextureCache);
+        }
+
+        /// <summary>
+        /// Gets the frame from XML.
+        /// </summary>
+        /// <param name="element">The element used for loading.</param>
+        /// <returns></returns>
+        protected override Frame GetFrameFromXml(XElement element)
+        {
+            var frame = new XnaFrame();
+            frame.LoadFromXml(element);
+            return frame;  
         }
         
         #endregion
