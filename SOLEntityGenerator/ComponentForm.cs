@@ -22,11 +22,10 @@ namespace SOLEntityGenerator
         /// <summary>
         /// Initializes a new instance of the <see cref="ComponentForm"/> class.
         /// </summary>
-        /// <param name="apppath">The application path.</param>
         /// <param name="element">The element to initialize data with.</param>
-        public ComponentForm( string apppath, XElement element)
+        public ComponentForm(XElement element)
         {
-            _templatefolder = apppath + "\\Templates";
+            _templatefolder = Directory.GetCurrentDirectory() + "\\Templates";
             InitializeComponent();
             _element = element;
             xmlEditor.LoadXml(_element);
