@@ -13,6 +13,17 @@ namespace SpearOfLonginus.Entities
         /// The entity who owns the logic.
         /// </summary>
         protected Entity Owner;
+        /// <summary>
+        /// Gets or sets a value indicating whether the logic is initialized..
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if [initialized]; otherwise, <c>false</c>.
+        /// </value>
+        public bool Initialized { get; protected set; }
+        /// <summary>
+        /// Whether or not the logic is dead and should be removed.
+        /// </summary>
+        public bool Dead;
 
         #endregion
 
@@ -38,7 +49,18 @@ namespace SpearOfLonginus.Entities
         /// <param name="deltatime">The time that has passed since last update.</param>
         public virtual void Update(InputPacket packet, float deltatime)
         {
+            if (!Initialized)
+            {
+                Initialize();
+            }
+        }
 
+        /// <summary>
+        /// Initializes this instance.
+        /// </summary>
+        public virtual void Initialize()
+        {
+            Initialized = true;
         }
 
         /// <summary>
@@ -50,6 +72,10 @@ namespace SpearOfLonginus.Entities
 
         }
 
+        /// <summary>
+        /// Uses XML to initialize the object.
+        /// </summary>
+        /// <param name="element">The element used for loading..</param>
         public virtual void LoadFromXml(XElement element)
         {
 
