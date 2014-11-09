@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Xml.Linq;
 using SpearOfLonginus.Input;
 
 namespace SpearOfLonginus.Entities.Logics
@@ -15,6 +16,10 @@ namespace SpearOfLonginus.Entities.Logics
         /// </summary>
         protected Entity Target;
         /// <summary>
+        /// The ID of the target.
+        /// </summary>
+        protected string TargetID;
+        /// <summary>
         /// The distance from the target to start moving at.
         /// </summary>
         protected float Distance;
@@ -30,6 +35,14 @@ namespace SpearOfLonginus.Entities.Logics
         #endregion
 
         #region Constructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FollowLogic"/> class.
+        /// </summary>
+        public FollowLogic()
+        {
+
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FollowLogic" /> class.
@@ -103,6 +116,87 @@ namespace SpearOfLonginus.Entities.Logics
             {
                 packet.Run = PressState.Down;
             }
+        }
+
+        /// <summary>
+        /// Initializes this instance.
+        /// </summary>
+        public override void Initialize()
+        {
+            base.Initialize();
+
+            if (Target == null)
+            {
+                Target = Owner.Map.Entities.GetEntity(TargetID);
+            }
+        }
+
+        /// <summary>
+        /// Uses XML to initialize the object.
+        /// </summary>
+        /// <param name="element">The element used for loading..</param>
+        public override void LoadFromXml(System.Xml.Linq.XElement element)
+        {
+            //Attributes
+            foreach (var attribute in element.Attributes())
+            {
+                if (attribute.Name.LocalName.Equals("targetid", StringComparison.OrdinalIgnoreCase))
+                {
+                    TargetID = attribute.Value;
+                    continue;
+                }
+
+                if (attribute.Name.LocalName.Equals("distance", StringComparison.OrdinalIgnoreCase))
+                {
+                    float value;
+
+                    if (float.TryParse(attribute.Value, out value))
+                    {
+                        Distance = value;
+                    }
+
+                    continue;
+                }
+
+                if (attribute.Name.LocalName.Equals("rundistance", StringComparison.OrdinalIgnoreCase))
+                {
+                    float value;
+
+                    if (float.TryParse(attribute.Value, out value))
+                    {
+                        RunDistance = value;
+                    }
+
+                    continue;
+                }
+            }
+
+            //Safe zone.
+            XElement safezoneelement = element.Element("safezone");
+
+            if (safezoneelement != null)
+            {
+                int x = 0;
+                int y = 0;
+
+                foreach (var attribute in safezoneelement.Attributes())
+                {
+                    if (attribute.Name.LocalName.Equals("x", StringComparison.OrdinalIgnoreCase))
+                    {
+                        int.TryParse(attribute.Value, out x);
+
+                        continue;
+                    }
+
+                    if (attribute.Name.LocalName.Equals("y", StringComparison.OrdinalIgnoreCase))
+                    {
+                        int.TryParse(attribute.Value, out y);
+
+                        continue;
+                    }
+                }
+
+                Safezone = new Vector(x, y);
         }
 
         #endregion
