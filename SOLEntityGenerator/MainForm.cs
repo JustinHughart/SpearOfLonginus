@@ -147,7 +147,7 @@ namespace SOLEntityGenerator
         private void OpenToolStripMenuItemClick(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "Spear of Longinus Entity | *.sle | Spear of Longinus Gzipped Entity | *.gze";
+            ofd.Filter = "Spear of Longinus Entity (*.sle)|*.sle|Spear of Longinus Gzipped Entity (*.gze)|*.gze";
             ofd.ShowDialog();
 
             if (ofd.FileName == "")
@@ -174,7 +174,7 @@ namespace SOLEntityGenerator
             if (_filepath == "")
             {
                 SaveFileDialog sfd = new SaveFileDialog();
-                sfd.Filter = "Spear of Longinus Entity | *.sle | Spear of Longinus Gzipped Entity | *.gze";
+                sfd.Filter = "Spear of Longinus Entity (*.sle)|*.sle|Spear of Longinus Gzipped Entity (*.gze)|*.gze";
                 sfd.ShowDialog();
 
                 if (sfd.FileName != "")
@@ -201,7 +201,7 @@ namespace SOLEntityGenerator
             bool valid = false;
 
             SaveFileDialog sfd = new SaveFileDialog();
-            sfd.Filter = "Spear of Longinus Entity | *.sle | Spear of Longinus Gzipped Entity | *.gze";
+            sfd.Filter = "Spear of Longinus Entity (*.sle)|*.sle|Spear of Longinus Gzipped Entity (*.gze)|*.gze";
             sfd.ShowDialog();
 
             if (sfd.FileName != "")
@@ -278,6 +278,8 @@ namespace SOLEntityGenerator
         /// <exception cref="System.ArgumentException">File type not supported.</exception>
         private void SaveToFile(string path)
         {
+            path = ValidatePath(path);
+
             XElement saveelement = new XElement("entity");
 
             //Basic attributes
@@ -356,6 +358,8 @@ namespace SOLEntityGenerator
         /// </exception>
         private void LoadFromFile(string path)
         {
+            path = ValidatePath(path);
+
             XDocument doc = null;
 
             //Load the doc.
@@ -517,6 +521,16 @@ namespace SOLEntityGenerator
             {
                 CustomElement = doc.Root.Element("custom");
             }
+        }
+
+        private string ValidatePath(string input)
+        {
+            while (input.EndsWith(" "))
+            {
+                input.Remove(input.Length - 2);
+            }
+
+            return input;
         }
     }
 }
