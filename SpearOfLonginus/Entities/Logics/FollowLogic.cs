@@ -15,18 +15,22 @@ namespace SpearOfLonginus.Entities.Logics
         /// The target to follow.
         /// </summary>
         protected Entity Target;
+
         /// <summary>
         /// The ID of the target.
         /// </summary>
         protected string TargetID;
+
         /// <summary>
         /// The distance from the target to start moving at.
         /// </summary>
         protected float Distance;
+
         /// <summary>
         /// The distance from the target at which to start running.
         /// </summary>
         protected float RunDistance;
+
         /// <summary>
         /// The distance of where NOT to move, so you don't move for 1 pixel changes.
         /// </summary>
@@ -52,7 +56,8 @@ namespace SpearOfLonginus.Entities.Logics
         /// <param name="distance">The distance from the target to start moving at.</param>
         /// <param name="rundistance">The distance from the target at which to start running.</param>
         /// <param name="safezone">The distance of where NOT to move, so you don't move for 1 pixel changes.</param>
-        public FollowLogic(Entity owner, Entity target, float distance, float rundistance, Vector safezone) : base(owner)
+        public FollowLogic(Entity owner, Entity target, float distance, float rundistance, Vector safezone)
+            : base(owner)
         {
             Target = target;
             Distance = distance;
@@ -197,8 +202,9 @@ namespace SpearOfLonginus.Entities.Logics
                 }
 
                 Safezone = new Vector(x, y);
-        }
+            }
 
-        #endregion
+            #endregion
+        }
     }
 }
