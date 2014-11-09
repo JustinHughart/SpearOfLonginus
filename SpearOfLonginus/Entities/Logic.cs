@@ -1,11 +1,12 @@
-﻿using SpearOfLonginus.Input;
+﻿using System.Xml.Linq;
+using SpearOfLonginus.Input;
 
 namespace SpearOfLonginus.Entities
 {
     /// <summary>
     /// An AI component for the entity class.
     /// </summary>
-    public abstract class Logic
+    public abstract class Logic : IXmlLoadable
     {
         #region Variables
         /// <summary>
@@ -49,7 +50,12 @@ namespace SpearOfLonginus.Entities
 
         }
 
-        #endregion
+        public virtual void LoadFromXml(XElement element)
+        {
 
+        }
+
+        #endregion
+        
     }
 }
