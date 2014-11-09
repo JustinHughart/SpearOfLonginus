@@ -28,6 +28,14 @@ namespace SpearOfLonginus.Entities
         #endregion
 
         #region Constructors
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Logic"/> class.
+        /// </summary>
+        public Logic()
+        {
+            Initialized = false;
+            Dead = false;
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Logic"/> class.
