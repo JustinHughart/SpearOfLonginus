@@ -15,7 +15,7 @@ namespace SpearOfLonginus.Entities
         /// <summary>
         /// The entities that are being handled.
         /// </summary>
-        protected List<Entity> Entities;
+        protected Dictionary<string, Entity> Entities;
         /// <summary>
         /// The map the entities reside in.
         /// </summary>
@@ -31,7 +31,7 @@ namespace SpearOfLonginus.Entities
         /// <param name="map">The map.</param>
         public EntityManager(Map map)
         {
-           Entities = new List<Entity>();
+           Entities = new Dictionary<string, Entity>();
             Map = map;
         }
 
@@ -43,9 +43,9 @@ namespace SpearOfLonginus.Entities
         /// Gets the entity list copy.
         /// </summary>
         /// <returns></returns>
-        public virtual List<Entity> GetEntityListCopy()
+        public virtual List<Entity> GetEntityList()
         {
-            return new List<Entity>(Entities.ToArray());
+            return new List<Entity>(Entities.Values);
         }
 
         /// <summary>
@@ -54,23 +54,50 @@ namespace SpearOfLonginus.Entities
         /// <param name="entity">The entity.</param>
         public virtual void AddEntity(Entity entity)
         {
+            DetermineListValue(entity);
             entity.Map = Map;
-            Entities.Add(entity);
+            Entities.Add(entity.ID, entity);
+        }
+
+        /// <summary>
+        /// Gets the entity specified by the ID.
+        /// </summary>
+        /// <param name="id">The identifier of the entity.</param>
+        /// <returns></returns>
+        public virtual Entity GetEntity(string id)
+        {
+            if (!Entities.ContainsKey(id))
+            {
+                return null;
+            }
+
+            return Entities[id];
         }
 
         /// <summary>
         /// Removes the entity.
         /// </summary>
-        /// <param name="entity">The entity.</param>
-        public virtual void RemoveEntity(Entity entity)
+        /// <param name="id">The identifier of the entity.</param>
+        public virtual void RemoveEntity(string id)
         {
-            entity.Map = null;
-            Entities.Remove(entity);
+            if (!Entities.ContainsKey(id))
+            {
+                return;
+            }
+
+            Entities[id].Map = null;
+            Entities.Remove(id);
         }
 
+        /// <summary>
+        /// Updates the entities
+        /// </summary>
+        /// <param name="inputmanager">The input manager for gathering input..</param>
+        /// <param name="deltatime">The time since last frame.</param>
+        /// <exception cref="System.ComponentModel.InvalidEnumArgumentException">Unsupported player type in Entity.</exception>
         public virtual void Update(InputManager inputmanager, float deltatime)
         {
-            foreach (var entity in Entities)
+            foreach (var entity in Entities.Values)
             {
                 switch (entity.InputType)
                 {
@@ -96,8 +123,57 @@ namespace SpearOfLonginus.Entities
                         throw new InvalidEnumArgumentException("Unsupported player type in Entity.");
                 }
             }
+        }
 
-            Entities.Sort(); //Sort the entities by Y value.
+        /// <summary>
+        /// Gets a y-sorted list of entities.
+        /// </summary>
+        /// <returns></returns>
+        public List<Entity> GetSortedEntities()
+        {
+            List<Entity> list = new List<Entity>(Entities.Count);
+
+            foreach (var entity in Entities.Values)
+            {
+                list.Add(entity);
+            }
+
+            list.Sort();
+
+            return list;
+        }
+
+        /// <summary>
+        /// Determines the value of the entity in the list.
+        /// </summary>
+        /// <param name="entity">The entity.</param>
+        protected void DetermineListValue(Entity entity)
+        {
+            float value = float.Epsilon;
+
+            bool valid = false;
+
+            while (!valid)
+            {
+                bool found = false;
+
+                foreach (var other in Entities.Values)
+                {
+                    if (other.ListValue.Equals(value))
+                    {
+                        value += float.Epsilon;
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (!found)
+                {
+                    valid = true;
+                }
+            }
+
+            entity.ListValue = value;
         }
 
         #endregion
