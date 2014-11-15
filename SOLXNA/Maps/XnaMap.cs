@@ -115,8 +115,7 @@ namespace SOLXNA.Maps
                 ForedropData = foredropdata;
             }
 
-            //WILL CHANGE LATER
-            Entities = new XnaEntityManager(this);
+           ConvertEntities();
         }
 
         /// <summary>
@@ -141,6 +140,21 @@ namespace SOLXNA.Maps
         #endregion
 
         #region Functions
+
+        /// <summary>
+        /// Converts the entities to XNA entities.
+        /// </summary>
+        private void ConvertEntities()
+        {
+            var entitylist = Entities.GetEntityList();
+
+            Entities = new XnaEntityManager(this);
+
+            foreach (var entity in entitylist)
+            {
+                Entities.AddEntity(entity.ToXnaEntity());
+            }
+        }
 
         /// <summary>
         /// Loads the content.
