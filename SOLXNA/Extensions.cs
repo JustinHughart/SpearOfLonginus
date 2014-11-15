@@ -1,8 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using SOLXNA.Animations;
+using SOLXNA.Entities;
 using SOLXNA.Maps;
 using SpearOfLonginus;
 using SpearOfLonginus.Animations;
+using SpearOfLonginus.Entities;
 using SpearOfLonginus.Maps;
 using XnaRect = Microsoft.Xna.Framework.Rectangle;
 using SolRect = SpearOfLonginus.Rectangle;
@@ -106,6 +108,49 @@ namespace SOLXNA
         public static Backdrop ToSolBackdrop(this XnaBackdrop backdrop)
         {
             return new Backdrop(backdrop.TextureID, backdrop.Position, backdrop.Parallax, backdrop.Velocity, backdrop.LoopX, backdrop.LoopY, backdrop.Layer, backdrop.WrapCoordsX, backdrop.WrapCoordsY);
+        }
+
+        #endregion
+
+        #region Entities
+        /// <summary>
+        /// Converts a SOL Entity to an XNA entity.
+        /// </summary>
+        /// <param name="entity">The entity.</param>
+        /// <returns></returns>
+        public static XnaEntity ToXnaEntity(this Entity entity)
+        {
+            XnaEntity xnaentity = new XnaEntity(entity.AnimationCache);
+
+            xnaentity.ID = entity.ID;
+            xnaentity.InputType = entity.InputType;
+            xnaentity.FacingStyle = entity.FacingStyle;
+            xnaentity.Facing = entity.Facing;
+            xnaentity.CurrentAnimation = entity.CurrentAnimation;
+            xnaentity.IsAnimationOverridden = entity.IsAnimationOverridden;
+            xnaentity.ComponentInControl = entity.ComponentInControl;
+            xnaentity.Position = entity.Position;
+            xnaentity.Velocity = entity.Velocity;
+            xnaentity.MovingState = entity.MovingState;
+            xnaentity.Hitbox = entity.Hitbox;
+            xnaentity.Solid = entity.Solid;
+
+            foreach (var component in entity.Components)
+            {
+                xnaentity.AddComponent(component.Key, component.Value);
+            }
+
+            foreach (var logic in entity.Logics)
+            {
+                xnaentity.AddLogic(logic.Key, logic.Value);
+            }
+
+            xnaentity.Tags = entity.Tags;
+
+            xnaentity.ComponentsToAdd = entity.ComponentsToAdd;
+            xnaentity.LogicsToAdd = entity.LogicsToAdd;
+
+            return xnaentity;
         }
 
         #endregion
