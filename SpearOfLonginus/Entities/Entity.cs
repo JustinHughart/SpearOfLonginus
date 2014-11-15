@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.IO.Compression;
 using System.Text;
+using System.Xml.Linq;
 using SpearOfLonginus.Animations;
 using SpearOfLonginus.Input;
 using SpearOfLonginus.Maps;
@@ -118,7 +121,7 @@ namespace SpearOfLonginus.Entities
     /// <summary>
     /// A component-based entity for Spear Of Longinus.
     /// </summary>
-    public class Entity : IComparable 
+    public class Entity : IComparable, IXmlLoadable
     {
         #region Variables
         /// <summary>
@@ -180,19 +183,48 @@ namespace SpearOfLonginus.Entities
         /// <summary>
         /// The components used for updating the entity's actions.
         /// </summary>
-        protected Dictionary<string, Component> Components;
+        public Dictionary<string, Component> Components;
         /// <summary>
         /// The logical components used for heling the AI create input packets. 
         /// </summary>
-        protected Dictionary<string, Logic> Logics;
+        public Dictionary<string, Logic> Logics;
         /// <summary>
         /// A list of tags used for intercomponent talking.
         /// </summary>
-        protected List<String> Tags; 
+        public List<String> Tags;
+        /// <summary>
+        /// The list value used for removing entity flickering when they share Y values.
+        /// </summary>
+        public float ListValue;
+        /// <summary>
+        /// Gets the layer of the entity.
+        /// </summary>
+        /// <value>
+        /// The layer.
+        /// </value>
+        public float Layer { get { return Position.Y + ListValue; } }
+        /// <summary>
+        /// The components to add to the list at the start of the next frame.
+        /// </summary>
+        public Dictionary<string, Component> ComponentsToAdd;
+        /// <summary>
+        /// The logics to add to the list at the start of the next frame.
+        /// </summary>
+        public Dictionary<string, Logic> LogicsToAdd;  
 
         #endregion
 
         #region Constructors
+
+        public Entity()
+        {
+            Components = new Dictionary<string, Component>();
+            Logics = new Dictionary<string, Logic>();
+            Tags = new List<string>();
+            ComponentsToAdd = new Dictionary<string, Component>();
+            LogicsToAdd = new Dictionary<string, Logic>();
+            AnimationCache = new AnimationCache();
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Entity"/> class.
@@ -216,6 +248,8 @@ namespace SpearOfLonginus.Entities
             Components = new Dictionary<string, Component>();
             Logics = new Dictionary<string, Logic>();
             Tags = new List<string>();
+            ComponentsToAdd = new Dictionary<string, Component>();
+            LogicsToAdd = new Dictionary<string, Logic>();
             
             HandleDerivedAnimation();
         }
@@ -231,8 +265,26 @@ namespace SpearOfLonginus.Entities
         /// <param name="deltatime">The time that has passed since last update.</param>
         public virtual void Update(InputPacket packet, float deltatime)
         {
+            //Update animation.
+            if (CurrentAnimation == null)
+            {
+                HandleDerivedAnimation();
+            }
+
             CurrentAnimation.Update(deltatime);
             
+            //Add new components and logics.
+            foreach (var component in ComponentsToAdd)
+            {
+                AddComponent(component.Key, component.Value);
+            }
+
+            foreach (var logic in LogicsToAdd)
+            {
+                AddLogic(logic.Key, logic.Value);
+            }
+
+            //Handle logic.
             if (packet != null)
             {
                 foreach (var component in Components)
@@ -253,6 +305,37 @@ namespace SpearOfLonginus.Entities
                 }
             }
 
+            //Prune dead components.
+            List<string> componentstodelete = new List<string>();
+            List<string> logicstodelete = new List<string>();
+
+            foreach (var component in Components)
+            {
+                if (component.Value.Dead)
+                {
+                    componentstodelete.Add(component.Key);
+                }
+            }
+
+            foreach (var logic in Logics)
+            {
+                if (logic.Value.Dead)
+                {
+                    logicstodelete.Add(logic.Key);
+                }
+            }
+
+            foreach (var component in componentstodelete)
+            {
+                Components.Remove(component);
+            }
+
+            foreach (var logic in logicstodelete)
+            {
+                Logics.Remove(logic);
+            }
+
+            //Update the hitbox position.
             UpdateHitbox();
         }
 
@@ -389,7 +472,18 @@ namespace SpearOfLonginus.Entities
         /// <param name="component">The component to add.</param>
         public void AddComponent(Component component)
         {
-            Components.Add(component.GetType().Name, component);
+            AddComponent(component.GetType().Name, component);
+        }
+
+        /// <summary>
+        /// Adds the component.
+        /// </summary>
+        /// <param name="id">The component's identifier.</param>
+        /// <param name="component">The component to add.</param>
+        public void AddComponent(string id, Component component)
+        {
+            Components.Add(id, component);
+            component.Owner = this;
         }
 
         /// <summary>
@@ -422,7 +516,18 @@ namespace SpearOfLonginus.Entities
         /// <param name="logic">The logic to add.</param>
         public void AddLogic(Logic logic)
         {
-            Logics.Add(logic.GetType().Name, logic);
+            AddLogic(logic.GetType().Name, logic);
+        }
+
+        /// <summary>
+        /// Adds the logic to the entity's list of objects.
+        /// </summary>
+        /// <param name="id">The logic's identifier.</param>
+        /// <param name="logic">The logic to add.</param>
+        public void AddLogic(string id, Logic logic)
+        {
+            Logics.Add(id, logic);
+            logic.Owner = this;
         }
 
         /// <summary>
@@ -608,7 +713,7 @@ namespace SpearOfLonginus.Entities
             }
 
             //Check for entities. Can use more optimizations.
-            foreach (var entity in Map.Entities.GetEntityListCopy())
+            foreach (var entity in Map.Entities.GetEntityList())
             {
                 if (entity != this && entity.Solid)
                 {
@@ -645,7 +750,218 @@ namespace SpearOfLonginus.Entities
                 return 0;
             }
 
-            return Position.Y.CompareTo(other.Position.Y);
+            return Layer.CompareTo(other.Layer);
+        }
+
+        /// <summary>
+        /// Uses XML to initialize the object.
+        /// </summary>
+        /// <param name="element">The element used for loading..</param>
+        public virtual void LoadFromXml(XElement element)
+        {
+            //Initial checks
+            if (element == null)
+            {
+                throw new Exception("Root is null.");
+            }
+
+            if (!element.Name.LocalName.Equals("entity", StringComparison.OrdinalIgnoreCase))
+            {
+                throw new Exception("Element is not an entity element.");
+            }
+
+            //Attributes
+            foreach (var attribute in element.Attributes())
+            {
+                if (attribute.Name.LocalName.Equals("id"))
+                {
+                    ID = attribute.Value;
+                    continue;
+                }
+
+                if (attribute.Name.LocalName.Equals("inputtype"))
+                {
+                    InputType.TryParse(attribute.Value, out InputType);
+                    continue;
+                }
+
+                if (attribute.Name.LocalName.Equals("facingstyle"))
+                {
+                    FacingStyle.TryParse(attribute.Value, out FacingStyle);
+                    continue;
+                }
+
+                if (attribute.Name.LocalName.Equals("facing"))
+                {
+                    FacingState.TryParse(attribute.Value, out Facing);
+                    continue;
+                }
+            }
+
+            //Hitbox
+            XElement hitboxelement = element.Element("hitbox");
+
+            if (hitboxelement != null)
+            {
+                int x = 0;
+                int y = 0;
+                int w = 0;
+                int h = 0;
+
+                foreach (var attribute in hitboxelement.Attributes())
+                {
+                    if (attribute.Name.LocalName.Equals("x", StringComparison.OrdinalIgnoreCase))
+                    {
+                        int.TryParse(attribute.Value, out x);
+
+                        continue;
+                    }
+
+                    if (attribute.Name.LocalName.Equals("y", StringComparison.OrdinalIgnoreCase))
+                    {
+                        int.TryParse(attribute.Value, out y);
+
+                        continue;
+                    }
+
+                    if (attribute.Name.LocalName.Equals("w", StringComparison.OrdinalIgnoreCase))
+                    {
+                        int.TryParse(attribute.Value, out w);
+
+                        continue;
+                    }
+
+                    if (attribute.Name.LocalName.Equals("h", StringComparison.OrdinalIgnoreCase))
+                    {
+                        int.TryParse(attribute.Value, out h);
+
+                        continue;
+                    }
+                }
+
+                Hitbox = new Rectangle(x, y, w, h);
+            }
+
+            //Components
+            LoadComponents(element.Element("components"));
+
+            //Logics
+            LoadLogics(element.Element("logics"));
+
+            //Animations
+            LoadAnimations(element.Element("animations"));
+
+            //Custom
+            LoadCustomXml(element.Element("custom"));
+        }
+
+        /// <summary>
+        /// Loads the components.
+        /// </summary>
+        /// <param name="element">The element to load from.</param>
+        protected virtual void LoadComponents(XElement element)
+        {
+            foreach (var componentelement in element.Elements())
+            {
+                Component component = XmlLoader.CreateObject(componentelement.Name.LocalName, componentelement) as Component;
+
+                if (component != null)
+                {
+                    AddComponent(component);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Loads the logics.
+        /// </summary>
+        /// <param name="element">The element to load from.</param>
+        protected virtual void LoadLogics(XElement element)
+        {
+            foreach (var logicelement in element.Elements())
+            {
+                Logic logic = XmlLoader.CreateObject(logicelement.Name.LocalName, logicelement) as Logic;
+
+                if (logic != null)
+                {
+                    AddLogic(logic);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Loads the animations.
+        /// </summary>
+        /// <param name="element">The element to load from.</param>
+        protected virtual void LoadAnimations(XElement element)
+        {
+            foreach (var animationelement in element.Elements())
+            {
+                Animation animation = XmlLoader.CreateObject(animationelement.Name.LocalName, animationelement) as Animation;
+
+                if (animation != null)
+                {
+                    AnimationCache.AddAnimation(animation);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Loads the custom XML.
+        /// </summary>
+        /// <param name="element">The element to load from.</param>
+        protected virtual void LoadCustomXml(XElement element)
+        {
+            //Nothing here by default, because obviously it wouldn't be custom!
+        }
+
+        #endregion
+
+        #region Static Functions
+
+        /// <summary>
+        /// Loads from file.
+        /// </summary>
+        /// <param name="path">The path to the file.</param>
+        /// <returns></returns>
+        public static Entity LoadFromFile(string path)
+        {
+            while (path.EndsWith(" "))
+            {
+                path.Remove(path.Length - 2);
+            }
+
+            XDocument doc = null;
+
+            //Load the doc.
+
+            if (!File.Exists(path))
+            {
+                return null;
+            }
+
+            if (path.Contains(".sle"))
+            {
+                doc = XDocument.Load(path);
+            }
+            else if (path.Contains(".gze"))
+            {
+                using (var filestream = File.OpenRead(path))
+                {
+                    using (var gzipstream = new GZipStream(filestream, CompressionMode.Decompress))
+                    {
+                        doc = XDocument.Load(gzipstream);
+                    }
+                }
+            }
+            else
+            {
+                throw new ArgumentException("File type not supported.");
+            }
+
+            Entity entity = new Entity();
+            entity.LoadFromXml(doc.Root);
+            return entity;
         }
 
         #endregion
