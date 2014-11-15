@@ -319,6 +319,64 @@ namespace SpearOfLonginus.Maps
                         Foredrops.Add(name, new Backdrop(foredrop));
                     }
                 }
+
+                if (nameattribute.Value.Equals("entities", StringComparison.OrdinalIgnoreCase))
+                {
+                    foreach (var entityelement in objectgroup.Elements("object"))
+                    {
+                        //Get the position.
+                        int x = 0;
+                        int y = 0;
+
+                        foreach (var attribute in entityelement.Attributes())
+                        {
+                            if (attribute.Name.LocalName.Equals("x", StringComparison.OrdinalIgnoreCase))
+                            {
+                                int.TryParse(attribute.Value, out x);
+
+                                continue;
+                            }
+
+                            if (attribute.Name.LocalName.Equals("y", StringComparison.OrdinalIgnoreCase))
+                            {
+                                int.TryParse(attribute.Value, out y);
+
+                                continue;
+                            }
+                        }
+
+                        //Get the path property.
+                        string entitypath = "";
+
+                        XElement propertieselement = entityelement.Element("properties");
+
+                        if (propertieselement != null)
+                        {
+                            foreach (var property in propertieselement.Elements("property"))
+                            {
+                                if (property.Attribute("name") == null)
+                                {
+                                    continue;
+                                }
+
+                                if (property.Attribute("value") == null)
+                                {
+                                    continue;
+                                }
+
+                                if (property.Attribute("name").Value.Equals("data", StringComparison.OrdinalIgnoreCase))
+                                {
+                                    entitypath = property.Attribute("value").Value;
+                                }
+                            }
+                        }
+
+                        Entity entity = Entity.LoadFromFile(entitypath);
+                        entity.Position = new Vector(x, y);
+
+                        Entities.AddEntity(entity);
+                    }
+                }
             }
         }
 
