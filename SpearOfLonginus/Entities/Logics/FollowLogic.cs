@@ -75,6 +75,11 @@ namespace SpearOfLonginus.Entities.Logics
         /// <param name="packet">The packet to modify.</param>
         public override void GetInput(InputPacket packet)
         {
+            if (Target == null)
+            {
+                return;
+            }
+
             Vector diff = Target.Position - Owner.Position;
 
             if (diff.Length() > Distance)
