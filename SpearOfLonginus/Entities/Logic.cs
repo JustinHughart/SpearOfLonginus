@@ -12,7 +12,7 @@ namespace SpearOfLonginus.Entities
         /// <summary>
         /// The entity who owns the logic.
         /// </summary>
-        protected Entity Owner;
+        public Entity Owner;
         /// <summary>
         /// Gets or sets a value indicating whether the logic is initialized..
         /// </summary>

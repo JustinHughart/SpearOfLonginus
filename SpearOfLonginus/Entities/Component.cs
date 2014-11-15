@@ -12,7 +12,7 @@ namespace SpearOfLonginus.Entities
         /// <summary>
         /// The entity who owns the component.
         /// </summary>
-        protected Entity Owner;
+        public Entity Owner;
         /// <summary>
         /// Gets or sets a value indicating whether the component is initialized..
         /// </summary>

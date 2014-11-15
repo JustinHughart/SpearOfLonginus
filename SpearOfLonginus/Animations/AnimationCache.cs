@@ -13,7 +13,7 @@ namespace SpearOfLonginus.Animations
         /// <summary>
         /// The keyed list of animations.
         /// </summary>
-        protected Dictionary<string, Animation> Animations;
+        public Dictionary<string, Animation> Animations;
 
         #endregion
 
