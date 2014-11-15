@@ -62,6 +62,7 @@ namespace SpearOfLonginus.Animations
             ID = "";
             IsLooping = false;
             ResetIndex = false;
+            Frames = new List<Frame>();
         }
 
         /// <summary>
