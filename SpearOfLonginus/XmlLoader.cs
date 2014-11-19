@@ -84,6 +84,8 @@ namespace SpearOfLonginus
         /// <exception cref="System.Exception">Item is not IXmlLoadable</exception>
         public static IXmlLoadable CreateObject(string key, XElement element)
         {
+            CheckInitialized();
+
             Type type = _types[key.ToLower()]; //We'll let this throw natural exceptions. 
 
             var item = Activator.CreateInstance(type) as IXmlLoadable; //Create the object and convert to IXmlLoadable
