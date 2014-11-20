@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using SpearOfLonginus.Input;
 using SpearOfLonginus.Maps;
@@ -122,6 +123,38 @@ namespace SpearOfLonginus.Entities
                     default:
                         throw new InvalidEnumArgumentException("Unsupported player type in Entity.");
                 }
+            }
+        }
+
+        /// <summary>
+        /// Handles the doors for all entities.
+        /// </summary>
+        public virtual void HandleDoors()
+        {
+            List<Tuple<Door, Entity>> successes = new List<Tuple<Door, Entity>>();
+
+            foreach (var entity in Entities.Values)
+            {
+                if (!entity.CanUseDoors)
+                {
+                    continue;
+                }
+
+                foreach (var door in Map.Doors)
+                {
+                    if (door.EntityInDoor(entity))
+                    {
+                        successes.Add(new Tuple<Door, Entity>(door, entity));
+                        break;
+                    }
+                }
+            }
+
+            foreach (var success in successes)
+            {
+                Map.World.ChangeMaps(success.Item2, Map.ID, success.Item1.TargetMap);
+                success.Item2.Position = success.Item1.GetTargetPosition(success.Item2);
+                success.Item2.UpdateHitbox();
             }
         }
 

@@ -106,6 +106,14 @@ namespace SpearOfLonginus.Maps
                     map.Update(inputmanager, deltatime);
                 }
             }
+
+            Map[] maparray = new Map[Maps.Values.Count];
+            Maps.Values.CopyTo(maparray, 0);
+
+            foreach (var map in maparray)
+            {
+                map.Entities.HandleDoors();
+            }
         }
 
         #endregion

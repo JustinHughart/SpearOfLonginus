@@ -345,13 +345,12 @@ namespace SpearOfLonginus.Entities
 
             //Update the hitbox position.
             UpdateHitbox();
-            CheckDoors();
         }
 
         /// <summary>
         /// Updates the hitbox location.
         /// </summary>
-        protected virtual void UpdateHitbox()
+        public virtual void UpdateHitbox()
         {
             Hitbox.Location = Position;
         }
@@ -751,29 +750,7 @@ namespace SpearOfLonginus.Entities
 
             return false;
         }
-
-        /// <summary>
-        /// Checks the doors for the entity.
-        /// </summary>
-        public virtual void CheckDoors()
-        {
-            if (!CanUseDoors)
-            {
-                return;
-            }
-
-            foreach (var door in Map.Doors)
-            {
-                if (door.EntityInDoor(this))
-                {
-                    Map.World.ChangeMaps(this, Map.ID, door.TargetMap);
-                    Position = door.GetTargetPosition(this);
-                    UpdateHitbox();
-                    return;
-                }
-            }
-        }
-
+        
         /// <summary>
         /// Compares the current instance with another object of the same type and returns an integer that indicates whether the current instance precedes, follows, or occurs in the same position in the sort order as the other object. Sorts by Y value;
         /// </summary>
