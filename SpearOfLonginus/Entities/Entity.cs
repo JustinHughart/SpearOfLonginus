@@ -752,6 +752,27 @@ namespace SpearOfLonginus.Entities
         }
 
         /// <summary>
+        /// Checks the doors for the entity.
+        /// </summary>
+        public virtual void CheckDoors()
+        {
+            if (!CanUseDoors)
+            {
+                return;
+            }
+
+            foreach (var door in Map.Doors)
+            {
+                if (door.EntityInDoor(this))
+                {
+                    Map.World.ChangeMaps(this, Map.ID, door.TargetMap);
+                    Position = door.GetTargetPosition(this);
+                    return;
+                }
+            }
+        }
+
+        /// <summary>
         /// Compares the current instance with another object of the same type and returns an integer that indicates whether the current instance precedes, follows, or occurs in the same position in the sort order as the other object. Sorts by Y value;
         /// </summary>
         /// <param name="obj">An object to compare with this instance.</param>
