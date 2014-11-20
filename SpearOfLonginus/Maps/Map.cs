@@ -52,6 +52,10 @@ namespace SpearOfLonginus.Maps
         /// </summary>
         protected Dictionary<string, Backdrop> Foredrops;
         /// <summary>
+        /// The map's doors that lead to other maps.
+        /// </summary>
+        public List<Door> Doors;
+        /// <summary>
         /// The entities contained inside the map.
         /// </summary>
         public EntityManager Entities { get; protected set; }
@@ -59,6 +63,14 @@ namespace SpearOfLonginus.Maps
         /// Whether or not to use the hitbox cache.
         /// </summary>
         public bool UseHitboxCache { get; protected set; }
+        /// <summary>
+        /// Whether or not the map remains loaded when a player leaves it.
+        /// </summary>
+        protected bool Persistant;
+        /// <summary>
+        /// Whether or not the map updates when a player is outside of it.
+        /// </summary>
+        public bool IsActive;
         /// <summary>
         /// The cache of the collision layer's hitboxes.
         /// </summary>
@@ -78,6 +90,7 @@ namespace SpearOfLonginus.Maps
             Backdrops = new Dictionary<string, Backdrop>();
             Foredrops = new Dictionary<string, Backdrop>();
             Entities = new EntityManager(this);
+            Doors = new List<Door>();
 
             LoadMap(path);
         }
@@ -183,6 +196,25 @@ namespace SpearOfLonginus.Maps
             }
         }
 
+        public bool IsPersistant()
+        {
+            if (Persistant)
+            {
+                return true;
+            }
+
+            //If it isn't, we must see if there's an entity inside it that is persistant.
+            foreach (var entity in Entities.GetEntityList())
+            {
+                if (entity.Persistent)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         #endregion
 
         #region Loading
@@ -239,7 +271,7 @@ namespace SpearOfLonginus.Maps
                 }
             }
 
-            //Load map properties here? We don't have any by default. 
+            //Load map properties here.
             LoadMapProperties(root.Element("properties"));
 
             //Here we will load the external tilesets. External tilesets are extremely recommended (required by vanilla SOL actually) due to keeping everything uniform amongst your maps.
@@ -276,6 +308,8 @@ namespace SpearOfLonginus.Maps
                     throw new Exception("No name attribute in object group.");
                 }
 
+                //Backdrops
+
                 if (nameattribute.Value.Equals("backdrops", StringComparison.OrdinalIgnoreCase))
                 {
                     foreach (var backdrop in objectgroup.Elements("object"))
@@ -298,6 +332,8 @@ namespace SpearOfLonginus.Maps
                     }
                 }
 
+                //Foredrops
+
                 if(nameattribute.Value.Equals("foredrops", StringComparison.OrdinalIgnoreCase))
                 {
                     foreach (var foredrop in objectgroup.Elements("object"))
@@ -319,6 +355,8 @@ namespace SpearOfLonginus.Maps
                         Foredrops.Add(name, new Backdrop(foredrop));
                     }
                 }
+
+                //Entities
 
                 if (nameattribute.Value.Equals("entities", StringComparison.OrdinalIgnoreCase))
                 {
@@ -375,6 +413,77 @@ namespace SpearOfLonginus.Maps
                         entity.Position = new Vector(x, y);
 
                         Entities.AddEntity(entity);
+                    }
+                }
+
+                //Doors
+
+                if (nameattribute.Value.Equals("doors", StringComparison.OrdinalIgnoreCase))
+                {
+                    foreach (var door in objectgroup.Elements("object"))
+                    {
+                        Rectangle hitbox = new Rectangle();
+                        String targetmap = "";
+                        Vector targetpos = Vector.Zero;
+
+                        //Handle attributes.
+
+                        foreach (var attribute in door.Attributes())
+                        {
+                            if (attribute.Name.LocalName.Equals("x", StringComparison.OrdinalIgnoreCase))
+                            {
+                                int.TryParse(attribute.Value, out hitbox.X);
+                            }
+
+                            if (attribute.Name.LocalName.Equals("y", StringComparison.OrdinalIgnoreCase))
+                            {
+                                int.TryParse(attribute.Value, out hitbox.Y);
+                            }
+
+                            if (attribute.Name.LocalName.Equals("width", StringComparison.OrdinalIgnoreCase))
+                            {
+                                int.TryParse(attribute.Value, out hitbox.Width);
+                            }
+
+                            if (attribute.Name.LocalName.Equals("height", StringComparison.OrdinalIgnoreCase))
+                            {
+                                int.TryParse(attribute.Value, out hitbox.Height);
+                            }
+                        }
+
+                        //Handle properties.
+
+                        foreach (var property in door.Element("properties").Elements("property"))
+                        {
+                            var name = property.Attribute("name");
+                            var value = property.Attribute("value");
+
+                            if (name == null || value == null)
+                            {
+                                continue;
+                            }
+
+                            if (name.Value.Equals("map", StringComparison.OrdinalIgnoreCase))
+                            {
+                                targetmap = value.Value;
+                                continue;
+                            }
+
+                            if (name.Value.Equals("positionx", StringComparison.OrdinalIgnoreCase))
+                            {
+                                float.TryParse(value.Value, out targetpos.X);
+                                continue;
+                            }
+
+                            if (name.Value.Equals("positiony", StringComparison.OrdinalIgnoreCase))
+                            {
+                                float.TryParse(value.Value, out targetpos.Y);
+                                continue;
+                            }
+                        }
+
+                        //Create door
+                        Doors.Add(new Door(hitbox, targetmap, targetpos));
                     }
                 }
             }
@@ -599,7 +708,28 @@ namespace SpearOfLonginus.Maps
         /// <param name="element">The properties element.</param>
         protected virtual void LoadMapProperties(XElement element)
         {
-            //No properties by default... For now!
+            foreach (var property in element.Elements("property"))
+            {
+                var name = property.Attribute("name");
+                var value = property.Attribute("value");
+
+                if (name == null || value == null)
+                {
+                    continue;
+                }
+
+                if (name.Value.Equals("active", StringComparison.OrdinalIgnoreCase))
+                {
+                    bool.TryParse(value.Value, out IsActive);
+                    continue;
+                }
+
+                if (name.Value.Equals("persistent", StringComparison.OrdinalIgnoreCase))
+                {
+                    bool.TryParse(value.Value, out Persistant);
+                    continue;
+                }
+            }
         }
 
         /// <summary>
