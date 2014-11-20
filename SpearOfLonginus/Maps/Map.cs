@@ -66,7 +66,7 @@ namespace SpearOfLonginus.Maps
         /// <summary>
         /// Whether or not the map remains loaded when a player leaves it.
         /// </summary>
-        protected bool Persistant;
+        protected bool Persistent;
         /// <summary>
         /// Whether or not the map updates when a player is outside of it.
         /// </summary>
@@ -198,7 +198,7 @@ namespace SpearOfLonginus.Maps
 
         public bool IsPersistent()
         {
-            if (Persistant)
+            if (Persistent)
             {
                 return true;
             }
@@ -746,7 +746,7 @@ namespace SpearOfLonginus.Maps
 
                 if (name.Value.Equals("persistent", StringComparison.OrdinalIgnoreCase))
                 {
-                    bool.TryParse(value.Value, out Persistant);
+                    bool.TryParse(value.Value, out Persistent);
                     continue;
                 }
             }
