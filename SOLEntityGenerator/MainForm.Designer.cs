@@ -60,6 +60,9 @@
             this.btnAnimations = new System.Windows.Forms.Button();
             this.btnCustom = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.lblPersistent = new System.Windows.Forms.Label();
+            this.chkPersistent = new System.Windows.Forms.CheckBox();
             this.panel1.SuspendLayout();
             this.menuFileMenu.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -68,6 +71,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.numHitboxY)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numHitboxX)).BeginInit();
             this.panel2.SuspendLayout();
+            this.panel4.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -385,11 +389,40 @@
             this.panel2.Size = new System.Drawing.Size(97, 115);
             this.panel2.TabIndex = 8;
             // 
+            // panel4
+            // 
+            this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel4.Controls.Add(this.chkPersistent);
+            this.panel4.Controls.Add(this.lblPersistent);
+            this.panel4.Location = new System.Drawing.Point(277, 146);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(97, 132);
+            this.panel4.TabIndex = 9;
+            // 
+            // lblPersistent
+            // 
+            this.lblPersistent.AutoSize = true;
+            this.lblPersistent.Location = new System.Drawing.Point(3, 8);
+            this.lblPersistent.Name = "lblPersistent";
+            this.lblPersistent.Size = new System.Drawing.Size(56, 13);
+            this.lblPersistent.TabIndex = 0;
+            this.lblPersistent.Text = "Persistent:";
+            // 
+            // chkPersistent
+            // 
+            this.chkPersistent.AutoSize = true;
+            this.chkPersistent.Location = new System.Drawing.Point(77, 8);
+            this.chkPersistent.Name = "chkPersistent";
+            this.chkPersistent.Size = new System.Drawing.Size(15, 14);
+            this.chkPersistent.TabIndex = 1;
+            this.chkPersistent.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(381, 282);
+            this.Controls.Add(this.panel4);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel1);
@@ -409,6 +442,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.numHitboxY)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numHitboxX)).EndInit();
             this.panel2.ResumeLayout(false);
+            this.panel4.ResumeLayout(false);
+            this.panel4.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -448,6 +483,9 @@
         private System.Windows.Forms.Button btnAnimations;
         private System.Windows.Forms.Button btnCustom;
         private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.CheckBox chkPersistent;
+        private System.Windows.Forms.Label lblPersistent;
     }
 }
 

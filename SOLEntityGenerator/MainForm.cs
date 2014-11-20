@@ -287,7 +287,8 @@ namespace SOLEntityGenerator
             saveelement.Add(new XAttribute("inputtype", cboInputType.SelectedItem));
             saveelement.Add(new XAttribute("facingstyle", cboFacingStyle.SelectedItem));
             saveelement.Add(new XAttribute("facing", cboFacing.SelectedItem));
-
+            saveelement.Add(new XAttribute("persistent", chkPersistent.Checked));
+            
             //Hitbox
             XElement hitboxelement = new XElement("hitbox");
             hitboxelement.Add(new XAttribute("x", numHitboxX.Value));
@@ -435,6 +436,18 @@ namespace SOLEntityGenerator
                     if (FacingState.TryParse(attribute.Value, true, out input))
                     {
                         cboFacing.SelectedIndex = cboFacing.Items.IndexOf(input);
+                    }
+
+                    continue;
+                }
+
+                if (attribute.Name.LocalName.Equals("persistent", StringComparison.OrdinalIgnoreCase))
+                {
+                    bool value;
+
+                    if (bool.TryParse(attribute.Value, out value))
+                    {
+                        chkPersistent.Checked = value;
                     }
 
                     continue;
