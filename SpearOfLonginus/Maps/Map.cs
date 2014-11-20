@@ -16,6 +16,14 @@ namespace SpearOfLonginus.Maps
         #region Variables
 
         /// <summary>
+        /// The world the map belongs to.
+        /// </summary>
+        public World World;
+        /// <summary>
+        /// The map's identifier
+        /// </summary>
+        public string ID;
+        /// <summary>
         /// The list of tiles to be used.
         /// </summary>
         protected List<Tile> TileSet;
@@ -70,7 +78,7 @@ namespace SpearOfLonginus.Maps
         /// <summary>
         /// Whether or not the map updates when a player is outside of it.
         /// </summary>
-        public bool IsActive;
+        protected bool Active;
         /// <summary>
         /// The cache of the collision layer's hitboxes.
         /// </summary>
@@ -91,6 +99,8 @@ namespace SpearOfLonginus.Maps
             Foredrops = new Dictionary<string, Backdrop>();
             Entities = new EntityManager(this);
             Doors = new List<Door>();
+
+            ID = path;
 
             LoadMap(path);
         }
@@ -199,6 +209,45 @@ namespace SpearOfLonginus.Maps
         public bool IsPersistent()
         {
             if (Persistent)
+            {
+                return true;
+            }
+
+            //If it isn't, we must see if there's an entity inside it that is persistant. This includes characters being controlled by the player.
+            foreach (var entity in Entities.GetEntityList())
+            {
+                if (entity.Persistent)
+                {
+                    return true;
+                }
+
+                if (entity.InputType == InputType.Player1)
+                {
+                    return true;
+                }
+
+                if (entity.InputType == InputType.Player2)
+                {
+                    return true;
+                }
+
+                if (entity.InputType == InputType.Player3)
+                {
+                    return true;
+                }
+
+                if (entity.InputType == InputType.Player4)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public bool IsActive()
+        {
+            if (Active)
             {
                 return true;
             }
@@ -740,7 +789,7 @@ namespace SpearOfLonginus.Maps
 
                 if (name.Value.Equals("active", StringComparison.OrdinalIgnoreCase))
                 {
-                    bool.TryParse(value.Value, out IsActive);
+                    bool.TryParse(value.Value, out Active);
                     continue;
                 }
 

@@ -47,7 +47,10 @@ namespace SpearOfLonginus.Maps
         /// <returns></returns>
         public virtual Map LoadMap(string mappath)
         {
-            return new Map(mappath);
+            Map map = new Map(mappath);
+            map.World = this;
+
+            return map;
         }
 
         /// <summary>
