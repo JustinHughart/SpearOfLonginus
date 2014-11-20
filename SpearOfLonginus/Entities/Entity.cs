@@ -345,6 +345,7 @@ namespace SpearOfLonginus.Entities
 
             //Update the hitbox position.
             UpdateHitbox();
+            CheckDoors();
         }
 
         /// <summary>
@@ -767,6 +768,7 @@ namespace SpearOfLonginus.Entities
                 {
                     Map.World.ChangeMaps(this, Map.ID, door.TargetMap);
                     Position = door.GetTargetPosition(this);
+                    UpdateHitbox();
                     return;
                 }
             }
