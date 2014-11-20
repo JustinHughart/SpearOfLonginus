@@ -181,6 +181,10 @@ namespace SpearOfLonginus.Entities
         /// </summary>
         public bool Solid;
         /// <summary>
+        /// The persistance of the entity. Setting this to true will force the map the entity exists in to be persistant and active for the duration of the time the entity is within it.
+        /// </summary>
+        public bool Persistant;
+        /// <summary>
         /// The components used for updating the entity's actions.
         /// </summary>
         public Dictionary<string, Component> Components;
@@ -794,6 +798,12 @@ namespace SpearOfLonginus.Entities
                 if (attribute.Name.LocalName.Equals("facing"))
                 {
                     FacingState.TryParse(attribute.Value, out Facing);
+                    continue;
+                }
+
+                if (attribute.Name.LocalName.Equals("persistant"))
+                {
+                    bool.TryParse(attribute.Value, out Persistant);
                     continue;
                 }
             }
