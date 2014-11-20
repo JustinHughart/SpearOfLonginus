@@ -15,22 +15,22 @@ namespace SpearOfLonginus.Entities.Logics
         /// The target to follow.
         /// </summary>
         protected Entity Target;
-
+        /// <summary>
+        /// The last known position of the target.
+        /// </summary>
+        protected Vector LastKnownPosition;
         /// <summary>
         /// The ID of the target.
         /// </summary>
         protected string TargetID;
-
         /// <summary>
         /// The distance from the target to start moving at.
         /// </summary>
         protected float Distance;
-
         /// <summary>
         /// The distance from the target at which to start running.
         /// </summary>
         protected float RunDistance;
-
         /// <summary>
         /// The distance of where NOT to move, so you don't move for 1 pixel changes.
         /// </summary>
@@ -69,6 +69,22 @@ namespace SpearOfLonginus.Entities.Logics
 
         #region Functions
 
+        public override void Update(InputPacket packet, float deltatime)
+        {
+            base.Update(packet, deltatime);
+
+            if (Target == null)
+            {
+                return;
+            }
+
+            if (Target.Map == Owner.Map)
+            {
+                LastKnownPosition = Target.Position;
+            }
+        }
+
+
         /// <summary>
         /// Modifies the packet to determine its input.
         /// </summary>
@@ -80,14 +96,35 @@ namespace SpearOfLonginus.Entities.Logics
                 return;
             }
 
-            Vector diff = Target.Position - Owner.Position;
+            Vector diff = Vector.Zero;
 
-            if (diff.Length() > Distance)
+            if (Target.Map == Owner.Map)
+            {
+                diff = LastKnownPosition - Owner.Position;
+            }
+            else
+            {
+                float length = float.MaxValue;
+
+                foreach (var door in Owner.Map.Doors)
+                {
+                    Vector doordiff = door.Hitbox.Center - Owner.Position;
+                    float doorlength = doordiff.Length();
+
+                    if (doorlength < length)
+                    {
+                        diff= doordiff;
+                        length = doorlength;
+                    }
+                }
+            }
+
+            if (diff.Length() > Distance || Target.Map != Owner.Map)
             {
                 //Check for Down.
                 if (diff.Y > 0)
                 {
-                    if (Math.Abs(diff.Y) > Safezone.Y)
+                    if (Math.Abs(diff.Y) > Safezone.Y || Target.Map != Owner.Map)
                     {
                         packet.Down = PressState.Down;
                     }
@@ -96,7 +133,7 @@ namespace SpearOfLonginus.Entities.Logics
                 //Check for Up.
                 if (diff.Y < 0)
                 {
-                    if (Math.Abs(diff.Y) > Safezone.Y)
+                    if (Math.Abs(diff.Y) > Safezone.Y || Target.Map != Owner.Map)
                     {
                         packet.Up = PressState.Down;
                     }
@@ -105,7 +142,7 @@ namespace SpearOfLonginus.Entities.Logics
                 //Check for Right.
                 if (diff.X > 0)
                 {
-                    if (Math.Abs(diff.X) > Safezone.X)
+                    if (Math.Abs(diff.X) > Safezone.X || Target.Map != Owner.Map)
                     {
                         packet.Right = PressState.Down;
                     }
@@ -114,15 +151,16 @@ namespace SpearOfLonginus.Entities.Logics
                 //Check for Left.
                 if (diff.X < 0)
                 {
-                    if (Math.Abs(diff.X) > Safezone.X)
+                    if (Math.Abs(diff.X) > Safezone.X || Target.Map != Owner.Map)
                     {
                         packet.Left = PressState.Down;
                     }
                 }
             }
+            
 
             //Check if you should run.
-            if (diff.Length() > RunDistance)
+            if (diff.Length() > RunDistance || Target.Map != Owner.Map)
             {
                 packet.Run = PressState.Down;
             }
