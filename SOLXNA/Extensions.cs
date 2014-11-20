@@ -134,6 +134,8 @@ namespace SOLXNA
             xnaentity.MovingState = entity.MovingState;
             xnaentity.Hitbox = entity.Hitbox;
             xnaentity.Solid = entity.Solid;
+            xnaentity.Persistent = entity.Persistent;
+            xnaentity.CanUseDoors = entity.CanUseDoors;
 
             foreach (var component in entity.Components)
             {
