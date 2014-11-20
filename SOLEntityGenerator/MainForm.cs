@@ -288,6 +288,7 @@ namespace SOLEntityGenerator
             saveelement.Add(new XAttribute("facingstyle", cboFacingStyle.SelectedItem));
             saveelement.Add(new XAttribute("facing", cboFacing.SelectedItem));
             saveelement.Add(new XAttribute("persistent", chkPersistent.Checked));
+            saveelement.Add(new XAttribute("canusedoors", chkCanUseDoors.Checked));
             
             //Hitbox
             XElement hitboxelement = new XElement("hitbox");
@@ -448,6 +449,18 @@ namespace SOLEntityGenerator
                     if (bool.TryParse(attribute.Value, out value))
                     {
                         chkPersistent.Checked = value;
+                    }
+
+                    continue;
+                }
+
+                if (attribute.Name.LocalName.Equals("canusedoors", StringComparison.OrdinalIgnoreCase))
+                {
+                    bool value;
+
+                    if (bool.TryParse(attribute.Value, out value))
+                    {
+                        chkCanUseDoors.Checked = value;
                     }
 
                     continue;
