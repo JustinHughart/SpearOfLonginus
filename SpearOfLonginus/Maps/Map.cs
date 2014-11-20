@@ -196,17 +196,37 @@ namespace SpearOfLonginus.Maps
             }
         }
 
-        public bool IsPersistant()
+        public bool IsPersistent()
         {
             if (Persistant)
             {
                 return true;
             }
 
-            //If it isn't, we must see if there's an entity inside it that is persistant.
+            //If it isn't, we must see if there's an entity inside it that is persistant. This includes characters being controlled by the player.
             foreach (var entity in Entities.GetEntityList())
             {
                 if (entity.Persistent)
+                {
+                    return true;
+                }
+
+                if (entity.InputType == InputType.Player1)
+                {
+                    return true;
+                }
+
+                if (entity.InputType == InputType.Player2)
+                {
+                    return true;
+                }
+
+                if (entity.InputType == InputType.Player3)
+                {
+                    return true;
+                }
+
+                if (entity.InputType == InputType.Player4)
                 {
                     return true;
                 }
