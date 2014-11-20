@@ -224,7 +224,7 @@ namespace SpearOfLonginus.Entities.Components
 
                     if (float.TryParse(attribute.Value, out value))
                     {
-                        WalkSpeed = value;
+                        RunSpeed = value;
                     }
 
                     continue;
