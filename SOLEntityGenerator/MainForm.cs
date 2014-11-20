@@ -114,6 +114,9 @@ namespace SOLEntityGenerator
             numHitboxY.Value = 0;
             numHitboxW.Value = 1;
             numHitboxH.Value = 1;
+
+            chkPersistent.Checked = false;
+            chkCanUseDoors.Checked = false;
         }
 
         /// <summary>
