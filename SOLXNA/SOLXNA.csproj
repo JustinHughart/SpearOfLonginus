@@ -53,6 +53,7 @@
     <Compile Include="Extensions.cs" />
     <Compile Include="Input\KeyboardProfile.cs" />
     <Compile Include="Input\XnaInputManager.cs" />
+    <Compile Include="Maps\XnaWorld.cs" />
     <Compile Include="SpriteBatchData.cs" />
     <Compile Include="Maps\XnaBackdrop.cs" />
     <Compile Include="Maps\XnaMap.cs" />
