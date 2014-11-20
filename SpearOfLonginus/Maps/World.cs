@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using SpearOfLonginus.Entities;
+using SpearOfLonginus.Input;
 
 namespace SpearOfLonginus.Maps
 {
@@ -8,6 +9,7 @@ namespace SpearOfLonginus.Maps
     /// </summary>
     public class World
     {
+        #region Variables
         /// <summary>
         /// The maps in the game world.
         /// </summary>
@@ -17,6 +19,10 @@ namespace SpearOfLonginus.Maps
         /// </summary>
         protected Transition Transition;
 
+        #endregion
+
+        #region Constructors
+
         /// <summary>
         /// Initializes a new instance of the <see cref="World"/> class.
         /// </summary>
@@ -24,6 +30,10 @@ namespace SpearOfLonginus.Maps
         {
             Maps = new Dictionary<string, Map>();
         }
+
+        #endregion
+
+        #region Functions
 
         /// <summary>
         /// Gets the map from the cache.
@@ -86,5 +96,19 @@ namespace SpearOfLonginus.Maps
                 //TRANSITION STUFF
             }
         }
+
+        public virtual void Update(InputManager inputmanager, float deltatime)
+        {
+            foreach (var map in Maps.Values)
+            {
+                if (map.IsActive())
+                {
+                    map.Update(inputmanager, deltatime);
+                }
+            }
+        }
+
+        #endregion
+
     }
 }
