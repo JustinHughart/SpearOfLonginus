@@ -59,6 +59,8 @@
     <Compile Include="Maps\MapLogic.cs" />
     <Compile Include="Maps\Map.cs" />
     <Compile Include="Maps\Tile.cs" />
+    <Compile Include="Maps\Transition.cs" />
+    <Compile Include="Maps\World.cs" />
     <Compile Include="Rectangle.cs" />
     <Compile Include="Vector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
