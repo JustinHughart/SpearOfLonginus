@@ -944,6 +944,31 @@ namespace SpearOfLonginus.Entities
             //Nothing here by default, because obviously it wouldn't be custom!
         }
 
+        public virtual bool IsPlayer()
+        {
+            if (InputType == InputType.Player1)
+            {
+                return true;
+            }
+
+            if (InputType == InputType.Player2)
+            {
+                return true;
+            }
+
+            if (InputType == InputType.Player3)
+            {
+                return true;
+            }
+
+            if (InputType == InputType.Player4)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         #endregion
 
         #region Static Functions
