@@ -55,6 +55,7 @@
     <Compile Include="Input\InputPacket.cs" />
     <Compile Include="IXmlLoadable.cs" />
     <Compile Include="Maps\Backdrop.cs" />
+    <Compile Include="Maps\Door.cs" />
     <Compile Include="Maps\MapLogic.cs" />
     <Compile Include="Maps\Map.cs" />
     <Compile Include="Maps\Tile.cs" />
