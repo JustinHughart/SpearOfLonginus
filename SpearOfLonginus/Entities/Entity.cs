@@ -185,6 +185,10 @@ namespace SpearOfLonginus.Entities
         /// </summary>
         public bool Persistent;
         /// <summary>
+        /// Whether or not the entity can use doors. If it can't, doors are treating like solid ground.
+        /// </summary>
+        public bool CanUseDoors;
+        /// <summary>
         /// The components used for updating the entity's actions.
         /// </summary>
         public Dictionary<string, Component> Components;
@@ -725,6 +729,15 @@ namespace SpearOfLonginus.Entities
                 }
             }
 
+            //If it can't use doors, treat them as solid, to keep them inside the map.
+            if (!CanUseDoors)
+            {
+                foreach (var door in Map.Doors)
+                {
+                    hitboxes.Add(door.Hitbox);
+                }
+            }
+
             //Actually check all the hitboxes.
 
             foreach (var hitbox in hitboxes)
@@ -804,6 +817,12 @@ namespace SpearOfLonginus.Entities
                 if (attribute.Name.LocalName.Equals("persistent"))
                 {
                     bool.TryParse(attribute.Value, out Persistent);
+                    continue;
+                }
+
+                if (attribute.Name.LocalName.Equals("canusedoors"))
+                {
+                    bool.TryParse(attribute.Value, out CanUseDoors);
                     continue;
                 }
             }
