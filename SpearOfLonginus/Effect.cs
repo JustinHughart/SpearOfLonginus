@@ -1,7 +1,7 @@
 ﻿using System.Xml.Linq;
 using SpearOfLonginus.Entities;
 
-namespace SpearOfLonginus.Maps
+namespace SpearOfLonginus
 {
     /// <summary>
     /// An effect that is activated when checked. 
