@@ -80,16 +80,59 @@ namespace SOLXNA.Entities
         /// <param name="cameramatrix">The camera matrix.</param>
         public virtual void Draw(SpriteBatch spritebatch, Matrix cameramatrix)
         {
+            spritebatch.Begin(SpriteSortMode.Immediate, SpriteBatchData.BlendState, SpriteBatchData.SamplerState, SpriteBatchData.DepthStencilState, SpriteBatchData.RasterizerState, SpriteBatchData.Effect, cameramatrix);
+                
+            //Draw Before
+            foreach (var component in Components.Values)
+            {
+                var xnacomponent = component as XnaComponent;
+
+                if (xnacomponent != null)
+                {
+                    xnacomponent.DrawBefore(spritebatch);
+                }
+            }
+
+            foreach (var logic in Logics.Values)
+            {
+                var xnalogic = logic as XnaLogic;
+
+                if (xnalogic != null)
+                {
+                    xnalogic.DrawBefore(spritebatch);
+                }
+            }
+
+            //Draw Animation
             var anim = CurrentAnimation as XnaAnimation;
 
             if (anim != null)
             {
-                spritebatch.Begin(SpriteSortMode.Immediate, SpriteBatchData.BlendState, SpriteBatchData.SamplerState, SpriteBatchData.DepthStencilState, SpriteBatchData.RasterizerState, SpriteBatchData.Effect, cameramatrix);
-                
                 anim.Draw(spritebatch, Position.ToXnaVector(), Color.White, 0f, 1f, SpriteEffects.None, 0f);
-
-                spritebatch.End();
             }
+
+            //Draw After
+            foreach (var component in Components.Values)
+            {
+                var xnacomponent = component as XnaComponent;
+
+                if (xnacomponent != null)
+                {
+                    xnacomponent.DrawAfter(spritebatch);
+                }
+            }
+
+            foreach (var logic in Logics.Values)
+            {
+                var xnalogic = logic as XnaLogic;
+
+                if (xnalogic != null)
+                {
+                    xnalogic.DrawAfter(spritebatch);
+                }
+            }
+
+            spritebatch.End();
         }
 
         /// <summary>
