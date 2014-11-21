@@ -4,19 +4,19 @@ using SpearOfLonginus.Entities;
 namespace SpearOfLonginus.Maps
 {
     /// <summary>
-    /// A tile's effect. 
+    /// An effect that is activated when checked. 
     /// </summary>
-    public class TileEffect : IXmlLoadable
+    public class Effect<T> : IXmlLoadable
     {
         /// <summary>
         /// The owner of the effect.
         /// </summary>
-        public Tile Owner;
+        public T Owner;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TileEffect"/> class.
+        /// Initializes a new instance of the <see cref="Effect{T}"/> class.
         /// </summary>
-        public TileEffect()
+        public Effect()
         {
            
         }

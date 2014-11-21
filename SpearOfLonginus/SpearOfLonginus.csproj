@@ -60,7 +60,7 @@
     <Compile Include="Maps\MapLogic.cs" />
     <Compile Include="Maps\Map.cs" />
     <Compile Include="Maps\Tile.cs" />
-    <Compile Include="Maps\TileEffect.cs" />
+    <Compile Include="Maps\Effect.cs" />
     <Compile Include="Maps\Transition.cs" />
     <Compile Include="Maps\World.cs" />
     <Compile Include="Rectangle.cs" />

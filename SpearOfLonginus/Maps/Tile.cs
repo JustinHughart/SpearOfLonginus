@@ -31,11 +31,11 @@ namespace SpearOfLonginus.Maps
         /// <summary>
         /// The effects that occur when you step on the tile.
         /// </summary>
-        protected List<TileEffect> FloorEffects;
+        protected List<Effect<Tile>> FloorEffects;
         /// <summary>
         /// The effects that occur when you check the tile.
         /// </summary>
-        protected List<TileEffect> CheckEffects; 
+        protected List<Effect<Tile>> CheckEffects; 
 
         #endregion
 
@@ -110,8 +110,8 @@ namespace SpearOfLonginus.Maps
         /// <param name="element">The element used for loading the tile.</param>
         protected virtual void LoadTile(string textureid, int x, int y, Vector tilesize, XElement element)
         {
-            FloorEffects = new List<TileEffect>();
-            CheckEffects = new List<TileEffect>();
+            FloorEffects = new List<Effect<Tile>>();
+            CheckEffects = new List<Effect<Tile>>();
 
             int numframes = 1;
             float animrate = 1;
@@ -259,7 +259,7 @@ namespace SpearOfLonginus.Maps
         {
             //We're going to load this from XmlLoader even though we're not using XML for this. The reason is because we want to load via reflection,
             //but don't want to make a whole new class for that. 
-            TileEffect effect = XmlLoader.CreateObject(key, null) as TileEffect;
+            Effect<Tile> effect = XmlLoader.CreateObject(key, null) as Effect<Tile>;
             
             if (effect != null)
             {
