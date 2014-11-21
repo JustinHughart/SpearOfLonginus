@@ -10,7 +10,7 @@ namespace SpearOfLonginus
         /// <summary>
         /// Uses XML to initialize the object.
         /// </summary>
-        /// <param name="element">The element used for loading..</param>
+        /// <param name="element">The element used for loading.</param>
         void LoadFromXml(XElement element);
     }
 }

@@ -182,7 +182,7 @@ namespace SpearOfLonginus.Entities.Logics
         /// <summary>
         /// Uses XML to initialize the object.
         /// </summary>
-        /// <param name="element">The element used for loading..</param>
+        /// <param name="element">The element used for loading.</param>
         public override void LoadFromXml(System.Xml.Linq.XElement element)
         {
             //Attributes

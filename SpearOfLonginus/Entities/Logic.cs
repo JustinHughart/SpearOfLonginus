@@ -14,7 +14,7 @@ namespace SpearOfLonginus.Entities
         /// </summary>
         public Entity Owner;
         /// <summary>
-        /// Gets or sets a value indicating whether the logic is initialized..
+        /// Gets or sets a value indicating whether the logic is initialized.
         /// </summary>
         /// <value>
         ///   <c>true</c> if [initialized]; otherwise, <c>false</c>.
@@ -83,7 +83,7 @@ namespace SpearOfLonginus.Entities
         /// <summary>
         /// Uses XML to initialize the object.
         /// </summary>
-        /// <param name="element">The element used for loading..</param>
+        /// <param name="element">The element used for loading.</param>
         public virtual void LoadFromXml(XElement element)
         {
 

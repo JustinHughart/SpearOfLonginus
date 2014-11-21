@@ -74,7 +74,7 @@ namespace SpearOfLonginus.Entities
         /// <summary>
         /// Uses XML to initialize the object.
         /// </summary>
-        /// <param name="element">The element used for loading..</param>
+        /// <param name="element">The element used for loading.</param>
         public virtual void LoadFromXml(XElement element)
         {
 

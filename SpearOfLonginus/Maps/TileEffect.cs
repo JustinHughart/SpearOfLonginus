@@ -1,11 +1,12 @@
-﻿using SpearOfLonginus.Entities;
+﻿using System.Xml.Linq;
+using SpearOfLonginus.Entities;
 
 namespace SpearOfLonginus.Maps
 {
     /// <summary>
     /// A tile's effect. 
     /// </summary>
-    public class TileEffect
+    public class TileEffect : IXmlLoadable
     {
         /// <summary>
         /// The owner of the effect.
@@ -29,6 +30,15 @@ namespace SpearOfLonginus.Maps
         public virtual void OnActivate(Vector position, Entity entity)
         {
 
+        }
+
+        /// <summary>
+        /// Uses XML to initialize the object.
+        /// </summary>
+        /// <param name="element">The element used for loading.</param>
+        public void LoadFromXml(XElement element)
+        {
+            
         }
     }
 }
