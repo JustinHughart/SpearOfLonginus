@@ -117,6 +117,7 @@ namespace SOLEntityGenerator
 
             chkPersistent.Checked = false;
             chkCanUseDoors.Checked = false;
+            chkFloorEffects.Checked = false;
         }
 
         /// <summary>
@@ -292,6 +293,7 @@ namespace SOLEntityGenerator
             saveelement.Add(new XAttribute("facing", cboFacing.SelectedItem));
             saveelement.Add(new XAttribute("persistent", chkPersistent.Checked));
             saveelement.Add(new XAttribute("canusedoors", chkCanUseDoors.Checked));
+            saveelement.Add(new XAttribute("triggerflooreffects", chkFloorEffects.Checked));
             
             //Hitbox
             XElement hitboxelement = new XElement("hitbox");
@@ -464,6 +466,18 @@ namespace SOLEntityGenerator
                     if (bool.TryParse(attribute.Value, out value))
                     {
                         chkCanUseDoors.Checked = value;
+                    }
+
+                    continue;
+                }
+
+                if (attribute.Name.LocalName.Equals("triggerflooreffects", StringComparison.OrdinalIgnoreCase))
+                {
+                    bool value;
+
+                    if (bool.TryParse(attribute.Value, out value))
+                    {
+                        chkFloorEffects.Checked = value;
                     }
 
                     continue;

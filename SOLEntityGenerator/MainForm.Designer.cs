@@ -61,10 +61,12 @@
             this.btnCustom = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.chkCanUseDoors = new System.Windows.Forms.CheckBox();
+            this.lblCanUseDoors = new System.Windows.Forms.Label();
             this.chkPersistent = new System.Windows.Forms.CheckBox();
             this.lblPersistent = new System.Windows.Forms.Label();
-            this.lblCanUseDoors = new System.Windows.Forms.Label();
-            this.chkCanUseDoors = new System.Windows.Forms.CheckBox();
+            this.lblFloorEffects = new System.Windows.Forms.Label();
+            this.chkFloorEffects = new System.Windows.Forms.CheckBox();
             this.panel1.SuspendLayout();
             this.menuFileMenu.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -394,6 +396,8 @@
             // panel4
             // 
             this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel4.Controls.Add(this.chkFloorEffects);
+            this.panel4.Controls.Add(this.lblFloorEffects);
             this.panel4.Controls.Add(this.chkCanUseDoors);
             this.panel4.Controls.Add(this.lblCanUseDoors);
             this.panel4.Controls.Add(this.chkPersistent);
@@ -402,6 +406,24 @@
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(97, 132);
             this.panel4.TabIndex = 9;
+            // 
+            // chkCanUseDoors
+            // 
+            this.chkCanUseDoors.AutoSize = true;
+            this.chkCanUseDoors.Location = new System.Drawing.Point(76, 35);
+            this.chkCanUseDoors.Name = "chkCanUseDoors";
+            this.chkCanUseDoors.Size = new System.Drawing.Size(15, 14);
+            this.chkCanUseDoors.TabIndex = 3;
+            this.chkCanUseDoors.UseVisualStyleBackColor = true;
+            // 
+            // lblCanUseDoors
+            // 
+            this.lblCanUseDoors.AutoSize = true;
+            this.lblCanUseDoors.Location = new System.Drawing.Point(3, 35);
+            this.lblCanUseDoors.Name = "lblCanUseDoors";
+            this.lblCanUseDoors.Size = new System.Drawing.Size(63, 13);
+            this.lblCanUseDoors.TabIndex = 2;
+            this.lblCanUseDoors.Text = "Use Doors: ";
             // 
             // chkPersistent
             // 
@@ -421,23 +443,23 @@
             this.lblPersistent.TabIndex = 0;
             this.lblPersistent.Text = "Persistent:";
             // 
-            // lblCanUseDoors
+            // lblFloorEffects
             // 
-            this.lblCanUseDoors.AutoSize = true;
-            this.lblCanUseDoors.Location = new System.Drawing.Point(3, 35);
-            this.lblCanUseDoors.Name = "lblCanUseDoors";
-            this.lblCanUseDoors.Size = new System.Drawing.Size(63, 13);
-            this.lblCanUseDoors.TabIndex = 2;
-            this.lblCanUseDoors.Text = "Use Doors: ";
+            this.lblFloorEffects.AutoSize = true;
+            this.lblFloorEffects.Location = new System.Drawing.Point(3, 60);
+            this.lblFloorEffects.Name = "lblFloorEffects";
+            this.lblFloorEffects.Size = new System.Drawing.Size(72, 13);
+            this.lblFloorEffects.TabIndex = 4;
+            this.lblFloorEffects.Text = "Floor Effects: ";
             // 
-            // chkCanUseDoors
+            // chkFloorEffects
             // 
-            this.chkCanUseDoors.AutoSize = true;
-            this.chkCanUseDoors.Location = new System.Drawing.Point(77, 38);
-            this.chkCanUseDoors.Name = "chkCanUseDoors";
-            this.chkCanUseDoors.Size = new System.Drawing.Size(15, 14);
-            this.chkCanUseDoors.TabIndex = 3;
-            this.chkCanUseDoors.UseVisualStyleBackColor = true;
+            this.chkFloorEffects.AutoSize = true;
+            this.chkFloorEffects.Location = new System.Drawing.Point(76, 60);
+            this.chkFloorEffects.Name = "chkFloorEffects";
+            this.chkFloorEffects.Size = new System.Drawing.Size(15, 14);
+            this.chkFloorEffects.TabIndex = 5;
+            this.chkFloorEffects.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
@@ -510,6 +532,8 @@
         private System.Windows.Forms.Label lblPersistent;
         private System.Windows.Forms.CheckBox chkCanUseDoors;
         private System.Windows.Forms.Label lblCanUseDoors;
+        private System.Windows.Forms.CheckBox chkFloorEffects;
+        private System.Windows.Forms.Label lblFloorEffects;
     }
 }
 
