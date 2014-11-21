@@ -32,6 +32,15 @@ namespace SpearOfLonginus
         }
 
         /// <summary>
+        /// Updates this instance.
+        /// </summary>
+        /// <param name="deltatime">The time that has passed since the last frame.</param>
+        public virtual void Update(float deltatime)
+        {
+
+        }
+
+        /// <summary>
         /// Uses XML to initialize the object.
         /// </summary>
         /// <param name="element">The element used for loading.</param>
