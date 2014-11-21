@@ -711,11 +711,14 @@ namespace SpearOfLonginus.Entities
             {
                 for (int x = xstart; x < xend; x++)
                 {
-                    var hitbox = Map.GetHitbox(new Vector(x, y));
-
-                    if (!hitbox.Equals(empty))
+                    if (!Map.GetTile(new Vector(x, y), Map.CollisionLayer).Passable)
                     {
-                        hitboxes.Add(hitbox);
+                        var hitbox = Map.GetHitbox(new Vector(x, y));
+
+                        if (!hitbox.Equals(empty))
+                        {
+                            hitboxes.Add(hitbox);
+                        }
                     }
                 }
             }
@@ -773,7 +776,7 @@ namespace SpearOfLonginus.Entities
         /// <summary>
         /// Uses XML to initialize the object.
         /// </summary>
-        /// <param name="element">The element used for loading..</param>
+        /// <param name="element">The element used for loading.</param>
         public virtual void LoadFromXml(XElement element)
         {
             //Initial checks
