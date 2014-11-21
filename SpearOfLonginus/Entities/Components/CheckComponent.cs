@@ -127,7 +127,6 @@ namespace SpearOfLonginus.Entities.Components
 
                     position += direction * IterationRate;
                 }
-
             }
         }
 
