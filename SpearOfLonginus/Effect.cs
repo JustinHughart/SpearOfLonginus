@@ -4,7 +4,7 @@ using SpearOfLonginus.Entities;
 namespace SpearOfLonginus
 {
     /// <summary>
-    /// An effect that is activated when checked. 
+    /// An effect that is activated when interacted with. 
     /// </summary>
     public class Effect<T> : IXmlLoadable
     {

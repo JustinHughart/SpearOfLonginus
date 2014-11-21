@@ -1050,7 +1050,7 @@ namespace SpearOfLonginus.Entities
         /// </summary>
         /// <param name="checker">The entity that checked this entity.</param>
         /// <returns></returns>
-        public bool OnChecked(Entity checker)
+        public bool OnInteraction(Entity checker)
         {
             bool proc = false;
 

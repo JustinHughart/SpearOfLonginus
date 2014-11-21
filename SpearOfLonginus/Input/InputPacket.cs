@@ -61,7 +61,7 @@
         /// <summary>
         /// The button used to check objects, talk to people, etc.
         /// </summary>
-        public PressState Check;
+        public PressState Interact;
 
         #endregion
 
@@ -85,8 +85,8 @@
         /// <param name="accept">The button used to accept menu choices.</param>
         /// <param name="cancel">The button used to cancel menu choices.</param>
         /// <param name="run">The button used to sprint.</param>
-        /// <param name="check">The button used to check objects, talk to people, etc.</param>
-        public InputPacket(PressState up, PressState down, PressState left, PressState right, PressState accept, PressState cancel, PressState run, PressState check)
+        /// <param name="interact">The button used to check objects, talk to people, etc.</param>
+        public InputPacket(PressState up, PressState down, PressState left, PressState right, PressState accept, PressState cancel, PressState run, PressState interact)
         {
             Up = up;
             Down = down;
@@ -97,7 +97,7 @@
             Cancel = cancel;
 
             Run = run;
-            Check = check;
+            Interact = interact;
         }
 
         #endregion

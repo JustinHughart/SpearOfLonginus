@@ -7,9 +7,9 @@ using SpearOfLonginus.Maps;
 namespace SpearOfLonginus.Entities.Components
 {
     /// <summary>
-    /// A component for entities to use to check the world around them.
+    /// A component for entities to use to interact with the world around them.
     /// </summary>
-    public class CheckComponent : Component
+    public class InteractComponent : Component
     {
         #region Variables
 
@@ -31,9 +31,9 @@ namespace SpearOfLonginus.Entities.Components
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CheckComponent"/> class.
+        /// Initializes a new instance of the <see cref="InteractComponent"/> class.
         /// </summary>
-        public CheckComponent()
+        public InteractComponent()
         {
             MaxDistance = 32;
             IterationRate = 1;
@@ -52,7 +52,7 @@ namespace SpearOfLonginus.Entities.Components
         {
             base.Update(packet, deltatime);
 
-            if (packet.Check == PressState.Pressed)
+            if (packet.Interact == PressState.Pressed)
             {
                 //First we'll get where the reticle is.
                 Vector position = Owner.Hitbox.Center;
@@ -104,7 +104,7 @@ namespace SpearOfLonginus.Entities.Components
                     {
                         if (entity.Hitbox.Intersects(hitbox))
                         {
-                            if (entity.OnChecked(Owner))
+                            if (entity.OnInteraction(Owner))
                             {
                                 //We're done if we find something.
                                 return;
