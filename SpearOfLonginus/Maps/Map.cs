@@ -38,15 +38,15 @@ namespace SpearOfLonginus.Maps
         /// <summary>
         /// The layer of tiles that collides with entities.
         /// </summary>
-        protected int[] CollisionLayer;
+        public int[] CollisionLayer;
         /// <summary>
         /// The background layer of tiles that does not collide with entities.
         /// </summary>
-        protected int[] BackgroundLayer;
+        public int[] BackgroundLayer;
         /// <summary>
         /// The foreground layer of tiles that does not collide with entities.
         /// </summary>
-        protected int[] ForegroundLayer;
+        public int[] ForegroundLayer;
         /// <summary>
         /// The list of logics that the map uses. This can be used to change map properties systematically.
         /// </summary>
