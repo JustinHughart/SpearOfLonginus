@@ -1030,6 +1030,20 @@ namespace SpearOfLonginus.Entities
             return false;
         }
 
+        /// <summary>
+        /// This happens when an entity is checked.
+        /// </summary>
+        /// <param name="checker">The entity that checked this entity.</param>
+        /// <returns></returns>
+        public bool OnChecked(Entity checker)
+        {
+            bool proc = false;
+
+            //We need to do stuff here. Dialog and all that.
+
+            return proc;
+        }
+
         #endregion
 
         #region Static Functions
@@ -1080,5 +1094,6 @@ namespace SpearOfLonginus.Entities
         }
 
         #endregion
+        
     }
 }
