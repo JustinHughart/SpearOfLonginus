@@ -345,6 +345,7 @@ namespace SpearOfLonginus.Entities
 
             //Update the hitbox position.
             UpdateHitbox();
+            CheckFloorEffects();
         }
 
         /// <summary>
@@ -711,7 +712,14 @@ namespace SpearOfLonginus.Entities
             {
                 for (int x = xstart; x < xend; x++)
                 {
-                    if (!Map.GetTile(new Vector(x, y), Map.CollisionLayer).Passable)
+                    Tile tile = Map.GetTile(new Vector(x, y), Map.CollisionLayer);
+
+                    if (tile == null)
+                    {
+                        continue;
+                    }
+
+                    if (!tile.Passable)
                     {
                         var hitbox = Map.GetHitbox(new Vector(x, y));
 
@@ -753,7 +761,57 @@ namespace SpearOfLonginus.Entities
 
             return false;
         }
-        
+
+        /// <summary>
+        /// Checks the effects of tiles the entity is stepping on.
+        /// </summary>
+        public void CheckFloorEffects()
+        {
+            List<Tuple<Rectangle, Vector, Tile>> hitboxes = new List<Tuple<Rectangle, Vector, Tile>>();
+
+            int xstart = Hitbox.X / (int)Map.TileSize.X;
+            int ystart = Hitbox.Y / (int)Map.TileSize.Y;
+            int xend = Hitbox.Width / (int)Map.TileSize.X;
+            int yend = Hitbox.Height / (int)Map.TileSize.Y;
+
+            //I'm not sure why the following two lines of code make it work but apparantly... It does. Bah, this is terrible.
+            xend += xstart + 2;
+            yend += ystart + 2;
+            
+            Rectangle empty = new Rectangle();
+
+            for (int y = ystart; y < yend; y++)
+            {
+                for (int x = xstart; x < xend; x++)
+                {
+                    Tile tile = Map.GetTile(new Vector(x, y), Map.CollisionLayer);
+
+                    if (tile == null)
+                    {
+                        continue;
+                    }
+
+                    var hitbox = Map.GetHitbox(new Vector(x, y));
+
+                    if (!hitbox.Equals(empty))
+                    {
+                        hitboxes.Add(new Tuple<Rectangle, Vector, Tile>(hitbox, new Vector(x, y), Map.GetTile(new Vector(x, y), Map.CollisionLayer)));
+                    }
+                }
+            }
+
+
+            //Actually check all the hitboxes.
+
+            foreach (var hitbox in hitboxes)
+            {
+                if (Hitbox.Intersects(hitbox.Item1))
+                {
+                    hitbox.Item3.HandleFloorEffects(hitbox.Item2, this);
+                }
+            }
+        }
+
         /// <summary>
         /// Compares the current instance with another object of the same type and returns an integer that indicates whether the current instance precedes, follows, or occurs in the same position in the sort order as the other object. Sorts by Y value;
         /// </summary>
