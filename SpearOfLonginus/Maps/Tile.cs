@@ -31,11 +31,11 @@ namespace SpearOfLonginus.Maps
         /// <summary>
         /// The effects that occur when you step on the tile.
         /// </summary>
-        protected List<Effect<Tile>> FloorEffects;
+        public List<Effect<Tile>> FloorEffects;
         /// <summary>
         /// The effects that occur when you check the tile.
         /// </summary>
-        protected List<Effect<Tile>> CheckEffects; 
+        public List<Effect<Tile>> CheckEffects; 
 
         #endregion
 
