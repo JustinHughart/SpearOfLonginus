@@ -26,9 +26,9 @@ namespace SpearOfLonginus.Maps
         /// </summary>
         /// <param name="position">The position of the tile that was activated.</param>
         /// <param name="entity">The entity that triggered the activation.</param>
-        public virtual void OnActivate(Vector position, Entity entity)
+        public virtual bool OnActivate(Vector position, Entity entity)
         {
-            
+            return false;
         }
 
         /// <summary>
