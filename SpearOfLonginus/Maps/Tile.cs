@@ -253,9 +253,11 @@ namespace SpearOfLonginus.Maps
             //We're going to load this from XmlLoader even though we're not using XML for this. The reason is because we want to load via reflection,
             //but don't want to make a whole new class for that. 
             TileEffect effect = XmlLoader.CreateObject(key, null) as TileEffect;
-
+            
             if (effect != null)
             {
+                effect.Owner = this;
+
                 if (placement.Equals("floor", StringComparison.OrdinalIgnoreCase))
                 {
                     FloorEffects.Add(effect);
