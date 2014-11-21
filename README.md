@@ -7,13 +7,13 @@ Planned Features
 
 -Overworld movement, including entities, map loading, and the like.
 
--SNES style cutscenes.
+-Cutscenes.
 
--VN style cutscenes.
+-Quest system.
 
--Inventory with blank items
+-Basic UI system (For passing data to something the player can view, like a textbox.)
 
--Shop functions
+-Rough inventory system (Just enough that there's hooks for the quest system)
 
 What ISN'T going to be in SOL
 
