@@ -86,6 +86,16 @@ namespace SpearOfLonginus.Maps
         public virtual void Update(float deltatime)
         {
             Animation.Update(deltatime);
+
+            foreach (var effect in FloorEffects)
+            {
+                effect.Update(deltatime);
+            }
+
+            foreach (var effect in CheckEffects)
+            {
+                effect.Update(deltatime);
+            }
         }
 
         /// <summary>
