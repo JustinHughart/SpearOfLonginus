@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Xml.Linq;
 using SpearOfLonginus.Animations;
+using SpearOfLonginus.Entities;
 
 namespace SpearOfLonginus.Maps
 {
@@ -23,6 +24,18 @@ namespace SpearOfLonginus.Maps
         /// The tile's hitbox, used for collisions.
         /// </summary>
         protected Rectangle Hitbox;
+        /// <summary>
+        /// Whether or not you can pass through the tile.
+        /// </summary>
+        public bool Passable;
+        /// <summary>
+        /// The effects that occur when you step on the tile.
+        /// </summary>
+        protected List<TileEffect> FloorEffects;
+        /// <summary>
+        /// The effects that occur when you check the tile.
+        /// </summary>
+        protected List<TileEffect> CheckEffects; 
 
         #endregion
 
@@ -97,12 +110,16 @@ namespace SpearOfLonginus.Maps
         /// <param name="element">The element used for loading the tile.</param>
         protected virtual void LoadTile(string textureid, int x, int y, Vector tilesize, XElement element)
         {
+            FloorEffects = new List<TileEffect>();
+            CheckEffects = new List<TileEffect>();
+
             int numframes = 1;
             float animrate = 1;
 
             if (element != null) //If there's a data element with the tile...
             {
                 var properties = element.Element("properties");
+
                 if (properties != null) //Ensure it actually has properties first.
                 {
                     foreach (var property in properties.Elements("property")) //Check the properties.
@@ -124,6 +141,21 @@ namespace SpearOfLonginus.Maps
                         if (name.Value.Equals("animrate", StringComparison.OrdinalIgnoreCase)) //The rate at which the animation goes.
                         {
                             float.TryParse(value.Value, out animrate);
+                        }
+
+                        if (name.Value.Equals("passable", StringComparison.OrdinalIgnoreCase)) //Whether or not you can pass through the tile.
+                        {
+                            bool.TryParse(value.Value, out Passable);
+                        }
+
+                        if (name.Value.Equals("flooreffect", StringComparison.OrdinalIgnoreCase)) //Denotes an effect that happens when you step on the tile.
+                        {
+                            LoadEffect(value.Value, "floor");
+                        }
+
+                        if (name.Value.Equals("checkeffect", StringComparison.OrdinalIgnoreCase)) //Denotes an effect that happens when you check the tile.
+                        {
+                            LoadEffect(value.Value, "check");
                         }
                     }
                 }
@@ -183,6 +215,59 @@ namespace SpearOfLonginus.Maps
             Hitbox.Location = position;
 
             return Hitbox;
+        }
+
+        /// <summary>
+        /// Handles the floor effects.
+        /// </summary>
+        /// <param name="positon">The positon of the tile.</param>
+        /// <param name="entity">The entity that triggered the effects.</param>
+        public virtual void HandleFloorEffects(Vector positon, Entity entity)
+        {
+            foreach (var effect in FloorEffects)
+            {
+                effect.OnActivate(positon, entity);
+            }
+        }
+
+        /// <summary>
+        /// Handles the check effects.
+        /// </summary>
+        /// <param name="positon">The positon of the tile.</param>
+        /// <param name="entity">The entity that triggered the effects.</param>
+        public virtual void HandleCheckEffects(Vector positon, Entity entity)
+        {
+            foreach (var effect in CheckEffects)
+            {
+                effect.OnActivate(positon, entity);
+            }
+        }
+
+        /// <summary>
+        /// Loads the effect.
+        /// </summary>
+        /// <param name="key">The effect's key.</param>
+        /// <param name="placement">The effect's placement. Either "floor" or "check" are accepted.</param>
+        private void LoadEffect(string key, string placement)
+        {
+            //We're going to load this from XmlLoader even though we're not using XML for this. The reason is because we want to load via reflection,
+            //but don't want to make a whole new class for that. 
+            TileEffect effect = XmlLoader.CreateObject(key, null) as TileEffect;
+
+            if (effect != null)
+            {
+                if (placement.Equals("floor", StringComparison.OrdinalIgnoreCase))
+                {
+                    FloorEffects.Add(effect);
+                    return;
+                }
+
+                if (placement.Equals("check", StringComparison.OrdinalIgnoreCase))
+                {
+                    CheckEffects.Add(effect);
+                    return;
+                }
+            }
         }
 
         #endregion
