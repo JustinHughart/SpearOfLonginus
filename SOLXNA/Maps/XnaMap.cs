@@ -353,9 +353,52 @@ namespace SOLXNA.Maps
 
                     if (tile != null)
                     {
-                        var anim = (XnaAnimation)tile.Animation;
+                        //Draw Before
+                        foreach (var effect in tile.FloorEffects)
+                        {
+                            XnaEffect<Tile> xnaeffect = effect as XnaEffect<Tile>;
 
+                            if (xnaeffect != null)
+                            {
+                                xnaeffect.DrawBefore(spritebatch);
+                            }
+                        }
+
+                        foreach (var effect in tile.CheckEffects)
+                        {
+                            XnaEffect<Tile> xnaeffect = effect as XnaEffect<Tile>;
+
+                            if (xnaeffect != null)
+                            {
+                                xnaeffect.DrawBefore(spritebatch);
+                            }
+                        }
+
+                        //Draw Animation
+                        var anim = (XnaAnimation)tile.Animation;
+                        
                         anim.Draw(spritebatch, new Vector2(x, y) * TileSize.ToXnaVector(), Color.White, 0f, Vector2.One, SpriteEffects.None, 0);
+
+                        //Draw After
+                        foreach (var effect in tile.FloorEffects)
+                        {
+                            XnaEffect<Tile> xnaeffect = effect as XnaEffect<Tile>;
+
+                            if (xnaeffect != null)
+                            {
+                                xnaeffect.DrawAfter(spritebatch);
+                            }
+                        }
+
+                        foreach (var effect in tile.CheckEffects)
+                        {
+                            XnaEffect<Tile> xnaeffect = effect as XnaEffect<Tile>;
+
+                            if (xnaeffect != null)
+                            {
+                                xnaeffect.DrawAfter(spritebatch);
+                            }
+                        }
                     }
                 }
             }
