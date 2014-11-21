@@ -235,12 +235,19 @@ namespace SpearOfLonginus.Maps
         /// </summary>
         /// <param name="positon">The positon of the tile.</param>
         /// <param name="entity">The entity that triggered the effects.</param>
-        public virtual void HandleCheckEffects(Vector positon, Entity entity)
+        public virtual bool HandleCheckEffects(Vector positon, Entity entity)
         {
+            bool proc = false;
+
             foreach (var effect in CheckEffects)
             {
-                effect.OnActivate(positon, entity);
+                if (effect.OnActivate(positon, entity))
+                {
+                    proc = true;
+                }
             }
+
+            return proc;
         }
 
         /// <summary>
