@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
+using SOLXNA.Animations;
 using SpearOfLonginus;
 
 namespace SOLXNA
@@ -9,6 +10,23 @@ namespace SOLXNA
     /// <typeparam name="T"></typeparam>
     public class XnaEffect <T> : Effect<T>
     {
+        /// <summary>
+        /// Loads the content.
+        /// </summary>
+        /// <param name="texturecache">The texturecache.</param>
+        public void LoadContent(TextureCache texturecache)
+        {
+
+        }
+
+        /// <summary>
+        /// Unloads the content.
+        /// </summary>
+        public void UnloadContent()
+        {
+
+        }
+
         /// <summary>
         /// Draw before the owner draws its animation.
         /// </summary>
