@@ -189,6 +189,10 @@ namespace SpearOfLonginus.Entities
         /// </summary>
         public bool CanUseDoors;
         /// <summary>
+        /// Whether or not the entity can trigger floor effects.
+        /// </summary>
+        public bool TriggerFloorEffects;
+        /// <summary>
         /// The components used for updating the entity's actions.
         /// </summary>
         public Dictionary<string, Component> Components;
@@ -767,6 +771,11 @@ namespace SpearOfLonginus.Entities
         /// </summary>
         public void CheckFloorEffects()
         {
+            if (!TriggerFloorEffects)
+            {
+                return;
+            }
+
             List<Tuple<Rectangle, Vector, Tile>> hitboxes = new List<Tuple<Rectangle, Vector, Tile>>();
 
             int xstart = Hitbox.X / (int)Map.TileSize.X;
@@ -884,6 +893,12 @@ namespace SpearOfLonginus.Entities
                 if (attribute.Name.LocalName.Equals("canusedoors"))
                 {
                     bool.TryParse(attribute.Value, out CanUseDoors);
+                    continue;
+                }
+
+                if (attribute.Name.LocalName.Equals("triggerflooreffects"))
+                {
+                    bool.TryParse(attribute.Value, out TriggerFloorEffects);
                     continue;
                 }
             }
