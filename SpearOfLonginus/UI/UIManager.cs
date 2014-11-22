@@ -50,7 +50,7 @@ namespace SpearOfLonginus.UI
         /// <param name="item">The item to add.</param>
         public virtual void AddItem(UIItem item)
         {
-            AddItem(item.ID, item);
+            AddItem(item.GetType().Name, item);
         }
 
         /// <summary>
@@ -60,7 +60,9 @@ namespace SpearOfLonginus.UI
         /// <param name="item">The item to add.</param>
         public virtual void AddItem(string key, UIItem item)
         {
+            item.ID = key;
             Items.Add(key, item);
+            SortItems();
         }
 
         /// <summary>
@@ -70,6 +72,7 @@ namespace SpearOfLonginus.UI
         public virtual void RemoveItem(string key)
         {
             ItemsToRemove.Add(key);
+            SortItems();
         }
 
         /// <summary>
@@ -96,6 +99,24 @@ namespace SpearOfLonginus.UI
         public T GetItemAs<T>(string key) where T : class
         {
             return GetItem(key) as T;
+        }
+
+        /// <summary>
+        /// Sorts the items in the item pool.
+        /// </summary>
+        protected void SortItems()
+        {
+            List<UIItem> sorteditems = new List<UIItem>();
+            UIItem[] itemarray = new UIItem[Items.Values.Count];
+            Items.Values.CopyTo(itemarray, 0);
+            sorteditems.AddRange(itemarray);
+            sorteditems.Sort();
+            Items.Clear();
+
+            foreach (var item in sorteditems)
+            {
+                Items.Add(item.ID, item);
+            }
         }
     }
 }
