@@ -17,6 +17,11 @@ namespace SOLXNA.UI
         /// The spritebatch data.
         /// </value>
         public SpriteBatchData SpriteBatchData { get; set; }
+        
+        /// <summary>
+        /// The texture cache used for loading textures.
+        /// </summary>
+        protected TextureCache TextureCache;
 
         /// <summary>
         /// Loads the content.
@@ -24,6 +29,8 @@ namespace SOLXNA.UI
         /// <param name="texturecache">The texturecache.</param>
         public void LoadContent(TextureCache texturecache)
         {
+            TextureCache = texturecache;
+
             foreach (var item in Items.Values)
             {
                 IXnaDrawable xnaitem = item as IXnaDrawable;
@@ -114,6 +121,26 @@ namespace SOLXNA.UI
                 if (xnaitem != null)
                 {
                     xnaitem.DrawAfter(spritebatch, cameramatrix);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Adds the item to the pool of items.
+        /// </summary>
+        /// <param name="key">The item's key.</param>
+        /// <param name="item">The item to add.</param>
+        public override void AddItem(string key, UIItem item)
+        {
+            base.AddItem(key, item);
+
+            if (TextureCache != null)
+            {
+                XnaUIItem xnaitem = GetItemAs<XnaUIItem>(key);
+
+                if (xnaitem != null)
+                {
+                    xnaitem.LoadContent(TextureCache);
                 }
             }
         }
