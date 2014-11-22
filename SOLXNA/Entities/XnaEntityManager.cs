@@ -39,6 +39,22 @@ namespace SOLXNA.Entities
         }
 
         /// <summary>
+        /// Unloads the content.
+        /// </summary>
+        public virtual void UnloadContent()
+        {
+            foreach (var entity in Entities.Values)
+            {
+                var xnaentity = entity as XnaEntity;
+
+                if (xnaentity != null)
+                {
+                    xnaentity.UnloadContent();
+                }
+            }
+        }
+
+        /// <summary>
         /// Draws the specified spritebatch.
         /// </summary>
         /// <param name="spritebatch">The spritebatch to use for drawing.</param>
@@ -54,7 +70,9 @@ namespace SOLXNA.Entities
 
                     if (xnaentity != null)
                     {
+                        xnaentity.DrawBefore(spritebatch, cameramatrix);
                         xnaentity.Draw(spritebatch, cameramatrix);
+                        xnaentity.DrawAfter(spritebatch, cameramatrix);
                     }
                 }
             }
