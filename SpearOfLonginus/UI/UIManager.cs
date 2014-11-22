@@ -15,6 +15,10 @@ namespace SpearOfLonginus.UI
         /// The items to remove next frame.
         /// </summary>
         protected List<string> ItemsToRemove;
+        /// <summary>
+        /// Whether or not to hide the UI used for normal gameplay. Used during cutscenes.
+        /// </summary>
+        public bool HideGameplayUI;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UIManager"/> class.
