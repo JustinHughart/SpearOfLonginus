@@ -8,7 +8,8 @@
         /// <summary>
         /// Updates this instance.
         /// </summary>
-        public virtual void Update()
+        /// <param name="deltatime">The time since the last frame.</param>
+        public virtual void Update(float deltatime)
         {
 
         }
