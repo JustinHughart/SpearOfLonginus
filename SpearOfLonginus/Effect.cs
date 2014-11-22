@@ -6,7 +6,7 @@ namespace SpearOfLonginus
     /// <summary>
     /// An effect that is activated when interacted with. 
     /// </summary>
-    public class Effect<T> : IXmlLoadable
+    public class Effect<T> : IXmlLoadable where T : class
     {
         /// <summary>
         /// The owner of the effect.

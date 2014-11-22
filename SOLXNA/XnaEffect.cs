@@ -8,7 +8,7 @@ namespace SOLXNA
     /// Adds drawing functions for effects.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class XnaEffect <T> : Effect<T>
+    public class XnaEffect <T> : Effect<T> where T : class
     {
         /// <summary>
         /// Loads the content.
