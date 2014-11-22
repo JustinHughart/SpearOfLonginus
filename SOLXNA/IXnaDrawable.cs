@@ -10,10 +10,10 @@ namespace SOLXNA
     public interface IXnaDrawable
     {
         /// <summary>
-        /// Gets or sets the sprite batch data.
+        /// Gets or sets the spritebatch data.
         /// </summary>
         /// <value>
-        /// The sprite batch data.
+        /// The spritebatch data.
         /// </value>
         SpriteBatchData SpriteBatchData { get; set; }
 
