@@ -29,7 +29,7 @@ namespace SpearOfLonginus.UI
         /// Updates the manager.
         /// </summary>
         /// <param name="deltatime">The time since the last frame.</param>
-        public void Update(float deltatime)
+        public virtual void Update(float deltatime)
         {
             foreach (var item in Items.Values)
             {
@@ -48,7 +48,7 @@ namespace SpearOfLonginus.UI
         /// Adds the item to the pool of items.
         /// </summary>
         /// <param name="item">The item to add.</param>
-        public void AddItem(UIItem item)
+        public virtual void AddItem(UIItem item)
         {
             AddItem(item.ID, item);
         }
@@ -58,7 +58,7 @@ namespace SpearOfLonginus.UI
         /// </summary>
         /// <param name="key">The item's key.</param>
         /// <param name="item">The item to add.</param>
-        public void AddItem(string key, UIItem item)
+        public virtual void AddItem(string key, UIItem item)
         {
             Items.Add(key, item);
         }
@@ -67,7 +67,7 @@ namespace SpearOfLonginus.UI
         /// Removes the item from the pool of items.
         /// </summary>
         /// <param name="key">The item's key.</param>
-        public void RemoveItem(string key)
+        public virtual void RemoveItem(string key)
         {
             ItemsToRemove.Add(key);
         }
@@ -77,7 +77,7 @@ namespace SpearOfLonginus.UI
         /// </summary>
         /// <param name="key">The item's key.</param>
         /// <returns></returns>
-        public UIItem GetItem(string key)
+        public virtual UIItem GetItem(string key)
         {
             if (!Items.ContainsKey(key))
             {
