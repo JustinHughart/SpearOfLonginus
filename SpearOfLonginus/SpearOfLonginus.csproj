@@ -63,6 +63,7 @@
     <Compile Include="Effect.cs" />
     <Compile Include="Maps\Transition.cs" />
     <Compile Include="Maps\World.cs" />
+    <Compile Include="Quests\Flags.cs" />
     <Compile Include="Rectangle.cs" />
     <Compile Include="Vector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
