@@ -68,6 +68,7 @@
     <Compile Include="Maps\World.cs" />
     <Compile Include="Quests\Flags.cs" />
     <Compile Include="Rectangle.cs" />
+    <Compile Include="UI\Data\Textbox.cs" />
     <Compile Include="UI\Items\DialogUI.cs" />
     <Compile Include="UI\UIItem.cs" />
     <Compile Include="UI\UIManager.cs" />
@@ -75,9 +76,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="XmlLoader.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="UI\Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
