@@ -61,9 +61,11 @@
     <Compile Include="Maps\XnaBackdrop.cs" />
     <Compile Include="Maps\XnaMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UI\Data\XnaTextbox.cs" />
     <Compile Include="UI\XnaUIItem.cs" />
     <Compile Include="UI\XnaUIManager.cs" />
     <Compile Include="XnaEffect.cs" />
+    <Compile Include="XnaGlobalVariables.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SpearOfLonginus\SpearOfLonginus.csproj">
@@ -71,7 +73,9 @@
       <Name>SpearOfLonginus</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="UI\Items\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
