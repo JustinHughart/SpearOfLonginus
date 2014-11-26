@@ -1,4 +1,5 @@
-﻿using SpearOfLonginus;
+﻿using System;
+using SpearOfLonginus;
 using SpearOfLonginus.Entities;
 
 namespace SOLXNA.Cameras
@@ -11,7 +12,7 @@ namespace SOLXNA.Cameras
         /// <summary>
         /// The target of the camera.
         /// </summary>
-        public Entity Target;
+        public InputType Target;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EntitySnapCamera"/> class.
@@ -20,10 +21,11 @@ namespace SOLXNA.Cameras
         /// <param name="mapsize">The mapsize.</param>
         /// <param name="drawborder">The drawborder.</param>
         /// <param name="target">The target.</param>
-        public EntitySnapCamera(Vector screenresolution, Vector mapsize, Vector drawborder, Entity target) : base(screenresolution, mapsize, drawborder)
+        public EntitySnapCamera(Vector screenresolution, Vector mapsize, Vector drawborder, InputType target)
+            : base(screenresolution, mapsize, drawborder)
         {
             Target = target;
-            Position = Target.Position;
+            Position = GetTargetPosition();
         }
 
         /// <summary>
@@ -32,9 +34,19 @@ namespace SOLXNA.Cameras
         /// <param name="deltatime">The delta time.</param>
         public override void Update(float deltatime)
         {
-            Position = Target.Position;
+            Position = GetTargetPosition();
 
             base.Update(deltatime);
+        }
+
+        /// <summary>
+        /// Gets the target's position.
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="System.Exception">Input type must be a player.</exception>
+        protected virtual Vector GetTargetPosition()
+        {
+            return GlobalVariables.Players[Target].Position;
         }
     }
 }
