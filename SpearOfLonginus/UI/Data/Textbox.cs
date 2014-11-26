@@ -15,10 +15,6 @@ namespace SpearOfLonginus.UI.Data
         /// The area of the screen the box takes up.
         /// </summary>
         protected Rectangle Area;
-        /// <summary>
-        /// The box's texture's ID.
-        /// </summary>
-        protected string TextureID;
 
         /// <summary>
         /// Updates the specified deltatime.
