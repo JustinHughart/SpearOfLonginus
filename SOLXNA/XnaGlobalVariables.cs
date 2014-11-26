@@ -11,5 +11,9 @@ namespace SOLXNA
         /// The default textbox font.
         /// </summary>
         public static SpriteFont TextboxFont;
+        /// <summary>
+        /// The texture used for clearing screens and drawing rectangles. This should be a 1x1 white pixel.
+        /// </summary>
+        public static Texture2D ClearTexture;
     }
 }
