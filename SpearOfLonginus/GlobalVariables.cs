@@ -1,4 +1,7 @@
-﻿using SpearOfLonginus.UI;
+﻿using System.Collections.Generic;
+using SpearOfLonginus.Entities;
+using SpearOfLonginus.Maps;
+using SpearOfLonginus.UI;
 
 namespace SpearOfLonginus
 {
@@ -8,8 +11,26 @@ namespace SpearOfLonginus
     public static class GlobalVariables
     {
         /// <summary>
-        /// The UI Manager
+        /// The world the characters exist in.
         /// </summary>
-        public static UIManager UIManager;
+        public static World World;
+        /// <summary>
+        /// The UI Manager for players.
+        /// </summary>
+        public static Dictionary<InputType, UIManager> UIManagers;
+        /// <summary>
+        /// The entity players are controlling.
+        /// </summary>
+        public static Dictionary<InputType, Entity> Players;
+
+
+        /// <summary>
+        /// Initializes this class.
+        /// </summary>
+        public static void Initialize()
+        {
+            UIManagers = new Dictionary<InputType, UIManager>();
+            Players = new Dictionary<InputType, Entity>();
+        }
     }
 }
