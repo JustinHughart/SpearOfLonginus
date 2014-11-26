@@ -4,8 +4,7 @@
     {
         #region Variables
 
-        protected string 
-
+        
 
         #endregion
 
