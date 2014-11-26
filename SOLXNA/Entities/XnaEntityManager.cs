@@ -13,12 +13,31 @@ namespace SOLXNA.Entities
     public class XnaEntityManager : EntityManager
     {
         /// <summary>
+        /// The texture cache used for loading textures.
+        /// </summary>
+        protected TextureCache TextureCache;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="XnaEntityManager"/> class.
         /// </summary>
         /// <param name="map">The map.</param>
         public XnaEntityManager(Map map) : base(map)
         {
 
+        }
+
+        /// <summary>
+        /// Adds the entity.
+        /// </summary>
+        /// <param name="entity">The entity.</param>
+        public override void AddEntity(Entity entity)
+        {
+            if (entity as XnaEntity == null)
+            {
+                entity = entity.ToXnaEntity();
+            }
+
+            base.AddEntity(entity);
         }
 
         /// <summary>
@@ -36,6 +55,8 @@ namespace SOLXNA.Entities
                     xnaentity.LoadContent(texturecache);
                 }
             }
+
+            TextureCache = texturecache;
         }
 
         /// <summary>
