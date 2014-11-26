@@ -30,7 +30,7 @@ namespace SpearOfLonginus.UI
         /// Uses XML to initialize the object.
         /// </summary>
         /// <param name="element">The element used for loading.</param>
-        public void LoadFromXml(XElement element)
+        public virtual void LoadFromXml(XElement element)
         {
             
         }
