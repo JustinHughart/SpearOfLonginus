@@ -10,11 +10,11 @@ namespace SpearOfLonginus.UI.Data
         /// <summary>
         /// The text to be displayed.
         /// </summary>
-        protected string Text;
+        public string Text;
         /// <summary>
         /// The area of the screen the box takes up.
         /// </summary>
-        protected Rectangle Area;
+        public Rectangle Area;
 
         /// <summary>
         /// Updates the specified deltatime.
