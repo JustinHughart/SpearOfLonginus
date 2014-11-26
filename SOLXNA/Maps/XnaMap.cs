@@ -152,7 +152,10 @@ namespace SOLXNA.Maps
 
             foreach (var entity in entitylist)
             {
-                Entities.AddEntity(entity.ToXnaEntity());
+                if (entity as XnaEntity == null)
+                {
+                    Entities.AddEntity(entity.ToXnaEntity());
+                }
             }
         }
 
