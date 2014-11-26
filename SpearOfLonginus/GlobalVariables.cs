@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Xml.Linq;
 using SpearOfLonginus.Entities;
 using SpearOfLonginus.Maps;
 using SpearOfLonginus.UI;
@@ -22,6 +23,10 @@ namespace SpearOfLonginus
         /// The entity players are controlling.
         /// </summary>
         public static Dictionary<InputType, Entity> Players;
+        /// <summary>
+        /// The default textbox settings.
+        /// </summary>
+        public static XElement DefaultTextboxSettings;
 
 
         /// <summary>
