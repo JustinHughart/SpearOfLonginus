@@ -28,7 +28,6 @@ namespace SpearOfLonginus
         /// </summary>
         public static XElement DefaultTextboxSettings;
 
-
         /// <summary>
         /// Initializes this class.
         /// </summary>
