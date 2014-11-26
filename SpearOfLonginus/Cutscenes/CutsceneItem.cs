@@ -1,4 +1,5 @@
-﻿using System.Xml.Linq;
+﻿using System.Collections.Generic;
+using System.Xml.Linq;
 
 namespace SpearOfLonginus.Cutscenes
 {
@@ -13,6 +14,14 @@ namespace SpearOfLonginus.Cutscenes
         /// Whether or not the item is finished doing what it needs to do.
         /// </summary>
         public bool IsFinished;
+        /// <summary>
+        /// The index of which element to use.
+        /// </summary>
+        protected int DecisionIndex;
+        /// <summary>
+        /// The elements used for showing the next action.
+        /// </summary>
+        protected List<XElement> NextElements;  
 
         #endregion
 
@@ -24,6 +33,8 @@ namespace SpearOfLonginus.Cutscenes
         public CutsceneItem()
         {
             IsFinished = false;
+            DecisionIndex = 0;
+            NextElements = new List<XElement>();
         }
 
         #endregion
@@ -40,12 +51,36 @@ namespace SpearOfLonginus.Cutscenes
         }
 
         /// <summary>
+        /// Gets the next element for loading the next action.
+        /// </summary>
+        /// <returns></returns>
+        public virtual XElement GetNextElement()
+        {
+            if (NextElements.Count == 0)
+            {
+                return null;
+            }
+
+            return NextElements[DecisionIndex];
+        }
+
+        /// <summary>
         /// Uses XML to initialize the object.
         /// </summary>
         /// <param name="element">The element used for loading.</param>
         public virtual void LoadFromXml(XElement element)
         {
+            var nextelement = element.Element("next");
 
+            if (nextelement == null)
+            {
+                return;
+            }
+
+            foreach (var xelement in nextelement.Elements())
+            {
+                NextElements.Add(xelement);
+            }
         }
 
         #endregion
