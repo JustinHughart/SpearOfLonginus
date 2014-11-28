@@ -566,6 +566,11 @@ namespace SOLEntityGenerator
             }
         }
 
+        /// <summary>
+        /// Validates the path.
+        /// </summary>
+        /// <param name="input">The input.</param>
+        /// <returns></returns>
         private string ValidatePath(string input)
         {
             while (input.EndsWith(" "))
