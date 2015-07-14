@@ -12,10 +12,7 @@ namespace SpearOfLonginus.Maps
     public class Tile
     {
         #region Variables
-
-        /// <summary>
-        /// The tile's animation.
-        /// </summary>
+    
         /// <value>
         /// The tile's animation.
         ///   </value>
